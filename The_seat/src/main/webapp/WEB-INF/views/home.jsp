@@ -97,15 +97,12 @@
 		<form action="${pageContext.request.contextPath}/main.do" method="get">
 			<div style="text-align: center;">
 				<select name="area" id="area">
-					<option value="" ${area eq 'area' ? 'selected' : '' }>지역</option>
-					<option value="강남"
-						${area eq 'Gangnam-gu' ? 'selected' : '' }>강남구</option>
-					<option value="강동"
-						${area eq 'Gangdong-gu' ? 'selected' : '' }>강동구</option>
-					<option value="서초" ${area eq 'Seocho-gu' ? 'selected' : '' }>서초구</option>
-					<option value="송파" ${area eq 'Songpa-gu' ? 'selected' : '' }>송파구</option>
-					<option value="은평"
-						${area eq 'Eunpyeong-gu' ? 'selected' : '' }>은평구</option>
+					<option value="">지역</option>
+					<option value="강남">강남구</option>
+					<option value="강동">강동구</option>
+					<option value="서초">서초구</option>
+					<option value="송파">송파구</option>
+					<option value="은평">은평구</option>
 				</select>
 				<input type="text" id="keyword" name="keyword"
 					placeholder="오늘은 뭐 먹을까?"/>
