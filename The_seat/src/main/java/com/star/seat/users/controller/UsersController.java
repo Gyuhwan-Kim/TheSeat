@@ -71,9 +71,8 @@ public class UsersController {
 	@ResponseBody
 	public Map<String, Object> signup(UsersDto dto) {
 		
-		service.addUser(dto);
 		Map<String, Object> map=new HashMap<String, Object>();
-		map.put("isSignup",true);
+		map.put("isSignup", service.addUser(dto));
 		
 		return map;
 	}

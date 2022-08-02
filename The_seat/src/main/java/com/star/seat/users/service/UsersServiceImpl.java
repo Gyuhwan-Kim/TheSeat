@@ -24,7 +24,7 @@ public class UsersServiceImpl implements UsersService {
 	private UsersDao dao;
 	
 	@Override
-	public void addUser(UsersDto dto) {
+	public boolean addUser(UsersDto dto) {
 		//사용자가 입력한 비밀 번호를 읽어와서 
 		String pwd=dto.getPwd();
 		//암호화 한 후에 
@@ -34,6 +34,12 @@ public class UsersServiceImpl implements UsersService {
 		dto.setPwd(encodedPwd);
 		
 		dao.insert(dto);
+		
+		if(dao.isExist(dto.getEmail())) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	@Override
