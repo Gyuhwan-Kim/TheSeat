@@ -14,7 +14,7 @@ import com.star.seat.users.dto.UsersDto;
 public interface UsersService {
 	
 	public Map<String, Object> isExistEmail(String inputEmail);
-	public boolean addUser(UsersDto dto);
+	public Map<String, Object> addUser(UsersDto dto);
 	public Map<String, Object> loginProcess(UsersDto dto, HttpSession session);
 	public void getInfo(ModelAndView mView, HttpSession session);
 	public Map<String, Object> getData(HttpSession session);

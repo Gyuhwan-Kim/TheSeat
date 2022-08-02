@@ -65,10 +65,7 @@ public class UsersController {
 	@ResponseBody
 	public Map<String, Object> signup(UsersDto dto) {
 		
-		Map<String, Object> map=new HashMap<String, Object>();
-		map.put("isSignup", service.addUser(dto));
-		
-		return map;
+		return service.addUser(dto);
 	}
 	
 	//회원 탈퇴 요청 처리
