@@ -49,13 +49,7 @@ public class UsersController {
 	@ResponseBody
 	public Map<String, Object> ajaxLogin( UsersDto dto, HttpSession session) {
 		
-		Map<String, Object> login = service.loginProcess(dto, session);
-		
-		Map<String, Object> map=new HashMap<String, Object>();
-		map.put("url","${pageContext.request.contextPath}/main.do");
-		map.put("login", login);
-		
-		return map;
+		return service.loginProcess(dto, session);
 	}
 	
 	//아이디 중복 확인을 해서 json 문자열을 리턴해주는 메소드 

@@ -154,43 +154,30 @@
    	document.querySelector("#emailLogin").value = email;
    });
   
-   //continue 버튼 누르면 ajax 로그인
-   document.querySelector("#loginForm").addEventListener("submit",function(e){
-      //폼 제출 막고
-      e.preventDefault();
+   	//continue 버튼 누르면 ajax 로그인
+   	document.querySelector("#loginForm").addEventListener("submit",function(e){
+      	//폼 제출 막고
+      	e.preventDefault();
       
-      let inputEmail = document.querySelector("#emailLogin").value;
-      
-      //email 존재 확인 후 폼 ajax 전송
-      ajaxPromise("${pageContext.request.contextPath}/users/checkemail.do", "get", "inputEmail="+inputEmail)
-      .then(function(response){
-         return response.json();
-      })
-      .then(function(data){
-         //존재하는 email이면  {isExist:true} 없으면 {isExist:false}
-         if(data.isExist){//존재하면 전송
-       	  let loginForm = document.querySelector("#loginForm");
-             
-             ajaxFormPromise(loginForm)
-             .then(function(response){
-               return response.json();
-            })
-            .then(function(data){
-               if(data.login.isValemail){
-                  swal('로그인 성공!',data.login.result.name+"님 로그인되었습니다.",'success')
-                  .then(function(){
-                   location.href="${pageContext.request.contextPath}/main.do?area=&keyword=";                	   
-                  })
-               } else {
-               	swal('로그인 실패!',"아이디와 비밀번호를 확인해 주세요",'warning');
-               };
+      	ajaxFormPromise(this)
+      		.then(function(response){
+               	return response.json();
+            }).then(function(data){
+            	if(data.isExist){
+                   	if(data.isValid){
+                      	swal('로그인 성공!',data.result.name+"님 로그인되었습니다.",'success')
+                      	.then(function(){
+                       		location.href=data.url+"?area=&keyword=";                	   
+                      	})
+                   	} else {
+                   		swal('로그인 실패!',"아이디와 비밀번호를 확인해 주세요",'warning');
+                   	};	
+            	} else {
+            		swal('로그인 실패!',"아이디가 존재하지 않습니다. 다시 확인해 주세요.",'error');
+            	}
             });
-         }else{
-            swal('로그인 실패!',"아이디가 존재하지 않습니다. 다시 확인해 주세요.",'error');
-         };
       });
-      //ajax 로 폼 내용 전송하고 json으로 응답 받기
-   });
+
    
    //---------------------------------회원가입--------------------------------------------
    
