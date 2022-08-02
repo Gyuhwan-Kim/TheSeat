@@ -39,10 +39,9 @@ public class UsersController {
 	
 	//로그인 폼 요청 처리
 	@RequestMapping("/users/loginform")
-	public ModelAndView loginform(ModelAndView mView) {
-		
-		mView.setViewName("users/loginform");
-		return mView;
+	public String loginform() {
+
+		return "users/loginform";
 	}
 	
 	//로그인 요청 처리
