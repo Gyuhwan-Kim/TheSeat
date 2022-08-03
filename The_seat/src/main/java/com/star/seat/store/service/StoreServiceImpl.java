@@ -398,31 +398,39 @@ public class StoreServiceImpl implements StoreService{
 	
 	// 매장 정보를 삭제하는 method
 	@Override
-	public void deleteStore(StoreDto dto, HttpServletRequest request) {
+	public void deleteStore(HttpServletRequest request) {
 		String email=(String)request.getSession().getAttribute("email");
-		dto.setOwner(email);
-		
+
+		StoreDto dto = new StoreDto();
 		SeatDto sDto = new SeatDto();
-		sDto.setNum(dto.getNum());
+		MenuDto mDto = new MenuDto();
+		ReviewDto rDto = new ReviewDto();
+		OrderDto oDto = new OrderDto();
 		
-		MenuDto mDto=new MenuDto();
-		mDto.setStoreNum(dto.getNum());
-		
-		ReviewDto rDto=new ReviewDto();
-		rDto.setStoreNum(dto.getNum());
-		
-		OrderDto oDto=new OrderDto();
-		oDto.setNum(dto.getNum());
-		
-		// 매장 정보를 지우고
-		dao.deleteStore(dto);
-		// 매장 자리 정보도 지움
-		stDao.seatDelete(sDto);
-		// 매장 메뉴 정도도 지움
-		mDao.deleteAllMenu(mDto);
-		// 매장 리뷰 정보도 지움
-		rDao.deleteAllReview(rDto);
-		// 매장에서 주문했던 내역도 지움
-		oDao.deleteAllOrder(oDto);
+		dto.setOwner(email);
+		oDto.setEmail(email);
+
+		// 해당 email로 만든 모든 상점의 list를 가져옴
+		List<StoreDto> list = dao.getMyStores(email);
+		for(StoreDto tmp:list) {
+			// 각 상점 번호로 자리, 메뉴, 리뷰, 주문 정보를 다룰 수 있도록 세팅하고
+			sDto.setNum(tmp.getNum());
+			mDto.setStoreNum(tmp.getNum());
+			rDto.setStoreNum(tmp.getNum());
+			oDto.setNum(tmp.getNum());
+			
+			// 매장 정보를 지우고
+			dao.deleteStore(dto);
+			// 매장 자리 정보도 지움
+			stDao.seatDelete(sDto);
+			// 매장 메뉴 정도도 지움
+			mDao.deleteAllMenu(mDto);
+			// 매장 리뷰 정보도 지움
+			rDao.deleteAllReview(rDto);
+			// 매장에서 주문했던 내역도 지움
+			oDao.deleteAllOrder(oDto);
+			// 해당 유저가 다른 곳에서 주문했던 내역도 지움
+			oDao.deleteEmailOrder(oDto);
+		}
 	}
 }

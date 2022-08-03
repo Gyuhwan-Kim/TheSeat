@@ -511,8 +511,12 @@ type="text/css" />
 			return response.json();
 		})
 		.then(function(data){
-			alert(data.email+" 님이 탈퇴 되었습니다.!");
-			location.href="${pageContext.request.contextPath}/main.do?area=&keyword=";
+			if(data.isDeleted){
+				alert(data.email+" 님이 탈퇴 되었습니다! 그동안 이용해주셔서 감사합니다.");
+				location.href="${pageContext.request.contextPath}/main.do?area=&keyword=";
+			} else {
+				alert(data.email+" 님의 탈퇴 처리가 정상적으로 수행되지 않았습니다. 관련 사항 문의 부탁드립니다.");
+			}
 		});
 	});
 

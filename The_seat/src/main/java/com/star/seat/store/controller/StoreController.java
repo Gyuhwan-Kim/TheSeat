@@ -228,7 +228,7 @@ public class StoreController {
 	@ResponseBody
 	public Map<String, Object> deleteStore(StoreDto dto, HttpServletRequest request) {
 		
-		service.deleteStore(dto, request);
+		service.deleteStore(request);
 		
 		Map<String, Object> map=new HashMap<>();
 		map.put("beDeleted", true);

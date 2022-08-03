@@ -71,18 +71,10 @@ public class UsersController {
 	//회원 탈퇴 요청 처리
 	@RequestMapping("/users/delete")
 	@ResponseBody
-	public Map<String, Object> Delete(HttpSession session, 
-			HttpServletRequest request) {
+	public Map<String, Object> delete(HttpSession session, HttpServletRequest request) {
 		
-		List<StoreDto> list= sService.getMyStores(request, session);
-		for(StoreDto dto:list) {
-			StoreDto sDto = new StoreDto();
-			sDto.setNum(dto.getNum());
-			sService.deleteStore(sDto, request);
-		}
-		OrderDto oDto = new OrderDto();
-		oDto.setEmail((String)session.getAttribute("email"));
-		order_service.deleteEmailOrder(oDto);
+		// 탈퇴 요청을 한 회원의 상점들의 정보(자리, 메뉴, 리뷰, 주문) 및 주문 정보 삭제
+		sService.deleteStore(request);
 		
 		// 회원탈퇴한 email 정보를 전달 
 		return service.deleteUser(session);

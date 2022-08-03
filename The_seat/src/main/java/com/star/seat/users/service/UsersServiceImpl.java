@@ -185,13 +185,19 @@ public class UsersServiceImpl implements UsersService {
 	public Map<String, Object> deleteUser(HttpSession session) {
 		//로그인된 아이디를 얻어와서 
 		String email=(String)session.getAttribute("email");
-		//해당 정보를 DB 에서 삭제하고
-		dao.delete(email);
-		//로그아웃 처리도 한다.
-		session.removeAttribute("email");
-		//ModelAndView 객체에 탈퇴한 회원의 아이디를 담아준다.
+		
 		Map<String, Object> map=new HashMap<String, Object>();
-		map.put("email", email);
+		//해당 정보를 DB 에서 삭제하고 (삭제되면 1)
+		if(dao.delete(email)==1) {
+			//로그아웃 처리도 한다.
+			session.removeAttribute("email");
+			//ModelAndView 객체에 탈퇴한 회원의 아이디를 담아준다.
+			map.put("email", email);
+			map.put("isDeleted", true);
+		} else {
+			// 삭제 안되면 0
+			map.put("isDeleted", false);
+		}
 		return map;
 	}
 

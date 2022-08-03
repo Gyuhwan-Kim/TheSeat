@@ -34,8 +34,8 @@ public class UsersDaoImpl implements UsersDao {
 	}
 	//user 삭제
 	@Override
-	public void delete(String email) {
-		session.delete("users.delete", email);
+	public int delete(String email) {
+		return session.delete("users.delete", email);
 	}
 	@Override
 	public boolean isExist(String inputEmail) {
