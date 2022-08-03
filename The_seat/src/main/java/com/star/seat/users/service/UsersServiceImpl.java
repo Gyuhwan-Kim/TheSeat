@@ -36,7 +36,7 @@ public class UsersServiceImpl implements UsersService {
 		dao.insert(dto);
 		
 		Map<String, Object> map = new HashMap<String, Object>();
-		if(dao.isExist(dto.getEmail())) {
+		if(dao.insert(dto)==1) {
 			map.put("isSignup", true);
 		} else {
 			map.put("isSignup", false);

@@ -14,8 +14,8 @@ public class UsersDaoImpl implements UsersDao {
 	
 	//user 추가
 	@Override
-	public void insert(UsersDto dto) {
-		session.insert("users.insert", dto);
+	public int insert(UsersDto dto) {
+		return session.insert("users.insert", dto);
 	}
 	//user 정보 가져오기
 	@Override
