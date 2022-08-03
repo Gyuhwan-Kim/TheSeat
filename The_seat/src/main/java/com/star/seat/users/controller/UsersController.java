@@ -147,11 +147,15 @@ public class UsersController {
 	
 	//로그아웃
 	@RequestMapping("/users/logout")
-	public ModelAndView logout(ModelAndView mView, HttpSession session) {
+	public String logout(HttpSession session, HttpServletRequest request) {
 		//세션에서 id 라는 키값으로 저장된 값 삭제 
-		
 		session.removeAttribute("email");
-		mView.setViewName("redirect:/main.do?area=&keyword=");
-		return mView;
+
+		if(request.getHeader("referer").contains("users")) {
+			return "redirect:/main.do?area=&keyword=";
+		} else {
+			// request 객체의 getHeader("referer") method를 쓰면 기존 요청 url을 알 수 있다.
+			return "redirect:"+request.getHeader("referer");
+		}
 	}
 }
