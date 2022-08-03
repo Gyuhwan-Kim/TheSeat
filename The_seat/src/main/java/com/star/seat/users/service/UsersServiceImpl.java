@@ -33,8 +33,6 @@ public class UsersServiceImpl implements UsersService {
 		//dto 에 다시 넣어준다.
 		dto.setPwd(encodedPwd);
 		
-		dao.insert(dto);
-		
 		Map<String, Object> map = new HashMap<String, Object>();
 		if(dao.insert(dto)==1) {
 			map.put("isSignup", true);
