@@ -72,7 +72,6 @@ public class UsersServiceImpl implements UsersService {
 		map.put("result",result);
 		map.put("isValid", isValid);
 		map.put("isExist", isExist);
-		map.put("url","${pageContext.request.contextPath}/main.do");
 		
 		return map;
 	}

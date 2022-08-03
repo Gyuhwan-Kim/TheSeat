@@ -167,7 +167,7 @@
                    	if(data.isValid){
                       	swal('로그인 성공!',data.result.name+"님 로그인되었습니다.",'success')
                       	.then(function(){
-                       		location.href=data.url+"?area=&keyword=";                	   
+                       		location.href="${pageContext.request.contextPath}/home.do";                	   
                       	})
                    	} else {
                    		swal('로그인 실패!',"아이디와 비밀번호를 확인해 주세요",'warning');
