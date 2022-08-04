@@ -115,17 +115,18 @@ public class UsersController {
 	
 	//로그인된 회원정보와 함께 info 페이지로 이동
 	@RequestMapping("/users/info")
-	public ModelAndView Info(ModelAndView mView,HttpServletRequest request, 
+	public ModelAndView info(ModelAndView mView,HttpServletRequest request, 
 			HttpSession session) {
 		
 		//접속중인 회원의 회원정보 가져가기
 		service.getInfo(mView, session);
-		//접속중인 회원이 갖은 매장 리스트 가져가기
+		//접속중인 회원이 가진 매장 리스트 가져가기
 		sService.getMyStores(request, session);
 		//접속중인 회원의 주문내역 가져가기
 		order_service.getList(mView, request, session);
 		
 		mView.setViewName("users/info");
+		System.out.println(mView);
 		return mView;
 	}
 	

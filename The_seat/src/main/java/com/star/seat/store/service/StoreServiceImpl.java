@@ -60,7 +60,7 @@ public class StoreServiceImpl implements StoreService{
 	@Override
 	public List<StoreDto> getMyStores(HttpServletRequest request, HttpSession session) {
 		String email=(String)request.getSession().getAttribute("email");
-		//email="test";
+
 		List<StoreDto> list=dao.getMyStores(email);
 		session.setAttribute("myStoreList", list);
 		
