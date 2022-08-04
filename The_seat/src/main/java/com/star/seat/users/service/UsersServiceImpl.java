@@ -165,13 +165,21 @@ public class UsersServiceImpl implements UsersService {
 	}
 
 	@Override
-	public void updateUser(UsersDto dto, HttpSession session) {
+	public Map<String, Object> updateUser(UsersDto dto, HttpSession session) {
 		//수정할 회원의 아이디
 		String email=(String)session.getAttribute("email");
 		//UsersDto 에 아이디도 담아 주고
 		dto.setEmail(email);
+		
+		Map<String, Object> map = new HashMap<>();
 		//UsersDao 를 이용해서 수정 반영한다.
-		dao.update(dto);
+		if(dao.update(dto)==1) {
+			map.put("isUpdated", true);
+		} else {
+			map.put("isUpdated", false);
+		}
+		
+		return map;
 	}
 
 	@Override

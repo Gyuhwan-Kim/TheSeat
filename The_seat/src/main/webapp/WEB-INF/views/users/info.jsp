@@ -446,8 +446,12 @@ type="text/css" />
 			return response.json();
 		})
 		.then(function(data) {
-			alert("회원 정보가 수정되었습니다.");
-			location.href = "${pageContext.request.contextPath}/users/info.do";
+			if(data.isUpdated){
+				alert("회원 정보가 수정되었습니다.");
+				location.href = "${pageContext.request.contextPath}/users/info.do";
+			} else {
+				alert("회원 정보 수정에 실패하였습니다. 다시 시도해주시고, 반복해서 실패 시 문의 바랍니다.");
+			}
 		});
 	});
 	

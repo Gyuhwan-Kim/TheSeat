@@ -83,13 +83,9 @@ public class UsersController {
 	//개인정보 수정 반영 요청 처리
 	@RequestMapping(value = "/users/update", method=RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> Update(UsersDto dto, HttpSession session,
-			HttpServletRequest request) {
-		//서비스를 이용해서 개인정보를 수정하고 
-		service.updateUser(dto, session);
-		Map<String, Object> map=new HashMap<String, Object>();
-		map.put("isUpdate",true);
-		return map;
+	public Map<String, Object> update(UsersDto dto, HttpSession session) {
+		//서비스를 이용해서 개인정보를 수정하고 성공 여부까지 담아서 return
+		return service.updateUser(dto, session);
 	}
 	
 	//ajax 프로필 사진 업로드 요청처리

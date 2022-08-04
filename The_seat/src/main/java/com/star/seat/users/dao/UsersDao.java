@@ -12,7 +12,7 @@ public interface UsersDao {
 	//비밀번호를 수정하는 메소드
 	public void updatePwd(UsersDto dto);
 	//개인정보를 수정하는 메소드
-	public void update(UsersDto dto);
+	public int update(UsersDto dto);
 	//회원 정보를 삭제하는 메소드
 	public int delete(String email);
 }

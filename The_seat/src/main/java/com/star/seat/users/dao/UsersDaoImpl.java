@@ -29,8 +29,8 @@ public class UsersDaoImpl implements UsersDao {
 	}
 	//user 정보 변경
 	@Override
-	public void update(UsersDto dto) {
-		session.update("users.update", dto);
+	public int update(UsersDto dto) {
+		return session.update("users.update", dto);
 	}
 	//user 삭제
 	@Override
