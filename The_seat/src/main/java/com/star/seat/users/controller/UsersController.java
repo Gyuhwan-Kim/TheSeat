@@ -89,11 +89,9 @@ public class UsersController {
 	}
 	
 	//ajax 프로필 사진 업로드 요청처리
-	@RequestMapping(value = "/users/ajax_profile_upload",
-			method=RequestMethod.POST)
+	@RequestMapping(value = "/users/ajax_profile_upload", method=RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> AjaxProfileUpload(HttpServletRequest request,
-			@RequestParam MultipartFile image){
+	public Map<String, Object> ajaxProfileUpload(HttpServletRequest request, @RequestParam MultipartFile image){
 		
 		//서비스를 이용해서 이미지를 upload 폴더에 저장하고 리턴되는 Map 을 리턴해서 json 문자열 응답하기
 		return service.saveProfileImage(request, image);
