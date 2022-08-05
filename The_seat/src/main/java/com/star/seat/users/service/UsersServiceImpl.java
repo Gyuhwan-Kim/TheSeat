@@ -126,8 +126,7 @@ public class UsersServiceImpl implements UsersService {
 		Map<String, Object> map=new HashMap<String, Object>();
 		//작업의 성공여부를 ModelAndView 객체에 담아 놓는다(결국 HttpServletRequest 에 담긴다)
 		map.put("isSuccess", isValid);
-		//로그인된 아이디도 담아준다.
-		map.put("email", email);
+
 		return map;
 	}
 

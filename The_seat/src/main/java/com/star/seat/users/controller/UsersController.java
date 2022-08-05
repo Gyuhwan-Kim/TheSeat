@@ -98,11 +98,9 @@ public class UsersController {
 	}
 	
 	//비밀번호 변경
-	@RequestMapping(value = "/users/pwd_update",
-			method=RequestMethod.POST)
+	@RequestMapping(value = "/users/pwd_update", method=RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> PwdUpdate(UsersDto dto, 
-			 HttpSession session) {
+	public Map<String, Object> pwdUpdate(UsersDto dto, HttpSession session) {
 		
 		return service.updateUserPwd(session, dto);
 	}

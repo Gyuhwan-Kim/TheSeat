@@ -494,8 +494,12 @@ type="text/css" />
 				return response.json();
 			})
 			.then(function(data) {
-				alert("비밀번호가 변경 되었습니다. 다시 로그인 해주세요.");
-				location.href = "${pageContext.request.contextPath}/users/loginform.do";
+				if(data.isSuccess){
+					alert("비밀번호가 변경 되었습니다. 다시 로그인 해주세요.");
+					location.href = "${pageContext.request.contextPath}/users/loginform.do";
+				} else {
+					alert("비밀번호를 변경할 수 없습니다. 계속 문제가 발생한다면 문의 바랍니다.");
+				}
 			});
 		} else {
 			alert("비밀번호가 동일하지 않습니다.");
