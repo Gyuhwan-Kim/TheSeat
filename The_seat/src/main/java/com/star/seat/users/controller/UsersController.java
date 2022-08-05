@@ -131,8 +131,7 @@ public class UsersController {
 	}
 	
 	//주문 정보의 email을 이용하여 회원정보 가져오기
-	@RequestMapping(value = "/users/getOrderData",
-			method=RequestMethod.POST)
+	@RequestMapping(value = "/users/getOrderData", method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> getOrderUser(HttpServletRequest request) {
 		return service.getOrderData(request);
