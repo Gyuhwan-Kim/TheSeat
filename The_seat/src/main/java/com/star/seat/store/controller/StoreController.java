@@ -39,10 +39,10 @@ public class StoreController {
 	
 	// 검색 결과 메인 페이지를 요청할 때의 method
 	@RequestMapping(value = "/main.do", method = RequestMethod.GET)
-	public String getList(StoreDto dto, HttpServletRequest request, HttpSession session) {
+	public String getList(StoreDto dto, HttpServletRequest request) {
 		
 		// dto에 지역, 메뉴, 검색어 넣어서 dto라는 이름으로 저장.
-		session.setAttribute("searchData", dto);
+		request.setAttribute("searchData", dto);
 		
 		// 검색 결과 목록을 얻어옴
 		service.getList(request, dto);
@@ -50,7 +50,7 @@ public class StoreController {
 		String email=(String)request.getSession().getAttribute("email");
 		if(email != null) {
 			// 내가 관리하는 매장 정보를 얻어옴
-			service.getMyStores(request, session);
+			service.getMyStores(request);
 		}
 
 		return "main";
@@ -65,7 +65,7 @@ public class StoreController {
 		// service에서 매장 정보 DB에 email 정보를 더해줌.
 		service.addStore(request);
 		// session 영역 정보 변경
-		List<StoreDto> list=service.getMyStores(request, session);
+		List<StoreDto> list=service.getMyStores(request);
 		
 		map.put("beSuccess", true);
 		map.put("newStoreList", list);
