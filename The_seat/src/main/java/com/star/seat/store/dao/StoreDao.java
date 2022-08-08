@@ -9,7 +9,7 @@ import com.star.seat.store.dto.StoreDto;
 public interface StoreDao {
 	
 	// 새로운 매장을 추가하는 method
-	public void addStore(String email);
+	public int addStore(String email);
 	
 	// 사장님의 매장 정보 목록을 불러오는 method
 	public List<StoreDto> getMyStores(String email);

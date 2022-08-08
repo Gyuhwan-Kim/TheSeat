@@ -2,6 +2,7 @@ package com.star.seat.store.service;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -38,22 +39,29 @@ public class StoreServiceImpl implements StoreService{
 	
 	// 새로운 매장을 추가하는 method
 	@Override
-	public void addStore(HttpServletRequest request) {
+	public Map<String, Object> addStore(HttpServletRequest request) {
 		String email=(String)request.getSession().getAttribute("email");
-		//email="test";
-		dao.addStore(email);
+		Map<String, Object> map = new HashMap<>();
+		if(dao.addStore(email)==1) {
+			// 해당 email로 된 매장의 정보를 모두 불러온 다음
+			List<StoreDto> list=dao.getMyStores(email);
+			// 매장 수가 곧 새로 만들어진 매장에 해당하는 index+1
+			int num=list.size();
+			// 이 index에 해당하는 매장의 번호를 가져와서 매장 번호를 추출
+			num=list.get(num-1).getNum();
+			SeatDto stDto=new SeatDto();
+			stDto.setNum(num);
+			// 해당 매장에 대한 자리 정보를 table에 default로 형성
+			// 나중에 update 방식으로 변경해준다고 함.
+			stDao.insertSeat(stDto);
+			
+			map.put("newStoreList", list);
+			map.put("isSuccess", true);
+		} else {
+			map.put("isSuccess", false);
+		}
 		
-		// 해당 email로 된 매장의 정보를 모두 불러온 다음
-		List<StoreDto> list=dao.getMyStores(email);
-		// 매장 수가 곧 새로 만들어진 매장에 해당하는 index+1
-		int num=list.size();
-		// 이 index에 해당하는 매장의 번호를 가져와서 매장 번호를 추출
-		num=list.get(num-1).getNum();
-		SeatDto stDto=new SeatDto();
-		stDto.setNum(num);
-		// 해당 매장에 대한 자리 정보를 table에 default로 형성
-		// 나중에 update 방식으로 변경해준다고 함.
-		stDao.insertSeat(stDto);
+		return map;
 	}
 	
 	// 사장님의 매장 정보 목록을 불러오는 method

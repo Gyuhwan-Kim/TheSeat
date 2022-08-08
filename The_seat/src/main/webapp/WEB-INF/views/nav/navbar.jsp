@@ -554,29 +554,21 @@
          .then(function(response){
             return response.json();
          }).then(function(data){
-            if(data.beSuccess){
+            if(data.isSuccess){
             	let num=data.newStoreList.length;
             	let newAnchor = document.createElement("a");
                 newAnchor.innerText = "새 매장";
-                //newAnchor.setAttribute("data-num", dataNum);
                 newAnchor.setAttribute("class", "list_");
                 newAnchor.setAttribute("style", "color: rgb(71, 71, 71);");
                 newAnchor.setAttribute("href", storePath+data.newStoreList[num-1].num);
-                //newAnchor.setAttribute('style', 'display: block;');
                 
                 let newLi=document.createElement("li");
                 newLi.appendChild(newAnchor);
                 
-                //newAnchor.setAttribute("id", "addBtn" + strDataNum);
                 document.querySelector(".dropdown-menu").appendChild(newLi);
                 document.querySelector(".dropdown").style.display="block";
-                //resetDataNum();
-                
-                //매장 추가 눌렀을 때 새로고침 없이 토글 버튼 보이게 하기
-                //var divs = document.getElementById("StoreList");
-                //if(divs.style.display=="none"){
-                   	//divs.style.display="block";
-               //}
+            } else {
+            	alert("새 매장 정보 추가에 실패하였습니다. 문제가 반복된다면 문의 바랍니다.");
             }
          });
       }

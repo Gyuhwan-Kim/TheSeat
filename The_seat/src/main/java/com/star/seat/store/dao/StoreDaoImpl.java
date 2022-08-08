@@ -17,8 +17,8 @@ public class StoreDaoImpl implements StoreDao{
 	
 	// 새로운 매장을 추가하는 method
 	@Override
-	public void addStore(String email) {
-		session.insert("addStore", email);
+	public int addStore(String email) {
+		return session.insert("addStore", email);
 	}
 	
 	// 사장님의 매장 정보 목록을 불러오는 method
