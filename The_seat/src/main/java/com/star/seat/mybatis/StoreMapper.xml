@@ -6,7 +6,7 @@
 		insert into store
 		(num, owner, storeName, storeAddr, storePhone, openingTime, storeTag,
 			storeOpen, category, regdate)
-		values(store_seq.nextval, #{email}, 'Default', 'Default', '010-1234-5677', '00:00 ~ 24:00', 'easter egg',
+		values(store_seq.nextval, #{email}, '새 매장', 'Default', '010-1234-5677', '00:00 ~ 24:00', 'easter egg',
 			'no', 'Default', sysdate)
 	</insert>
 	

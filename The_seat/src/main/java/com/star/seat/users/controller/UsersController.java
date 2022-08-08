@@ -113,7 +113,7 @@ public class UsersController {
 		//접속중인 회원의 회원정보 가져가기
 		service.getInfo(mView, session);
 		//접속중인 회원이 가진 매장 리스트 가져가기
-		sService.getMyStores(request, session);
+		sService.getMyStores(request);
 		//접속중인 회원의 주문내역 가져가기
 		order_service.getList(mView, request, session);
 		
