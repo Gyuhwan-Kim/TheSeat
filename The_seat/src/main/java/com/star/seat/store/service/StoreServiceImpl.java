@@ -2,6 +2,7 @@ package com.star.seat.store.service;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -38,62 +39,64 @@ public class StoreServiceImpl implements StoreService{
 	
 	// 새로운 매장을 추가하는 method
 	@Override
-	public void addStore(HttpServletRequest request) {
+	public Map<String, Object> addStore(HttpServletRequest request) {
 		String email=(String)request.getSession().getAttribute("email");
-		//email="test";
-		dao.addStore(email);
+		Map<String, Object> map = new HashMap<>();
+		if(dao.addStore(email)==1) {
+			// 해당 email로 된 매장의 정보를 모두 불러온 다음
+			List<StoreDto> list=dao.getMyStores(email);
+			// 매장 수가 곧 새로 만들어진 매장에 해당하는 index+1
+			int num=list.size();
+			// 이 index에 해당하는 매장의 번호를 가져와서 매장 번호를 추출
+			num=list.get(num-1).getNum();
+			SeatDto stDto=new SeatDto();
+			stDto.setNum(num);
+			// 해당 매장에 대한 자리 정보를 table에 default로 형성
+			// 나중에 update 방식으로 변경해준다고 함.
+			stDao.insertSeat(stDto);
+			
+			map.put("newStoreList", list);
+			map.put("isSuccess", true);
+		} else {
+			map.put("isSuccess", false);
+		}
 		
-		// 해당 email로 된 매장의 정보를 모두 불러온 다음
-		List<StoreDto> list=dao.getMyStores(email);
-		// 매장 수가 곧 새로 만들어진 매장에 해당하는 index+1
-		int num=list.size();
-		// 이 index에 해당하는 매장의 번호를 가져와서 매장 번호를 추출
-		num=list.get(num-1).getNum();
-		SeatDto stDto=new SeatDto();
-		stDto.setNum(num);
-		// 해당 매장에 대한 자리 정보를 table에 default로 형성
-		// 나중에 update 방식으로 변경해준다고 함.
-		stDao.insertSeat(stDto);
+		return map;
 	}
 	
 	// 사장님의 매장 정보 목록을 불러오는 method
 	@Override
-	public List<StoreDto> getMyStores(HttpServletRequest request, HttpSession session) {
+	public List<StoreDto> getMyStores(HttpServletRequest request) {
 		String email=(String)request.getSession().getAttribute("email");
 
 		List<StoreDto> list=dao.getMyStores(email);
-		session.setAttribute("myStoreList", list);
+		request.setAttribute("myStoreList", list);
 		
 		return list;
 	}
 	
 	// 사장님의 매장 정보 하나를 불러오는 method(이메일과 rnum 이용)
 	@Override
-	public void getMyStore(HttpServletRequest request) {
-		String email=(String)request.getSession().getAttribute("email");
-		//email="test";
-		
-		int num=Integer.parseInt(request.getParameter("num"));
-		
-		StoreDto dto=new StoreDto();
-		dto.setNum(num); // rnum으로 들어감
+	public void getMyStore(StoreDto dto, HttpServletRequest request) {
+		String email = (String)request.getSession().getAttribute("email");
+
 		dto.setOwner(email);
 		
-		StoreDto myDto=dao.getMyStore(dto);
+		// dto를 새로운 친구로 갱신
+		dto = dao.getMyStore(dto);
 		
 		// 만약 DB에 매장 tag 정보가 있다면
 		// 새로운 array를 만들어서 거기에 하나씩 담아줌.
-		List<String> list=new ArrayList();
-		if(myDto.getStoreTag()!=null) {
-			String[] tags=myDto.getStoreTag().split(",");
+		List<String> tagList = new ArrayList();
+		if(dto.getStoreTag()!=null) {
+			String[] tags = dto.getStoreTag().split(",");
 			for(int i=1; i<tags.length; i++) {
-				list.add(tags[i]);
+				tagList.add(tags[i]);
 			}
 		}
 		
-		request.setAttribute("num", myDto.getNum());
-		request.setAttribute("dto", myDto);
-		request.setAttribute("list", list);
+		request.setAttribute("dto", dto);
+		request.setAttribute("tagList", tagList);
 	}
 	
 	// (사장님의) 매장 정보 하나를 불러오는 method(해당 매장 DB 번호 이용)

@@ -39,10 +39,10 @@ public class StoreController {
 	
 	// 검색 결과 메인 페이지를 요청할 때의 method
 	@RequestMapping(value = "/main.do", method = RequestMethod.GET)
-	public String getList(StoreDto dto, HttpServletRequest request, HttpSession session) {
+	public String getList(StoreDto dto, HttpServletRequest request) {
 		
 		// dto에 지역, 메뉴, 검색어 넣어서 dto라는 이름으로 저장.
-		session.setAttribute("searchData", dto);
+		request.setAttribute("searchData", dto);
 		
 		// 검색 결과 목록을 얻어옴
 		service.getList(request, dto);
@@ -50,7 +50,7 @@ public class StoreController {
 		String email=(String)request.getSession().getAttribute("email");
 		if(email != null) {
 			// 내가 관리하는 매장 정보를 얻어옴
-			service.getMyStores(request, session);
+			service.getMyStores(request);
 		}
 
 		return "main";
@@ -59,26 +59,20 @@ public class StoreController {
 	// 매장 추가 링크를 눌러서 요청되는 경로에 대한 method
 	@RequestMapping("/newStore.do")
 	@ResponseBody
-	public Map<String, Object> addStore(HttpServletRequest request, HttpSession session){
+	public Map<String, Object> addStore(HttpServletRequest request){
 		Map<String, Object> map=new HashMap<>();
 		
 		// service에서 매장 정보 DB에 email 정보를 더해줌.
-		service.addStore(request);
-		// session 영역 정보 변경
-		List<StoreDto> list=service.getMyStores(request, session);
 		
-		map.put("beSuccess", true);
-		map.put("newStoreList", list);
-		
-		return map;
+		return service.addStore(request);
 	}
 	
 	// 매장 관리 링크를 눌러서 요청되는 경로에 대한 method
 	@RequestMapping(value="/store/myStore.do", method=RequestMethod.GET)
-	public String myStore(@RequestParam int num, HttpServletRequest request) {
+	public String myStore(StoreDto dto, HttpServletRequest request) {
 		
 		// service에서 매장 정보를 DB에서 꺼내와서 request에 넣고
-		service.getMyStore(request);
+		service.getMyStore(dto, request);
 		
 		// 페이지 return
 		return "store/myStore";
