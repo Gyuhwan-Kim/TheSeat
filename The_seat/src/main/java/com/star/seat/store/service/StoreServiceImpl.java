@@ -77,31 +77,26 @@ public class StoreServiceImpl implements StoreService{
 	
 	// 사장님의 매장 정보 하나를 불러오는 method(이메일과 rnum 이용)
 	@Override
-	public void getMyStore(HttpServletRequest request) {
-		String email=(String)request.getSession().getAttribute("email");
-		//email="test";
-		
-		int num=Integer.parseInt(request.getParameter("num"));
-		
-		StoreDto dto=new StoreDto();
-		dto.setNum(num); // rnum으로 들어감
+	public void getMyStore(StoreDto dto, HttpServletRequest request) {
+		String email = (String)request.getSession().getAttribute("email");
+
 		dto.setOwner(email);
 		
-		StoreDto myDto=dao.getMyStore(dto);
+		// dto를 새로운 친구로 갱신
+		dto = dao.getMyStore(dto);
 		
 		// 만약 DB에 매장 tag 정보가 있다면
 		// 새로운 array를 만들어서 거기에 하나씩 담아줌.
-		List<String> list=new ArrayList();
-		if(myDto.getStoreTag()!=null) {
-			String[] tags=myDto.getStoreTag().split(",");
+		List<String> tagList = new ArrayList();
+		if(dto.getStoreTag()!=null) {
+			String[] tags = dto.getStoreTag().split(",");
 			for(int i=1; i<tags.length; i++) {
-				list.add(tags[i]);
+				tagList.add(tags[i]);
 			}
 		}
 		
-		request.setAttribute("num", myDto.getNum());
-		request.setAttribute("dto", myDto);
-		request.setAttribute("list", list);
+		request.setAttribute("dto", dto);
+		request.setAttribute("tagList", tagList);
 	}
 	
 	// (사장님의) 매장 정보 하나를 불러오는 method(해당 매장 DB 번호 이용)

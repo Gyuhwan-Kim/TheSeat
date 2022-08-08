@@ -73,7 +73,7 @@
              <div class="tag_zone">
                  <span style="font-size: 14px; color: lightgray;">매장을 나타내는 태그 추가하기</span>
                  <p id="btns" class="mt-1" style="width:250px;">
-                     <c:forEach var="tmp" items="${list }">
+                     <c:forEach var="tmp" items="${tagList }">
                          <button data-num="${dto.num }" name="tag" class="btn btn-primary tag allTag" style="margin-bottom:5px; margin-right:5px; font-size:14px;">${tmp}</button>
                      </c:forEach>
                  </p>

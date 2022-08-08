@@ -16,7 +16,7 @@ public interface StoreService {
 	public List<StoreDto> getMyStores(HttpServletRequest request);
 	
 	// 사장님의 매장 정보 하나를 불러오는 method(이메일과 rnum 이용)
-	public void getMyStore(HttpServletRequest request);
+	public void getMyStore(StoreDto dto, HttpServletRequest request);
 	
 	// (사장님의) 매장 정보 하나를 불러오는 method(해당 매장 DB 번호 이용)
 	public void getMyStore_num(StoreDto dto, HttpServletRequest request);

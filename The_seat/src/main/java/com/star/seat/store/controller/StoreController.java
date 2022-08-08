@@ -69,10 +69,10 @@ public class StoreController {
 	
 	// 매장 관리 링크를 눌러서 요청되는 경로에 대한 method
 	@RequestMapping(value="/store/myStore.do", method=RequestMethod.GET)
-	public String myStore(@RequestParam int num, HttpServletRequest request) {
+	public String myStore(StoreDto dto, HttpServletRequest request) {
 		
 		// service에서 매장 정보를 DB에서 꺼내와서 request에 넣고
-		service.getMyStore(request);
+		service.getMyStore(dto, request);
 		
 		// 페이지 return
 		return "store/myStore";
