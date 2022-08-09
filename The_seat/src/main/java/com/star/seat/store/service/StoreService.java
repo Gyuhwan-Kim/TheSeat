@@ -28,7 +28,7 @@ public interface StoreService {
 	public Map<String, Object> addTag(StoreDto dto, HttpServletRequest request);
 	
 	// 매장 태그를 삭제하는 method
-	public void deleteTag(StoreDto dto);
+	public Map<String, Object> deleteTag(StoreDto dto, HttpServletRequest request);
 	
 	// 매장 정보(이름, 주소, 시간)를 수정하는 method
 	public void updateStore(StoreDto dto, HttpServletRequest request);

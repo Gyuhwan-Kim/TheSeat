@@ -68,8 +68,8 @@ public class StoreDaoImpl implements StoreDao{
 	// 매장 태그를 삭제하는 method
 	// 사실상 update를 이용하는 것
 	@Override
-	public void deleteTag(StoreDto dto) {
-		session.update("addTag", dto);
+	public int deleteTag(StoreDto dto) {
+		return session.update("addTag", dto);
 	}
 	
 	// 매장 정보(이름, 주소, 시간)를 수정하는 method

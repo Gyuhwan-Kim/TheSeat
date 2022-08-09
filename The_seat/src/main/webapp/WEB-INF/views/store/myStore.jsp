@@ -310,10 +310,12 @@
 					.then(function(response){
 						return response.json();
 					}).then(function(data){
-						if(data.beDeleted){
+						if(data.isDeleted){
 							// 해당 태그 버튼과 삭제버튼을 지움.
 							tags[i].remove();
 							deleteBtns[i].remove();
+						} else {
+							alert("태그 삭제에 실패했습니다. 문제가 반복된다면 문의 바랍니다.");
 						}
 					});	
 				}

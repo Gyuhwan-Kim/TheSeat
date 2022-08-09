@@ -239,30 +239,41 @@ public class StoreServiceImpl implements StoreService{
 	
 	// 매장 태그를 삭제하는 method
 	@Override
-	public void deleteTag(StoreDto dto) {
+	public Map<String, Object> deleteTag(StoreDto dto, HttpServletRequest request) {
+		// dto에는 해당 매장 번호가 있고, 추가적으로 email 정보를 넣어준다.
+		String email = (String)request.getSession().getAttribute("email");
+		dto.setOwner(email);
+		// 입력한 tag의 정보를 읽어놓고
+		String tag = dto.getStoreTag();
 		
-		// DB에서 해당 번호의 정보를 받아옴.
-		StoreDto myDto=dao.getMyStore_num(dto);
+		// DB에서 받아온 기존 매장 정보의 dto로 갱신한 뒤
+		dto = dao.getMyStore(dto);
 		
 		// DB의 내용을 , 로 구분해서 String array로 만들어주고
-		String[] tags=myDto.getStoreTag().split(",");
+		String[] tags = dto.getStoreTag().split(",");
 		// 새로운 array를 만들어서 거기에 하나씩 담아줌.
 		List<String> list=new ArrayList();
 		for(int i=0; i<tags.length; i++) {
 			list.add(tags[i]);
 		}
 		
-		// 입력한 tag의 정보를 읽어서
-		String tag=dto.getStoreTag();
 		// array에서 없앤다음
 		list.remove(list.indexOf(tag));
 
 		// array 각 성분이 , 로 구분된 String으로 바꿔서
 		String strList=String.join(",", list);
 		// DB에서 받아온 dto에 넣은 다음에
-		myDto.setStoreTag(strList);
+		dto.setStoreTag(strList);
+		
+		Map<String, Object> map = new HashMap<>();
 		// dto를 넣어서 update
-		dao.deleteTag(myDto);	
+		if(dao.deleteTag(dto)==1) {
+			map.put("isDeleted", true);
+		} else {
+			map.put("isDeleted", false);
+		}
+		
+		return map;
 	}
 	
 	// 매장 정보(이름, 주소, 시간)를 수정하는 method
