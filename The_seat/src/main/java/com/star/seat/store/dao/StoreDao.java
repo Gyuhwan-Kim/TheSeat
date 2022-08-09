@@ -28,7 +28,7 @@ public interface StoreDao {
 	
 	// 매장 태그를 추가하는 method
 	// 사실상 update를 이용하는 것
-	public void addTag(StoreDto dto);
+	public int addTag(StoreDto dto);
 	
 	// 매장 태그를 삭제하는 method
 	// 사실상 update를 이용하는 것

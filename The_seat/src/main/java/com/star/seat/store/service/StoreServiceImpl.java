@@ -200,38 +200,41 @@ public class StoreServiceImpl implements StoreService{
 	
 	// 매장 태그를 추가하는 method
 	@Override
-	public void addTag(StoreDto dto) {
-		// 해당 매장에 해당하는 DB 번호를 받아서 dto에 넣고
+	public Map<String, Object> addTag(StoreDto dto, HttpServletRequest request) {
+		// dto에는 해당 매장 번호가 있고, 추가적으로 email 정보를 넣어준다.
+		String email = (String)request.getSession().getAttribute("email");
+		dto.setOwner(email);
+		// 입력한 tag의 정보를 읽어놓고
+		String newTag = dto.getStoreTag();
 		
-		// DB에서 해당 번호의 정보를 받아옴.
-		StoreDto myDto=dao.getMyStore_num(dto);
-		
-		// 만약 DB에 매장 tag 정보가 없다면
-		if(myDto.getStoreTag()==null) {
-			// 이스터 에그를 추가해주고
-			myDto.setStoreTag("easter egg");
-		}
+		// DB에서 해당 번호의 정보를 받아온 dto로 갱신한 뒤
+		dto = dao.getMyStore(dto);
 		
 		// DB의 내용을 , 로 구분해서 String array로 만들어주고
-		String[] tags=myDto.getStoreTag().split(",");
+		String[] tags = dto.getStoreTag().split(",");
 		// 새로운 array를 만들어서 거기에 하나씩 담아줌.
-		List<String> list=new ArrayList();
-		for(int i=0; i<tags.length; i++) {
+		List<String> list = new ArrayList();
+		for(int i = 0; i < tags.length; i++) {
 			list.add(tags[i]);
 		}
-		
-		// 입력한 tag의 정보를 읽어서
-		String newTag=dto.getStoreTag();
 
-		// array에 담아준 다음
+		// 읽어둔 새 tag 정보를 array에 담아서
 		list.add(newTag);
 		// array 각 성분이 , 로 구분된 String으로 바꿔서
 		String strList=String.join(",", list);
 		
 		// DB에서 받아온 dto에 넣은 다음에
-		myDto.setStoreTag(strList);
-		// dto를 넣어서 update
-		dao.addTag(myDto);
+		dto.setStoreTag(strList);
+		
+		Map<String, Object> map = new HashMap<>();
+		// dto를 넣어서 update, 성공 여부에 따라 Map 에 다르게
+		if(dao.addTag(dto)==1) {
+			map.put("isAdded", true);
+		} else {
+			map.put("isAdded", false);
+		}
+		
+		return map;
 	}
 	
 	// 매장 태그를 삭제하는 method

@@ -255,7 +255,7 @@
 				return response.json();
 			}).then(function(data){
 				// 데이터를 받으면
-				if(data.beAdded){
+				if(data.isAdded){
 					// 태그 추가 input 창을 reset하고, 화면에서 숨김
 					document.querySelector("#inputTag").value="";
 					document.querySelector("#inputTag").style.display="none";
@@ -283,6 +283,8 @@
 					// 다시 버튼의 class를 원래대로 돌려놓음
 					newBtn.setAttribute("class", "btn btn-primary tag allTag");
 					newDeleteBtn.setAttribute("class", "btn-close del-tag");
+				} else {
+					alert("태그 추가에 실패했습니다. 문제가 반복된다면 문의 바랍니다.");
 				}
 			});
 		}

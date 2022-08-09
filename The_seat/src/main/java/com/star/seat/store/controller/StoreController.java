@@ -81,16 +81,10 @@ public class StoreController {
 	// 매장 태그 추가 링크를 눌러서 요청되는 경로에 대한 method
 	@RequestMapping(value = "/addTag.do", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> addTag(StoreDto dto){
-		
+	public Map<String, Object> addTag(StoreDto dto, HttpServletRequest request){
 		// service에서 DB에 매장 태그를 추가하고
-		service.addTag(dto);
-		
-		Map<String, Object> map=new HashMap<>();
-		
-		map.put("beAdded", true);
 
-		return map;
+		return service.addTag(dto, request);
 	}
 	
 	// 매장을 태그를 삭제하는 method
