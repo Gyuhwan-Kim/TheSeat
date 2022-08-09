@@ -99,13 +99,8 @@ public class StoreController {
 	@RequestMapping(value = "/storeUpdate.do", method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> storeUpdate(StoreDto dto, HttpServletRequest request){
-
-		service.updateStore(dto, request);
 		
-		Map<String, Object> map=new HashMap<>();
-		map.put("beUpdated", true);
-		
-		return map;
+		return service.updateStore(dto, request);
 	}
 	
 	// (로고)사진 업로드 method

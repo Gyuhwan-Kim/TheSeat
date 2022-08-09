@@ -31,7 +31,7 @@ public interface StoreService {
 	public Map<String, Object> deleteTag(StoreDto dto, HttpServletRequest request);
 	
 	// 매장 정보(이름, 주소, 시간)를 수정하는 method
-	public void updateStore(StoreDto dto, HttpServletRequest request);
+	public Map<String, Object> updateStore(StoreDto dto, HttpServletRequest request);
 	
 	// 이미지를 업로드하는 method
 	public void uploadImage(StoreDto dto, HttpServletRequest request);

@@ -364,7 +364,7 @@
 		.then(function(response){
 			return response.json();
 		}).then(function(data){
-			if(data.beUpdated){
+			if(data.isUpdated){
 				// 알람창을 띄우고
 				alert("매장 정보를 수정했습니다.");
 				// 수정완료, 취소 링크를 숨김
@@ -376,6 +376,8 @@
 					storeDatas[i].innerText=updateInputs[i].value;
 					updateInputs[i].style.display="none";
 				}
+			} else {
+				alert("매장 정보 수정에 실패했습니다. 문제가 반복된다면 문의 바랍니다.");
 			}
 		});
 	});

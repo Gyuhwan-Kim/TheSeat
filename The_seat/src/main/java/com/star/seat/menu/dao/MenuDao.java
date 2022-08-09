@@ -31,5 +31,5 @@ public interface MenuDao {
 	public void deleteAllMenu(MenuDto dto);
 	
 	// 해당 매장의 이름이 변경되면 메뉴 table의 메뉴에서도 storeName을 바꿔주는 method
-	public void updateStoreOfMenu(StoreDto dto);
+	public int updateStoreOfMenu(StoreDto dto);
 }

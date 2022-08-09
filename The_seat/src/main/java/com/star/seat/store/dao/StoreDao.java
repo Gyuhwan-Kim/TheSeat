@@ -35,7 +35,7 @@ public interface StoreDao {
 	public int deleteTag(StoreDto dto);
 	
 	// 매장 정보(이름, 주소, 시간)를 수정하는 method
-	public void updateStore(StoreDto dto);
+	public int updateStore(StoreDto dto);
 	
 	// 이미지를 업로드하는 method
 	public void updateImage(StoreDto dto);

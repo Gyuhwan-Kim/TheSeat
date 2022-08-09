@@ -278,12 +278,16 @@ public class StoreServiceImpl implements StoreService{
 	
 	// 매장 정보(이름, 주소, 시간)를 수정하는 method
 	@Override
-	public void updateStore(StoreDto dto, HttpServletRequest request) {
+	public Map<String, Object> updateStore(StoreDto dto, HttpServletRequest request) {
+		Map<String, Object> map = new HashMap<>();
+		if(dao.updateStore(dto)==1 && mDao.updateStoreOfMenu(dto)==1) {
+			map.put("isUpdated", true);
+			map.put("newDto", dto);
+		} else {
+			map.put("isUpdated", false);
+		}
 		
-		dao.updateStore(dto);
-		mDao.updateStoreOfMenu(dto);
-		
-		request.setAttribute("newDto", dto);
+		return map;
 	}
 	
 	// 이미지를 업로드하는 method
