@@ -52,5 +52,5 @@ public interface StoreDao {
 	public void deleteCategory(StoreDto dto);
 	
 	// 매장 정보를 삭제하는 method
-	public void deleteStore(StoreDto dto);
+	public int deleteStore(StoreDto dto);
 }

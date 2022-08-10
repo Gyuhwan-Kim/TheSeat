@@ -106,7 +106,7 @@ public class StoreDaoImpl implements StoreDao{
 	
 	// 매장 정보를 삭제하는 method
 	@Override
-	public void deleteStore(StoreDto dto) {
-		session.delete("deleteStore", dto);	
+	public int deleteStore(StoreDto dto) {
+		return session.delete("deleteStore", dto);	
 	}
 }

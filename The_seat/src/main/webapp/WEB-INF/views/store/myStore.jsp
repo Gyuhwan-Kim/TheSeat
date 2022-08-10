@@ -501,7 +501,7 @@
 			.then(function(response){
 				return response.json();
 			}).then(function(data){
-				if(data.beDeleted){
+				if(data.isDeleted){
 					alert("매장 정보를 삭제하였습니다.");
 					location.href="${pageContext.request.contextPath}/main.do?area=&keyword=";
 				}

@@ -46,5 +46,5 @@ public interface StoreService {
 	public void deleteCategory(StoreDto dto);
 	
 	// 매장 정보를 삭제하는 method
-	public void deleteStore(HttpServletRequest request);
+	public Map<String, Object> deleteStore(StoreDto dto, HttpServletRequest request);
 }
