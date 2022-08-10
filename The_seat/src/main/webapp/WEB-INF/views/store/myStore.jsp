@@ -475,14 +475,16 @@
 		.then(function(response){
 			return response.json();
 		}).then(function(data){
-			if(data.beSwitched && storeOpen=="yes"){
+			if(data.isSwitched && storeOpen=="yes"){
 				self.innerText="매장 닫기";
 				storeOnOffBtn.style.backgroundColor="lightGray";
 				storeOnOffBtn.style.color="white";
-			} else if(data.beSwitched && storeOpen=="no"){
+			} else if(data.isSwitched && storeOpen=="no"){
 				self.innerText="매장 열기";
 				storeOnOffBtn.style.backgroundColor="white";
 				storeOnOffBtn.style.color="#598eff";
+			} else if(!data.isSwitched){
+				alert("매장 on/off 작업에 문제가 발생했습니다. 문제가 반복된다면 문의 바랍니다.");
 			}
 		});
 	}

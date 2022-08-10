@@ -86,8 +86,8 @@ public class StoreDaoImpl implements StoreDao{
 	
 	// 매장 On Off method
 	@Override
-	public void storeOnOff(StoreDto dto) {
-		session.update("storeOnOff", dto);	
+	public int storeOnOff(StoreDto dto) {
+		return session.update("storeOnOff", dto);	
 	}
 	
 	// 매장 카테고리를 추가하는 method

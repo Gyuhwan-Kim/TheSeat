@@ -352,9 +352,15 @@ public class StoreServiceImpl implements StoreService{
 	
 	// 매장 On Off method
 	@Override
-	public void storeOnOff(StoreDto dto) {
+	public Map<String, Object> storeOnOff(StoreDto dto) {
+		Map<String, Object> map = new HashMap<>();
+		if(dao.storeOnOff(dto)==1) {
+			map.put("isSwitched", true);
+		} else {
+			map.put("isSwitched", false);
+		}
 		
-		dao.storeOnOff(dto);
+		return map;
 	}
 	
 	// 매장 카테고리를 추가하는 method

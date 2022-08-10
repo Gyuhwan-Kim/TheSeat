@@ -115,13 +115,8 @@ public class StoreController {
 	@RequestMapping(value = "/storeOnOff.do", method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> storeOnOff(StoreDto dto) {;
-		
-		service.storeOnOff(dto);
-		
-		Map<String, Object> map=new HashMap<>();
-		map.put("beSwitched", true);
-		
-		return map;
+
+		return service.storeOnOff(dto);
 	}
 	
 	// 매장 메뉴 카테고리 추가하는 method

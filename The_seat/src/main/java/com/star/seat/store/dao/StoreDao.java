@@ -41,7 +41,7 @@ public interface StoreDao {
 	public int updateImage(StoreDto dto);
 
 	// 매장 On Off method
-	public void storeOnOff(StoreDto dto);
+	public int storeOnOff(StoreDto dto);
 	
 	// 매장 카테고리를 추가하는 method
 	// 사실상 update를 이용하는 것

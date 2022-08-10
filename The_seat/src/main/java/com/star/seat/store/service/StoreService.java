@@ -37,7 +37,7 @@ public interface StoreService {
 	public Map<String, Object> uploadImage(StoreDto dto, HttpServletRequest request);
 	
 	// 매장 On Off method
-	public void storeOnOff(StoreDto dto);
+	public Map<String, Object> storeOnOff(StoreDto dto);
 	
 	// 매장 카테고리를 추가하는 method
 	public void addCategory(StoreDto dto);
