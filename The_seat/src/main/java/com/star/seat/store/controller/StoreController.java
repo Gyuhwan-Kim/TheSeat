@@ -107,13 +107,8 @@ public class StoreController {
 	@RequestMapping(value = "/uploadImage.do", method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> uploadImage(StoreDto dto, HttpServletRequest request){
-
-		service.uploadImage(dto, request);
-
-		Map<String, Object> map=new HashMap<>();
-		map.put("beUpdated", true);
 		
-		return map;
+		return service.uploadImage(dto, request);
 	}
 	
 	// 매장 On Off method

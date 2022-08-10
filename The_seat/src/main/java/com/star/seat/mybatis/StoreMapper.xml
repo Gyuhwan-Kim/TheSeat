@@ -106,13 +106,6 @@
 		where num=#{num}
 	</update>
 	
-	<!-- 이미지 업로드를 위한 이미지 종류를 체크하는 method -->
-	<update id="imageCheck" parameterType="storeDto">
-		update store
-		set imageCheck=#{imageCheck}
-		where num=#{num}
-	</update>
-	
 	<!-- 이미지를 업로드하는 method -->
 	<update id="updateImage" parameterType="storeDto" >
 		update store

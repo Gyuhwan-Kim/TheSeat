@@ -26,7 +26,7 @@
                  <a class="updateImgLink" href="javascript:">
 	                 <c:choose>
 	             		<c:when test="${empty dto.image_logo}">
-	             			<img src="${pageContext.request.contextPath}/resources/img/clickme1.png" alt="" />
+	             			<img src="${pageContext.request.contextPath}/resources/img/clickme1.png" id="image_logo" alt="" />
 	             		</c:when>
 	             		<c:otherwise>
 	             			<img src="${pageContext.request.contextPath}${dto.image_logo}" alt="" id="image_logo" name="logo" class="image mt-3"
@@ -91,7 +91,7 @@
                  <a class="updateImgLink" href="javascript:">
 	                 <c:choose>
 	             		<c:when test="${empty dto.image_1}">
-	             			<img src="${pageContext.request.contextPath}/resources/img/clickme1.png" alt="" />
+	             			<img src="${pageContext.request.contextPath}/resources/img/clickme1.png" id="image_1" alt="" />
 	             		</c:when>
 	             		<c:otherwise>
 	             			<img src="${pageContext.request.contextPath}${dto.image_1}" alt="" id="image_1" name="image1" class="image" 
@@ -114,7 +114,7 @@
                  <a class="updateImgLink" href="javascript:">
 	                 <c:choose>
 	             		<c:when test="${empty dto.image_2}">
-	             			<img src="${pageContext.request.contextPath}/resources/img/clickme1.png" alt="" />
+	             			<img src="${pageContext.request.contextPath}/resources/img/clickme1.png" id="image_2" alt="" />
 	             		</c:when>
 	             		<c:otherwise>
 	             			<img src="${pageContext.request.contextPath}${dto.image_2}" alt="" id="image_2" name="image2" class="image"/>
@@ -126,7 +126,7 @@
                  <a class="updateImgLink" href="javascript:">
 	                 <c:choose>
 	             		<c:when test="${empty dto.image_3}">
-	             			<img src="${pageContext.request.contextPath}/resources/img/clickme1.png" alt="" />
+	             			<img src="${pageContext.request.contextPath}/resources/img/clickme1.png" id="image_3" alt="" />
 	             		</c:when>
 	             		<c:otherwise>
 	             			<img src="${pageContext.request.contextPath}${dto.image_3}" alt="" id="image_3" name="image3" class="image"/>
@@ -138,7 +138,7 @@
                  <a class="updateImgLink" href="javascript:">
 	                 <c:choose>
 	             		<c:when test="${empty dto.image_4}">
-	             			<img src="${pageContext.request.contextPath}/resources/img/clickme1.png" alt="" />
+	             			<img src="${pageContext.request.contextPath}/resources/img/clickme1.png" id="image_4" alt="" />
 	             		</c:when>
 	             		<c:otherwise>
 	             			<img src="${pageContext.request.contextPath}${dto.image_4}" alt="" id="image_4" name="image4" class="image"/>
@@ -416,6 +416,7 @@
 	        let reader=new FileReader();
 	        // 이미지가 로드가 된 경우
 	        reader.onload=function(e){
+	        	console.log(e);
 	            let previewImg=document.querySelector(imageID);
 	            previewImg.src=e.target.result;
 	        }
@@ -433,9 +434,11 @@
 			.then(function(response){
 				return response.json();
 			}).then(function(data){
-				if(data.beUpdated){
+				if(data.isUpdated){
 					updateImgBtns[i].style.display="none";
 					alert("이미지를 수정하였습니다.");
+				} else {
+					alert("이미지를 수정하지 못했습니다. 문제가 반복된다면 문의 바랍니다.");
 				}
 			});
 		});

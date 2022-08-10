@@ -292,7 +292,7 @@ public class StoreServiceImpl implements StoreService{
 	
 	// 이미지를 업로드하는 method
 	@Override
-	public void uploadImage(StoreDto dto, HttpServletRequest request) {
+	public Map<String, Object> uploadImage(StoreDto dto, HttpServletRequest request) {
 		// Tomcat 서버를 실행했을때 WebContent/upload 폴더의 실제 경로 얻어오기
 		String realPath=request.getServletContext().getRealPath("/upload");
 		//저장할 파일의 상세 경로
@@ -340,9 +340,14 @@ public class StoreServiceImpl implements StoreService{
 			myDto.setImageCheck("img4");
 		}
 		
-		dao.imageCheck(myDto);
+		Map<String, Object> map = new HashMap<>();
+		if(dao.updateImage(myDto)==1) {
+			map.put("isUpdated", true);
+		} else {
+			map.put("isUpdated", false);
+		}
 		
-		dao.updateImage(myDto);
+		return map;
 	}
 	
 	// 매장 On Off method
