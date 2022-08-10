@@ -280,7 +280,7 @@ public class StoreServiceImpl implements StoreService{
 	@Override
 	public Map<String, Object> updateStore(StoreDto dto, HttpServletRequest request) {
 		Map<String, Object> map = new HashMap<>();
-		if(dao.updateStore(dto)==1 && mDao.updateStoreOfMenu(dto)==1) {
+		if(dao.updateStore(dto)==1 || mDao.updateStoreOfMenu(dto)==1) {
 			map.put("isUpdated", true);
 			map.put("newDto", dto);
 		} else {
