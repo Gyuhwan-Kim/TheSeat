@@ -49,7 +49,13 @@ public class UsersController {
 	@ResponseBody
 	public Map<String, Object> ajaxLogin( UsersDto dto, HttpSession session) {
 		
-		return service.loginProcess(dto, session);
+		Map<String, Object> map = service.loginProcess(dto);
+
+		if((boolean)map.get("isValid")) {
+			session.setAttribute("email", dto.getEmail());
+		}
+		
+		return map;
 	}
 	
 	//아이디 중복 확인을 해서 json 문자열을 리턴해주는 메소드 

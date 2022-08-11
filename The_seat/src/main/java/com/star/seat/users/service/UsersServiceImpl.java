@@ -44,7 +44,7 @@ public class UsersServiceImpl implements UsersService {
 	}
 
 	@Override
-	public Map<String, Object> loginProcess(UsersDto dto, HttpSession session) {
+	public Map<String, Object> loginProcess(UsersDto dto) {
 		//입력한 정보가 맞는여부
 		boolean isValid = false;
 		boolean isExist = true;
@@ -60,11 +60,6 @@ public class UsersServiceImpl implements UsersService {
 		} else {
 			isExist = false;
 		}
-
-		if(isValid) {//만일 유효한 정보이면 
-			//로그인 처리를 한다.
-			session.setAttribute("email", dto.getEmail());
-		};
 		
 		Map<String, Object> map=new HashMap<String, Object>();
 		map.put("result",result);
