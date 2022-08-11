@@ -25,19 +25,6 @@ public class ReviewController {
 	@Autowired
 	private OrderService oService;
 	
-	// 리뷰 작성 테스트 페이지로 이동(테스트라 나중에 지울 것임)
-	// 테스트 페이지 안에 모달
-	@RequestMapping("/store/test.do")
-	public ModelAndView test(ModelAndView mView, ReviewDto dto, HttpServletRequest request, HttpSession session) {
-		
-		oService.getList(mView, request, session);
-
-		
-		mView.setViewName("store/test");
-		
-		return mView;
-	}
-	
 	// 작성한 리뷰 정보를 추가하는 method
 	@RequestMapping(value = "/store/addReview.do", method = RequestMethod.POST)
 	@ResponseBody

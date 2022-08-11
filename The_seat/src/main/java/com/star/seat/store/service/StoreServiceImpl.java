@@ -66,13 +66,9 @@ public class StoreServiceImpl implements StoreService{
 	
 	// 사장님의 매장 정보 목록을 불러오는 method
 	@Override
-	public List<StoreDto> getMyStores(HttpServletRequest request) {
-		String email=(String)request.getSession().getAttribute("email");
-
-		List<StoreDto> list=dao.getMyStores(email);
-		request.setAttribute("myStoreList", list);
+	public List<StoreDto> getMyStores(String email) {
 		
-		return list;
+		return dao.getMyStores(email);
 	}
 	
 	// 사장님의 매장 정보 하나를 불러오는 method(이메일과 rnum 이용)

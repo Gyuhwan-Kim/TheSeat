@@ -113,18 +113,24 @@ public class UsersController {
 	
 	//로그인된 회원정보와 함께 info 페이지로 이동
 	@RequestMapping("/users/info")
-	public ModelAndView info(ModelAndView mView,HttpServletRequest request, 
+	public ModelAndView info(ModelAndView mView, HttpServletRequest request, 
 			HttpSession session) {
+		//로그인된 아이디를 읽어온다. 
+		String email=(String)session.getAttribute("email");
+		//페이지 번호가 파라미터로 전달되는지 읽는다.
+		String strPageNum = request.getParameter("pageNum");
 		
-		//접속중인 회원의 회원정보 가져가기
-		service.getInfo(mView, session);
+		//접속중인 회원의 회원정보를 ModelAndView 객체에 담아준다.
+		mView.addObject("dto", service.getInfo(email));
+		
 		//접속중인 회원이 가진 매장 리스트 가져가기
-		sService.getMyStores(request);
+		mView.addObject("myStoreList", sService.getMyStores(email));
+		
 		//접속중인 회원의 주문내역 가져가기
-		order_service.getList(mView, request, session);
+		mView.addObject("orderData", order_service.getList(strPageNum, email));
 		
 		mView.setViewName("users/info");
-		System.out.println(mView);
+
 		return mView;
 	}
 	

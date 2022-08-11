@@ -50,7 +50,7 @@ public class StoreController {
 		String email=(String)request.getSession().getAttribute("email");
 		if(email != null) {
 			// 내가 관리하는 매장 정보를 얻어옴
-			service.getMyStores(request);
+			service.getMyStores(email);
 		}
 
 		return "main";

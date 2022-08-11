@@ -69,12 +69,12 @@ type="text/css" />
 <!--------------------------- 카드로 만들기 c:forEach  사용------------------------------>
 
 	<c:choose>
-		<c:when test="${empty list }">
+		<c:when test="${empty orderData.list }">
 			<h1>아직 이용 내역이 없습니다 😓</h1><span><a href="${pageContext.request.contextPath}/main.do?area=&keyword=">->이용하러가기</a></span>
 		</c:when>
 		<c:otherwise>
 			<div class="row info-row">
-			<c:forEach var="tmp" items="${list }">
+			<c:forEach var="tmp" items="${orderData.list }">
 			  <div style="width:400px; margin-bottom:40px; flex-wrap:wrap;">
 			    <div class="card col" style="border-radius: 30px; border: none; ">
 			      <div class="card-head">		      	
@@ -186,15 +186,15 @@ type="text/css" />
 	</c:choose>
 	<div class="page-ui clearfix">
       <ul>
-         <c:if test="${startPageNum ne 1 }">
+         <c:if test="${orderData.startPageNum ne 1 }">
             <li>
-               <a href="${pageContext.request.contextPath}/users/info.do?pageNum=${startPageNum-1 }">Prev</a>
+               <a href="${pageContext.request.contextPath}/users/info.do?pageNum=${orderData.startPageNum-1 }">Prev</a>
             </li>
          </c:if>
-         <c:forEach var="i" begin="${startPageNum }" end="${endPageNum }">
+         <c:forEach var="i" begin="${orderData.startPageNum }" end="${orderData.endPageNum }">
             <li>
                <c:choose>
-                  <c:when test="${pageNum eq i }">
+                  <c:when test="${orderData.pageNum eq i }">
                      <a  class="active" href="${pageContext.request.contextPath}/users/info.do?pageNum=${i }">${i }</a>
                   </c:when>
                   <c:otherwise>
@@ -203,9 +203,9 @@ type="text/css" />
                </c:choose>
             </li>
          </c:forEach>
-         <c:if test="${endPageNum lt totalPageCount }">
+         <c:if test="${orderData.endPageNum lt orderData.totalPageCount }">
             <li>
-               <a href="${pageContext.request.contextPath}/users/info.do?pageNum=${endPageNum+1 }">Next</a>
+               <a href="${pageContext.request.contextPath}/users/info.do?pageNum=${orderData.endPageNum+1 }">Next</a>
             </li>
          </c:if>
       </ul>

@@ -16,7 +16,7 @@ public interface UsersService {
 	public Map<String, Object> isExistEmail(String inputEmail);
 	public Map<String, Object> addUser(UsersDto dto);
 	public Map<String, Object> loginProcess(UsersDto dto);
-	public void getInfo(ModelAndView mView, HttpSession session);
+	public UsersDto getInfo(String email);
 	public Map<String, Object> getData(HttpSession session);
 	public Map<String, Object> getOrderData(HttpServletRequest request);
 	public Map<String, Object> updateUserPwd(HttpSession session, UsersDto dto);
