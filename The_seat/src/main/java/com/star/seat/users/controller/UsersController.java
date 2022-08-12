@@ -112,8 +112,16 @@ public class UsersController {
 	@RequestMapping(value = "/users/pwd_update", method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> pwdUpdate(UsersDto dto, HttpSession session) {
+		//세션 영역에서 로그인된 아이디 읽어오기
+		String email=(String)session.getAttribute("email");
 		
-		return service.updateUserPwd(session, dto);
+		Map<String, Object> map = service.updateUserPwd(email, dto);
+		if((boolean)map.get("isValid")) {
+			//로그아웃 처리
+			session.removeAttribute("email");
+		}
+		
+		return map;
 	}
 	
 	//로그인된 회원정보와 함께 info 페이지로 이동

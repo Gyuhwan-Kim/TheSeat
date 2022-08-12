@@ -89,9 +89,7 @@ public class UsersServiceImpl implements UsersService {
 	}
 
 	@Override
-	public Map<String, Object> updateUserPwd(HttpSession session, UsersDto dto) {
-		//세션 영역에서 로그인된 아이디 읽어오기
-		String email=(String)session.getAttribute("email");
+	public Map<String, Object> updateUserPwd(String email, UsersDto dto) {
 		//DB 에 저장된 회원정보 얻어오기
 		UsersDto resultDto=dao.getData(email);
 		//DB 에 저장된 암호화된 비밀 번호
@@ -111,11 +109,9 @@ public class UsersServiceImpl implements UsersService {
 			dto.setEmail(email);
 			//dao 를 이용해서 DB 에 수정 반영한다.
 			dao.updatePwd(dto);
-			//로그아웃 처리
-			session.removeAttribute("email");
 		}
 		Map<String, Object> map=new HashMap<String, Object>();
-		//작업의 성공여부를 ModelAndView 객체에 담아 놓는다(결국 HttpServletRequest 에 담긴다)
+		//작업의 성공여부를 Map 객체에 담아 놓는다(결국 HttpServletRequest 에 담긴다)
 		map.put("isSuccess", isValid);
 
 		return map;
