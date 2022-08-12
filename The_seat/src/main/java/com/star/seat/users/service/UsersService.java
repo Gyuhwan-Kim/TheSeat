@@ -21,6 +21,6 @@ public interface UsersService {
 	public Map<String, Object> getOrderData(HttpServletRequest request);
 	public Map<String, Object> updateUserPwd(HttpSession session, UsersDto dto);
 	public Map<String, Object> saveProfileImage(HttpServletRequest request, MultipartFile mFile);
-	public Map<String, Object> updateUser(UsersDto dto, HttpSession session);
+	public Map<String, Object> updateUser(UsersDto dto, String email);
 	public Map<String, Object> deleteUser(HttpSession session);
 }

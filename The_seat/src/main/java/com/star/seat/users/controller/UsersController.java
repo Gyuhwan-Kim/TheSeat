@@ -90,8 +90,11 @@ public class UsersController {
 	@RequestMapping(value = "/users/update", method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> update(UsersDto dto, HttpSession session) {
+		//수정할 회원의 아이디
+		String email=(String)session.getAttribute("email");
+		
 		//서비스를 이용해서 개인정보를 수정하고 성공 여부까지 담아서 return
-		return service.updateUser(dto, session);
+		return service.updateUser(dto, email);
 	}
 	
 	//ajax 프로필 사진 업로드 요청처리

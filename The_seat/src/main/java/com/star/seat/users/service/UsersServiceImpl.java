@@ -155,9 +155,7 @@ public class UsersServiceImpl implements UsersService {
 	}
 
 	@Override
-	public Map<String, Object> updateUser(UsersDto dto, HttpSession session) {
-		//수정할 회원의 아이디
-		String email=(String)session.getAttribute("email");
+	public Map<String, Object> updateUser(UsersDto dto, String email) {
 		//UsersDto 에 아이디도 담아 주고
 		dto.setEmail(email);
 		
