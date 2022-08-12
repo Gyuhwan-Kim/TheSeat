@@ -138,8 +138,10 @@ public class UsersController {
 	@RequestMapping("/users/getData")
 	@ResponseBody
 	public Map<String, Object> getUser(HttpSession session) {
+		//로그인된 아이디를 읽어온다. 
+		String email=(String)session.getAttribute("email");
 		
-		return service.getData(session);
+		return service.getData(email);
 	}
 	
 	//주문 정보의 email을 이용하여 회원정보 가져오기

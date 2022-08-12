@@ -77,12 +77,11 @@ public class UsersServiceImpl implements UsersService {
 	}
 	
 	@Override
-	public Map<String, Object> getData(HttpSession session) {
-		//로그인된 아이디를 읽어온다. 
-		String email=(String)session.getAttribute("email");
+	public Map<String, Object> getData(String email) {
 		//DB 에서 회원 정보를 얻어와서 
 		UsersDto dto=dao.getData(email);
-		//ModelAndView 객체에 담아준다.
+		
+		// Map 객체에 담아준다.
 		Map<String, Object> map=new HashMap<String, Object>();
 		map.put("dto", dto);
 		
