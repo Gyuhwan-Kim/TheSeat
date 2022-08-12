@@ -101,9 +101,11 @@ public class UsersController {
 	@RequestMapping(value = "/users/ajax_profile_upload", method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> ajaxProfileUpload(HttpServletRequest request, @RequestParam MultipartFile image){
+		// webapp/upload 폴더까지의 실제 경로 얻어내기 
+		String realPath=request.getServletContext().getRealPath("/upload");
 		
 		//서비스를 이용해서 이미지를 upload 폴더에 저장하고 리턴되는 Map 을 리턴해서 json 문자열 응답하기
-		return service.saveProfileImage(request, image);
+		return service.saveProfileImage(realPath, image);
 	}
 	
 	//비밀번호 변경
