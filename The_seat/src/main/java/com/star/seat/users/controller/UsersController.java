@@ -77,12 +77,20 @@ public class UsersController {
 	@RequestMapping("/users/delete")
 	@ResponseBody
 	public Map<String, Object> delete(StoreDto dto, HttpSession session, HttpServletRequest request) {
+		//로그인된 아이디를 얻어와서 
+		String email=(String)session.getAttribute("email");
 		
 		// 탈퇴 요청을 한 회원의 상점들의 정보(자리, 메뉴, 리뷰, 주문) 및 주문 정보 삭제
-		sService.deleteStore(dto, request);
+		sService.deleteStore(dto, email);
+		
+		Map<String, Object> map = service.deleteUser(email);
+		if((boolean)map.get("isDeleted")) {
+			//로그아웃 처리도 한다.
+			session.removeAttribute("email");
+		}
 		
 		// 회원탈퇴한 email 정보를 전달 
-		return service.deleteUser(session);
+		return map;
 	}
 	
 	//개인정보 수정 반영 요청 처리

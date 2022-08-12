@@ -22,5 +22,5 @@ public interface UsersService {
 	public Map<String, Object> updateUserPwd(String email, UsersDto dto);
 	public Map<String, Object> saveProfileImage(String realPath, MultipartFile mFile);
 	public Map<String, Object> updateUser(UsersDto dto, String email);
-	public Map<String, Object> deleteUser(HttpSession session);
+	public Map<String, Object> deleteUser(String email);
 }

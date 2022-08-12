@@ -194,9 +194,10 @@ public class StoreController {
 	// 매장 정보를 삭제하는 method
 	@RequestMapping(value = "/store/deleteStore.do", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> deleteStore(StoreDto dto, HttpServletRequest request) {
+	public Map<String, Object> deleteStore(StoreDto dto, HttpSession session) {
+		String email = (String)session.getAttribute("email");
 		
-		return service.deleteStore(dto, request);
+		return service.deleteStore(dto, email);
 	}
 	
 }

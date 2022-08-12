@@ -426,9 +426,7 @@ public class StoreServiceImpl implements StoreService{
 	
 	// 매장 정보를 삭제하는 method
 	@Override
-	public Map<String, Object> deleteStore(StoreDto dto, HttpServletRequest request) {
-		String email=(String)request.getSession().getAttribute("email");
-
+	public Map<String, Object> deleteStore(StoreDto dto, String email) {
 		SeatDto sDto = new SeatDto();
 		MenuDto mDto = new MenuDto();
 		ReviewDto rDto = new ReviewDto();
