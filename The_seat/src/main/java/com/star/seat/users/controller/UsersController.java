@@ -48,7 +48,6 @@ public class UsersController {
 	@RequestMapping(value = "/users/login", method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> ajaxLogin( UsersDto dto, HttpSession session) {
-		
 		Map<String, Object> map = service.loginProcess(dto);
 
 		if((boolean)map.get("isValid")) {
@@ -161,7 +160,10 @@ public class UsersController {
 	@RequestMapping(value = "/users/getOrderData", method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> getOrderUser(HttpServletRequest request) {
-		return service.getOrderData(request);
+		//로그인된 아이디를 읽어온다. 
+		String email=(String)request.getParameter("email");
+		
+		return service.getOrderData(email);
 	}
 	
 	//로그아웃

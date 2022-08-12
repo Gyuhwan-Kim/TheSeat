@@ -48,7 +48,7 @@ public class UsersServiceImpl implements UsersService {
 		//입력한 정보가 맞는여부
 		boolean isValid = false;
 		boolean isExist = true;
-		
+
 		//1. 로그인 폼에 입력한 아이디를 이용해서 해당 정보를 select 해 본다. 
 		UsersDto result=dao.getData(dto.getEmail());
 		if(result != null) {//만일 존재하는 아이디 라면
@@ -195,15 +195,14 @@ public class UsersServiceImpl implements UsersService {
 	}
 
 	@Override
-	public Map<String, Object> getOrderData(HttpServletRequest request) {
-		
-		//로그인된 아이디를 읽어온다. 
-		String email=(String)request.getParameter("email");
+	public Map<String, Object> getOrderData(String email) {
 		//DB 에서 회원 정보를 얻어와서 
 		UsersDto dto=dao.getData(email);
-		//ModelAndView 객체에 담아준다.
+		
+		//Map 객체에 담아준다.
 		Map<String, Object> map=new HashMap<String, Object>();
 		map.put("dto", dto);
+		
 		return map;
 	}
 }

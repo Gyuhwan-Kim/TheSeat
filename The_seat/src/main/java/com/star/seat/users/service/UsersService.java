@@ -18,7 +18,7 @@ public interface UsersService {
 	public Map<String, Object> loginProcess(UsersDto dto);
 	public UsersDto getInfo(String email);
 	public Map<String, Object> getData(String email);
-	public Map<String, Object> getOrderData(HttpServletRequest request);
+	public Map<String, Object> getOrderData(String email);
 	public Map<String, Object> updateUserPwd(String email, UsersDto dto);
 	public Map<String, Object> saveProfileImage(String realPath, MultipartFile mFile);
 	public Map<String, Object> updateUser(UsersDto dto, String email);
