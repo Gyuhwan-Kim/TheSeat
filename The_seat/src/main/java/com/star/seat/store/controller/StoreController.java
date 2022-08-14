@@ -17,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.star.seat.menu.service.MenuService;
 import com.star.seat.order.service.OrderService;
+import com.star.seat.paging.dto.PagingDto;
 import com.star.seat.review.dto.ReviewDto;
 import com.star.seat.review.service.ReviewService;
 import com.star.seat.seat.dto.SeatDto;
@@ -39,21 +40,31 @@ public class StoreController {
 	
 	// 검색 결과 메인 페이지를 요청할 때의 method
 	@RequestMapping(value = "/main.do", method = RequestMethod.GET)
-	public String getList(StoreDto dto, HttpServletRequest request) {
+	public ModelAndView getList(StoreDto dto, HttpServletRequest request) {
+		String strPageNum = (String)request.getAttribute("pageNum");
 		
-		// dto에 지역, 메뉴, 검색어 넣어서 dto라는 이름으로 저장.
-		request.setAttribute("searchData", dto);
+		ModelAndView mView = new ModelAndView();
+		
+		// dto에 지역, 메뉴, 검색어 넣어서 searchData라는 이름으로 저장.
+		mView.addObject("searchData", dto);
 		
 		// 검색 결과 목록을 얻어옴
-		service.getList(request, dto);
+		PagingDto<StoreDto> pDto = service.getList(strPageNum, dto);
+		mView.addObject("list", pDto.getDataList());
+		mView.addObject("startPageNum", pDto.getStartPageNum());
+		mView.addObject("endPageNum", pDto.getEndPageNum());
+		mView.addObject("totalPageCount", pDto.getTotalPageCount());
+		mView.addObject("pageNum", pDto.getPageNum());
 		
 		String email=(String)request.getSession().getAttribute("email");
 		if(email != null) {
 			// 내가 관리하는 매장 정보를 얻어옴
-			request.setAttribute("myStoreList", service.getMyStores(email));
+			mView.addObject("myStoreList", service.getMyStores(email));
 		}
+		
+		mView.setViewName("main");
 
-		return "main";
+		return mView;
 	}
 	
 	// 매장 추가 링크를 눌러서 요청되는 경로에 대한 method

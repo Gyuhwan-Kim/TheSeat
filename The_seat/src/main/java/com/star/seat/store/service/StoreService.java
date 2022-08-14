@@ -6,6 +6,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import com.star.seat.paging.dto.PagingDto;
 import com.star.seat.store.dto.StoreDto;
 
 public interface StoreService {
@@ -22,7 +23,7 @@ public interface StoreService {
 	public void getMyStore_num(StoreDto dto, HttpServletRequest request);
 	
 	// 매장 검색목록 불러오는 method
-	public void getList(HttpServletRequest request, StoreDto dto);
+	public PagingDto<StoreDto> getList(String strPageNum, StoreDto dto);
 	
 	// 매장 태그를 추가하는 method
 	public Map<String, Object> addTag(StoreDto dto, HttpServletRequest request);

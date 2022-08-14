@@ -17,6 +17,7 @@ import com.star.seat.menu.dao.MenuDao;
 import com.star.seat.menu.dto.MenuDto;
 import com.star.seat.order.dao.OrderDao;
 import com.star.seat.order.dto.OrderDto;
+import com.star.seat.paging.dto.PagingDto;
 import com.star.seat.review.dao.ReviewDao;
 import com.star.seat.review.dto.ReviewDto;
 import com.star.seat.seat.dao.SeatDao;
@@ -126,7 +127,7 @@ public class StoreServiceImpl implements StoreService{
 	
 	// 매장 검색목록 불러오는 method
 	@Override
-	public void getList(HttpServletRequest request, StoreDto dto) {
+	public PagingDto<StoreDto> getList(String strPageNum, StoreDto dto) {
 		
 		/*
 		게시글 paging 처리
@@ -140,8 +141,6 @@ public class StoreServiceImpl implements StoreService{
 		// 보여줄 페이지의 번호를 초기값으로 1로 지정
 		int pageNum=1;
 		
-		// page 번호가 parameter로 전달되는지 확인
-		String strPageNum=request.getParameter("pageNum");
 		// 넘어온다면
 		if(strPageNum!=null){
 			// String을 숫자로 바꿔서 page 번호로 저장한다.
@@ -157,7 +156,6 @@ public class StoreServiceImpl implements StoreService{
 		dto.setEndRowNum(endRowNum);
 		
 		List<StoreDto> list=dao.getList(dto);
-		request.setAttribute("list", list);
 		
 		// 전체 게시글 개수
 		int totalRow=0;
@@ -185,10 +183,14 @@ public class StoreServiceImpl implements StoreService{
 			endPageNum=totalPageCount; // 보정
 		}
 		
-		request.setAttribute("startPageNum", startPageNum);
-		request.setAttribute("endPageNum", endPageNum);
-		request.setAttribute("totalPageCount", totalPageCount);
-		request.setAttribute("pageNum", pageNum);
+		PagingDto<StoreDto> pDto = new PagingDto<>();
+		pDto.setDataList(list);
+		pDto.setStartPageNum(startPageNum);
+		pDto.setEndPageNum(endPageNum);
+		pDto.setTotalPageCount(totalPageCount);
+		pDto.setPageNum(pageNum);
+		
+		return pDto;
 	}
 	
 	// 매장 태그를 추가하는 method
