@@ -73,26 +73,14 @@ public class StoreServiceImpl implements StoreService{
 	
 	// 사장님의 매장 정보 하나를 불러오는 method(이메일과 rnum 이용)
 	@Override
-	public void getMyStore(StoreDto dto, HttpServletRequest request) {
-		String email = (String)request.getSession().getAttribute("email");
+	public StoreDto getMyStore(String email, StoreDto dto) {
 
 		dto.setOwner(email);
 		
 		// dto를 새로운 친구로 갱신
 		dto = dao.getMyStore(dto);
-		
-		// 만약 DB에 매장 tag 정보가 있다면
-		// 새로운 array를 만들어서 거기에 하나씩 담아줌.
-		List<String> tagList = new ArrayList();
-		if(dto.getStoreTag()!=null) {
-			String[] tags = dto.getStoreTag().split(",");
-			for(int i=1; i<tags.length; i++) {
-				tagList.add(tags[i]);
-			}
-		}
-		
-		request.setAttribute("dto", dto);
-		request.setAttribute("tagList", tagList);
+
+		return dto;
 	}
 	
 	// (사장님의) 매장 정보 하나를 불러오는 method(해당 매장 DB 번호 이용)

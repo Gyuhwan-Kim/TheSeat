@@ -1,5 +1,6 @@
 package com.star.seat.store.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -78,13 +79,29 @@ public class StoreController {
 	
 	// 매장 관리 링크를 눌러서 요청되는 경로에 대한 method
 	@RequestMapping(value="/store/myStore.do", method=RequestMethod.GET)
-	public String myStore(StoreDto dto, HttpServletRequest request) {
+	public ModelAndView myStore(StoreDto dto, HttpSession session) {
+		String email = (String)session.getAttribute("email");
 		
-		// service에서 매장 정보를 DB에서 꺼내와서 request에 넣고
-		service.getMyStore(dto, request);
+		// service에서 매장 정보를 DB에서 꺼내온 data로 dto 갱신
+		dto = service.getMyStore(email, dto);
 		
-		// 페이지 return
-		return "store/myStore";
+		// 만약 dto에 매장 tag 정보가 있다면
+		// 새로운 array를 만들어서 거기에 하나씩 담아줌.
+		List<String> tagList = new ArrayList<>();
+		if(dto.getStoreTag()!=null) {
+			String[] tags = dto.getStoreTag().split(",");
+			for(int i=1; i<tags.length; i++) {
+				tagList.add(tags[i]);
+			}
+		}
+		
+		ModelAndView mView = new ModelAndView();
+		mView.addObject("dto", dto);
+		mView.addObject("tagList", tagList);
+		mView.setViewName("store/myStore");
+		
+		// 페이지와 data return
+		return mView;
 	}
 	
 	// 매장 태그 추가 링크를 눌러서 요청되는 경로에 대한 method
