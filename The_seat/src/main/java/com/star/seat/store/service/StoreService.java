@@ -29,7 +29,7 @@ public interface StoreService {
 	public Map<String, Object> addTag(String email, StoreDto dto);
 	
 	// 매장 태그를 삭제하는 method
-	public Map<String, Object> deleteTag(StoreDto dto, HttpServletRequest request);
+	public Map<String, Object> deleteTag(String email, StoreDto dto);
 	
 	// 매장 정보(이름, 주소, 시간)를 수정하는 method
 	public Map<String, Object> updateStore(StoreDto dto, HttpServletRequest request);

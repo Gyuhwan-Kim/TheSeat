@@ -220,9 +220,8 @@ public class StoreServiceImpl implements StoreService{
 	
 	// 매장 태그를 삭제하는 method
 	@Override
-	public Map<String, Object> deleteTag(StoreDto dto, HttpServletRequest request) {
+	public Map<String, Object> deleteTag(String email, StoreDto dto) {
 		// dto에는 해당 매장 번호가 있고, 추가적으로 email 정보를 넣어준다.
-		String email = (String)request.getSession().getAttribute("email");
 		dto.setOwner(email);
 		// 입력한 tag의 정보를 읽어놓고
 		String tag = dto.getStoreTag();

@@ -118,9 +118,10 @@ public class StoreController {
 	// 매장을 태그를 삭제하는 method
 	@RequestMapping(value = "/deleteTag.do", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> deleteTag(StoreDto dto, HttpServletRequest request) {
-
-		return service.deleteTag(dto, request);
+	public Map<String, Object> deleteTag(StoreDto dto, HttpSession session) {
+		String email = (String)session.getAttribute("email");
+		
+		return service.deleteTag(email, dto);
 	}
 	
 	// 관리 매장 정보 수정
