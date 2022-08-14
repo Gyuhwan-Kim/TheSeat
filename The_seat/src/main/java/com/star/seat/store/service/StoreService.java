@@ -11,7 +11,7 @@ import com.star.seat.store.dto.StoreDto;
 
 public interface StoreService {
 	// 새로운 매장을 추가하는 method
-	public Map<String, Object> addStore(HttpServletRequest request);
+	public Map<String, Object> addStore(String email);
 	
 	// 사장님의 매장 정보 목록을 불러오는 method
 	public List<StoreDto> getMyStores(String email);

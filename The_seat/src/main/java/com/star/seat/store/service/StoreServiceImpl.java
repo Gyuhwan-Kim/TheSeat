@@ -40,8 +40,7 @@ public class StoreServiceImpl implements StoreService{
 	
 	// 새로운 매장을 추가하는 method
 	@Override
-	public Map<String, Object> addStore(HttpServletRequest request) {
-		String email=(String)request.getSession().getAttribute("email");
+	public Map<String, Object> addStore(String email) {
 		Map<String, Object> map = new HashMap<>();
 		if(dao.addStore(email)==1) {
 			// 해당 email로 된 매장의 정보를 모두 불러온 다음

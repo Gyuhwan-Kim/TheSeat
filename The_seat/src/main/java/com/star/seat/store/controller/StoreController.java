@@ -70,12 +70,10 @@ public class StoreController {
 	// 매장 추가 링크를 눌러서 요청되는 경로에 대한 method
 	@RequestMapping("/newStore.do")
 	@ResponseBody
-	public Map<String, Object> addStore(HttpServletRequest request){
-		Map<String, Object> map=new HashMap<>();
-		
-		// service에서 매장 정보 DB에 email 정보를 더해줌.
-		
-		return service.addStore(request);
+	public Map<String, Object> addStore(HttpSession session){
+		String email = (String)session.getAttribute("email");
+				
+		return service.addStore(email);
 	}
 	
 	// 매장 관리 링크를 눌러서 요청되는 경로에 대한 method
