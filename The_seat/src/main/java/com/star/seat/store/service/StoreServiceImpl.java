@@ -271,9 +271,7 @@ public class StoreServiceImpl implements StoreService{
 	
 	// 이미지를 업로드하는 method
 	@Override
-	public Map<String, Object> uploadImage(StoreDto dto, HttpServletRequest request) {
-		// Tomcat 서버를 실행했을때 WebContent/upload 폴더의 실제 경로 얻어오기
-		String realPath=request.getServletContext().getRealPath("/upload");
+	public Map<String, Object> uploadImage(String realPath, StoreDto dto, String email) {
 		//저장할 파일의 상세 경로
 		String filePath=realPath+File.separator;
 		//해당 경로를 access 할수 있는 파일 객체 생성
@@ -294,9 +292,6 @@ public class StoreServiceImpl implements StoreService{
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
-		
-		//업로드한 클라이언트의 아이디
-		String email=(String)request.getSession().getAttribute("email");
 		
 		//업로드된 파일 정보를 StoreDto 에 담아서
 		StoreDto myDto=new StoreDto();

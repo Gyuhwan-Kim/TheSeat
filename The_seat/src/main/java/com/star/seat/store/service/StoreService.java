@@ -35,7 +35,7 @@ public interface StoreService {
 	public Map<String, Object> updateStore(StoreDto dto);
 	
 	// 이미지를 업로드하는 method
-	public Map<String, Object> uploadImage(StoreDto dto, HttpServletRequest request);
+	public Map<String, Object> uploadImage(String realPath, StoreDto dto, String email);
 	
 	// 매장 On Off method
 	public Map<String, Object> storeOnOff(StoreDto dto);

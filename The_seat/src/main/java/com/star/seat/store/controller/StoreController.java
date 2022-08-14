@@ -136,8 +136,11 @@ public class StoreController {
 	@RequestMapping(value = "/uploadImage.do", method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> uploadImage(StoreDto dto, HttpServletRequest request){
+		// Tomcat 서버를 실행했을때 WebContent/upload 폴더의 실제 경로 얻어오기
+		String realPath=request.getServletContext().getRealPath("/upload");
+		String email = (String)request.getSession().getAttribute("email");
 		
-		return service.uploadImage(dto, request);
+		return service.uploadImage(realPath, dto, email);
 	}
 	
 	// 매장 On Off method
