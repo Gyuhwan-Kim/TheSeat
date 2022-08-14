@@ -32,7 +32,7 @@ public interface StoreService {
 	public Map<String, Object> deleteTag(String email, StoreDto dto);
 	
 	// 매장 정보(이름, 주소, 시간)를 수정하는 method
-	public Map<String, Object> updateStore(StoreDto dto, HttpServletRequest request);
+	public Map<String, Object> updateStore(StoreDto dto);
 	
 	// 이미지를 업로드하는 method
 	public Map<String, Object> uploadImage(StoreDto dto, HttpServletRequest request);

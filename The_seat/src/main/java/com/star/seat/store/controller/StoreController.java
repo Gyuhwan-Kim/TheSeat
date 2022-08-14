@@ -127,9 +127,9 @@ public class StoreController {
 	// 관리 매장 정보 수정
 	@RequestMapping(value = "/storeUpdate.do", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> storeUpdate(StoreDto dto, HttpServletRequest request){
+	public Map<String, Object> storeUpdate(StoreDto dto){
 		
-		return service.updateStore(dto, request);
+		return service.updateStore(dto);
 	}
 	
 	// (로고)사진 업로드 method
