@@ -52,12 +52,6 @@ public class StoreDaoImpl implements StoreDao{
 		return session.selectList("getList", dto);
 	}
 	
-	// 검색한 전체 매장 수를 얻어오는 method
-	@Override
-	public int getListCount(StoreDto dto) {
-		return session.selectOne("getListCount", dto);
-	}
-	
 	// 매장 태그를 추가하는 method
 	// 사실상 update 이용하는 것
 	@Override

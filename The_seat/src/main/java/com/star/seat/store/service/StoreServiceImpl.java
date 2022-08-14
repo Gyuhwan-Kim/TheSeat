@@ -172,9 +172,7 @@ public class StoreServiceImpl implements StoreService{
 	    	// 해당 매장의 번호로 평균 별점을 가져옴
 	    	float avgStar=(float)(Math.round(rDao.getAvgStar(rDto)*100)/100.0);
 	    	list.get(i).setAvgStar(avgStar);
-	    }
-		totalRow=dao.getListCount(dto);
-		
+	    }		
 		
 		// 하단의 시작 page 번호
 		int startPageNum=1+((pageNum-1)/page_display_count)*page_display_count;
@@ -191,7 +189,6 @@ public class StoreServiceImpl implements StoreService{
 		request.setAttribute("endPageNum", endPageNum);
 		request.setAttribute("totalPageCount", totalPageCount);
 		request.setAttribute("pageNum", pageNum);
-		request.setAttribute("totalRow", totalRow);
 	}
 	
 	// 매장 태그를 추가하는 method

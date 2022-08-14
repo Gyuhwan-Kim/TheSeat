@@ -65,33 +65,6 @@
 		where rnum between #{startRowNum} and #{endRowNum}
 	</select>
 	
-	<!-- 검색한 전체 매장 수를 얻어오는 method -->
-	<select id="getListCount" parameterType="storeDto" resultType="int">
-		select nvl(max(rownum),0)
-		from store
-		where storeOpen='yes'
-		<choose>
-			<when test="{area != '' and keyword != ''}">
-				and (lower(storeAddr) like '%' || lower(#{area}) || '%'
-				or lower(storeName) like '%' || lower(#{area}) || '%'
-				or lower(storeTag) like '%' || lower(#{area}) || '%')
-				and (lower(storeAddr) like '%' || lower(#{keyword}) || '%'
-				or lower(storeName) like '%' || lower(#{keyword}) || '%'
-				or lower(storeTag) like '%' || lower(#{keyword}) || '%')
-			</when>
-			<when test="{area != ''}">
-				and (lower(storeAddr) like '%' || lower(#{area}) || '%'
-				or lower(storeName) like '%' || lower(#{area}) || '%'
-				or lower(storeTag) like '%' || lower(#{area}) || '%')
-			</when>
-			<when test="{keyword != ''}">
-				and (lower(storeAddr) like '%' || lower(#{keyword}) || '%'
-				or lower(storeName) like '%' || lower(#{keyword}) || '%'
-				or lower(storeTag) like '%' || lower(#{keyword}) || '%')
-			</when>
-		</choose>
-	</select>
-	
 	<!-- 매장 태그를 추가하는 method -->
 	<update id="addTag" parameterType="storeDto">
 		update store

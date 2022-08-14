@@ -128,21 +128,21 @@ href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" 
 				<p style="color: #6d6d6d;">
 					<strong style="font-size: 18px;">뭘 좋아하는 지 몰라서 전부 준비해봤어~ 😉</strong>
 					
-					( ${totalRow }  개의 매장이 검색되었습니다. )
+					( ${list.size() }  개의 매장이 검색되었습니다. )
 				</p>
 			</c:when>
 			<c:when test="${searchData.area != ''}">
 				<p>
 					<strong>'${searchData.area }'</strong> 지역으로
 					<br>
-					${totalRow } 개의 매장이 검색되었습니다.
+					${list.size() } 개의 매장이 검색되었습니다.
 				</p>
 			</c:when>
 			<c:when test="${searchData.keyword != ''}">
 				<p>
 					<strong>'${searchData.keyword }'</strong> 검색어로 검색된 내용 자세히 보기
 					<br>
-					${totalRow } 개의 매장이 검색되었습니다.
+					${list.size() } 개의 매장이 검색되었습니다.
 				</p>
 			</c:when>
 			<c:otherwise>

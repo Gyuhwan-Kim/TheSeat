@@ -23,9 +23,6 @@ public interface StoreDao {
 	// 매장 검색목록 불러오는 method
 	public List<StoreDto> getList(StoreDto dto);
 	
-	// 검색한 전체 매장 수를 얻어오는 method
-	public int getListCount (StoreDto dto);
-	
 	// 매장 태그를 추가하는 method
 	// 사실상 update를 이용하는 것
 	public int addTag(StoreDto dto);
