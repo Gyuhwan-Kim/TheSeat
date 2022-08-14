@@ -26,7 +26,7 @@ public interface StoreService {
 	public PagingDto<StoreDto> getList(String strPageNum, StoreDto dto);
 	
 	// 매장 태그를 추가하는 method
-	public Map<String, Object> addTag(StoreDto dto, HttpServletRequest request);
+	public Map<String, Object> addTag(String email, StoreDto dto);
 	
 	// 매장 태그를 삭제하는 method
 	public Map<String, Object> deleteTag(StoreDto dto, HttpServletRequest request);

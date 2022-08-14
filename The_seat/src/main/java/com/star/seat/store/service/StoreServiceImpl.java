@@ -182,9 +182,8 @@ public class StoreServiceImpl implements StoreService{
 	
 	// 매장 태그를 추가하는 method
 	@Override
-	public Map<String, Object> addTag(StoreDto dto, HttpServletRequest request) {
+	public Map<String, Object> addTag(String email, StoreDto dto) {
 		// dto에는 해당 매장 번호가 있고, 추가적으로 email 정보를 넣어준다.
-		String email = (String)request.getSession().getAttribute("email");
 		dto.setOwner(email);
 		// 입력한 tag의 정보를 읽어놓고
 		String newTag = dto.getStoreTag();
@@ -195,7 +194,7 @@ public class StoreServiceImpl implements StoreService{
 		// DB의 내용을 , 로 구분해서 String array로 만들어주고
 		String[] tags = dto.getStoreTag().split(",");
 		// 새로운 array를 만들어서 거기에 하나씩 담아줌.
-		List<String> list = new ArrayList();
+		List<String> list = new ArrayList<>();
 		for(int i = 0; i < tags.length; i++) {
 			list.add(tags[i]);
 		}
