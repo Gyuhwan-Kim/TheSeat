@@ -4,9 +4,9 @@
 	<!-- 매장 추가 method -->
 	<insert id="addStore" parameterType="string">
 		insert into store
-		(num, owner, storeName, storeAddr, storePhone, openingTime, storeTag,
+		(num, owner, storeName, storeAddr, storePhone, openingTime,
 			storeOpen, category, regdate)
-		values(store_seq.nextval, #{email}, '새 매장', 'Default', '010-1234-5677', '00:00 ~ 24:00', 'easter egg',
+		values(store_seq.nextval, #{email}, '새 매장', 'Default', '010-1234-5677', '00:00 ~ 24:00',
 			'no', 'Default', sysdate)
 	</insert>
 	

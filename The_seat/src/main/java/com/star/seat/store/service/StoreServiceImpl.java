@@ -191,25 +191,26 @@ public class StoreServiceImpl implements StoreService{
 		// DB에서 해당 번호의 정보를 받아온 dto로 갱신한 뒤
 		dto = dao.getMyStore(dto);
 		
-		// DB의 내용을 , 로 구분해서 String array로 만들어주고
-		String[] tags = dto.getStoreTag().split(",");
-		// 새로운 array를 만들어서 거기에 하나씩 담아줌.
-		List<String> list = new ArrayList<>();
-		for(int i = 0; i < tags.length; i++) {
-			list.add(tags[i]);
+		// 우선 기본값을 아무런 내용이 없는 String으로 함 (null)
+		String strTags = "";
+		// DB의 내용이 null이 아니면 String으로 받되, dummy data를 넣어서 받음
+		if(dto.getStoreTag() != null) {
+			strTags = dto.getStoreTag() + ",empty";
 		}
-
-		// 읽어둔 새 tag 정보를 array에 담아서
-		list.add(newTag);
-		// array 각 성분이 , 로 구분된 String으로 바꿔서
-		String strList=String.join(",", list);
+		// dummy data를 포함한 String array로 변형
+		// 길이를 +1 하는 일종의 눈속임
+		String[] tags = strTags.split(",");
+		// String array의 마지막 항목(dummy) 자리에 추가한 tag 대입
+		tags[tags.length-1] = newTag;
+		// array 각 성분이 , 로 구분된 String으로 바꿔서 갱신해주고
+		strTags = String.join(",", tags);
 		
 		// DB에서 받아온 dto에 넣은 다음에
-		dto.setStoreTag(strList);
+		dto.setStoreTag(strTags);
 		
 		Map<String, Object> map = new HashMap<>();
 		// dto를 넣어서 update, 성공 여부에 따라 Map 에 다르게
-		if(dao.addTag(dto)==1) {
+		if(dao.addTag(dto) == 1) {
 			map.put("isAdded", true);
 		} else {
 			map.put("isAdded", false);
@@ -231,6 +232,7 @@ public class StoreServiceImpl implements StoreService{
 		
 		// DB의 내용을 , 로 구분해서 String array로 만들어주고
 		String[] tags = dto.getStoreTag().split(",");
+
 		// 새로운 array를 만들어서 거기에 하나씩 담아줌.
 		List<String> list=new ArrayList();
 		for(int i=0; i<tags.length; i++) {
@@ -241,9 +243,9 @@ public class StoreServiceImpl implements StoreService{
 		list.remove(list.indexOf(tag));
 
 		// array 각 성분이 , 로 구분된 String으로 바꿔서
-		String strList=String.join(",", list);
+		String strTags=String.join(",", list);
 		// DB에서 받아온 dto에 넣은 다음에
-		dto.setStoreTag(strList);
+		dto.setStoreTag(strTags);
 		
 		Map<String, Object> map = new HashMap<>();
 		// dto를 넣어서 update

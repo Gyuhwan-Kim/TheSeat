@@ -85,14 +85,10 @@ public class StoreController {
 		// service에서 매장 정보를 DB에서 꺼내온 data로 dto 갱신
 		dto = service.getMyStore(email, dto);
 		
-		// 만약 dto에 매장 tag 정보가 있다면
-		// 새로운 array를 만들어서 거기에 하나씩 담아줌.
-		List<String> tagList = new ArrayList<>();
-		if(dto.getStoreTag()!=null) {
-			String[] tags = dto.getStoreTag().split(",");
-			for(int i=1; i<tags.length; i++) {
-				tagList.add(tags[i]);
-			}
+		String[] tagList = {}; 
+		// 만약 dto에 매장 tag 정보가 있다면 String array를 덮어씀
+		if(dto.getStoreTag() != null) {
+			tagList = dto.getStoreTag().split(",");
 		}
 		
 		ModelAndView mView = new ModelAndView();
