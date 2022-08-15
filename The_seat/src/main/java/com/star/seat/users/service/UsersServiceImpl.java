@@ -2,6 +2,7 @@ package com.star.seat.users.service;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,6 +15,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.star.seat.menu.dao.MenuDao;
+import com.star.seat.menu.dto.MenuDto;
+import com.star.seat.order.dao.OrderDao;
+import com.star.seat.order.dto.OrderDto;
+import com.star.seat.review.dao.ReviewDao;
+import com.star.seat.review.dto.ReviewDto;
+import com.star.seat.seat.dao.SeatDao;
+import com.star.seat.seat.dto.SeatDto;
+import com.star.seat.store.dao.StoreDao;
+import com.star.seat.store.dto.StoreDto;
 import com.star.seat.users.dao.UsersDao;
 import com.star.seat.users.dto.UsersDto;
 
@@ -22,6 +33,16 @@ public class UsersServiceImpl implements UsersService {
 	
 	@Autowired
 	private UsersDao dao;
+	@Autowired
+	private StoreDao sDao;
+	@Autowired
+	private SeatDao stDao;
+	@Autowired
+	private MenuDao mDao;
+	@Autowired
+	private ReviewDao rDao;
+	@Autowired
+	private OrderDao oDao;
 	
 	@Override
 	public Map<String, Object> addUser(UsersDto dto) {
@@ -165,7 +186,40 @@ public class UsersServiceImpl implements UsersService {
 	}
 
 	@Override
-	public Map<String, Object> deleteUser(String email) {		
+	public Map<String, Object> deleteUser(String email) {
+		StoreDto sDto = new StoreDto();
+		SeatDto stDto = new SeatDto();
+		MenuDto mDto = new MenuDto();
+		ReviewDto rDto = new ReviewDto();
+		OrderDto oDto = new OrderDto();
+		
+		sDto.setOwner(email);
+		oDto.setEmail(email);
+		
+		// 해당 email로 만든 모든 상점의 list를 가져옴
+		List<StoreDto> list = sDao.getMyStores(email);
+		for(StoreDto tmp:list) {
+			// 각 상점 번호로 자리, 메뉴, 리뷰, 주문 정보를 다룰 수 있도록 세팅하고
+			sDto.setNum(tmp.getNum());
+			stDto.setNum(tmp.getNum());
+			mDto.setStoreNum(tmp.getNum());
+			rDto.setStoreNum(tmp.getNum());
+			oDto.setNum(tmp.getNum());
+			
+			// 매장 정보를 지우고
+			sDao.deleteStore(sDto);
+			// 매장 자리 정보도 지움
+			stDao.seatDelete(stDto);
+			// 매장 메뉴 정도도 지움
+			mDao.deleteAllMenu(mDto);
+			// 매장 리뷰 정보도 지움
+			rDao.deleteAllReview(rDto);
+			// 매장에서 주문했던 내역도 지움
+			oDao.deleteAllOrder(oDto);
+			// 해당 유저가 다른 곳에서 주문했던 내역도 지움
+			oDao.deleteEmailOrder(oDto);
+		}
+		
 		Map<String, Object> map=new HashMap<String, Object>();
 		//해당 정보를 DB 에서 삭제하고 (삭제되면 1)
 		if(dao.delete(email)==1) {

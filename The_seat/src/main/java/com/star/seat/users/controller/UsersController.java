@@ -80,9 +80,6 @@ public class UsersController {
 		//로그인된 아이디를 얻어와서 
 		String email=(String)session.getAttribute("email");
 		
-		// 탈퇴 요청을 한 회원의 상점들의 정보(자리, 메뉴, 리뷰, 주문) 및 주문 정보 삭제
-		sService.deleteStore(dto, email);
-		
 		Map<String, Object> map = service.deleteUser(email);
 		if((boolean)map.get("isDeleted")) {
 			//로그아웃 처리도 한다.

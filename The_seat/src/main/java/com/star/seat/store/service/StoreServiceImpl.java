@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -234,7 +233,7 @@ public class StoreServiceImpl implements StoreService{
 		String[] tags = dto.getStoreTag().split(",");
 
 		// 새로운 array를 만들어서 거기에 하나씩 담아줌.
-		List<String> list=new ArrayList();
+		List<String> list=new ArrayList<>();
 		for(int i=0; i<tags.length; i++) {
 			list.add(tags[i]);
 		}
@@ -356,7 +355,7 @@ public class StoreServiceImpl implements StoreService{
 		// DB의 내용을 , 로 구분해서 String array로 만들어주고
 		String[] categories=myDto.getCategory().split(",");
 		// 새로운 array를 만들어서 거기에 하나씩 담아줌.
-		List<String> list=new ArrayList();
+		List<String> list=new ArrayList<>();
 		for(int i=0; i<categories.length; i++) {
 			list.add(categories[i]);
 		}
@@ -386,7 +385,7 @@ public class StoreServiceImpl implements StoreService{
 		// DB의 내용을 , 로 구분해서 String array로 만들어주고
 		String[] categories=myDto.getCategory().split(",");
 		// 새로운 array를 만들어서 거기에 하나씩 담아줌.
-		List<String> list=new ArrayList();
+		List<String> list=new ArrayList<>();
 		for(int i=0; i<categories.length; i++) {
 			list.add(categories[i]);
 		}
@@ -407,7 +406,7 @@ public class StoreServiceImpl implements StoreService{
 	// 매장 정보를 삭제하는 method
 	@Override
 	public Map<String, Object> deleteStore(StoreDto dto, String email) {
-		SeatDto sDto = new SeatDto();
+		SeatDto stDto = new SeatDto();
 		MenuDto mDto = new MenuDto();
 		ReviewDto rDto = new ReviewDto();
 		OrderDto oDto = new OrderDto();
@@ -416,52 +415,24 @@ public class StoreServiceImpl implements StoreService{
 		oDto.setEmail(email);
 
 		Map<String, Object> map = new HashMap<>();
-		if(dto.getNum() != 0) {
-			// 각 상점 번호로 자리, 메뉴, 리뷰, 주문 정보를 다룰 수 있도록 세팅하고
-			sDto.setNum(dto.getNum());
-			mDto.setStoreNum(dto.getNum());
-			rDto.setStoreNum(dto.getNum());
-			oDto.setNum(dto.getNum());
-			
-			// 매장 정보를 지우고
-			dao.deleteStore(dto);
-			// 매장 자리 정보도 지움
-			stDao.seatDelete(sDto);
-			// 매장 메뉴 정도도 지움
-			mDao.deleteAllMenu(mDto);
-			// 매장 리뷰 정보도 지움
-			rDao.deleteAllReview(rDto);
-			// 매장에서 주문했던 내역도 지움
-			oDao.deleteAllOrder(oDto);
-			
-			map.put("isDeleted", true);
-		} else {
-			// 해당 email로 만든 모든 상점의 list를 가져옴
-			List<StoreDto> list = dao.getMyStores(email);
-			for(StoreDto tmp:list) {
-				// 각 상점 번호로 자리, 메뉴, 리뷰, 주문 정보를 다룰 수 있도록 세팅하고
-				dto.setNum(tmp.getNum());
-				sDto.setNum(tmp.getNum());
-				mDto.setStoreNum(tmp.getNum());
-				rDto.setStoreNum(tmp.getNum());
-				oDto.setNum(tmp.getNum());
-				
-				// 매장 정보를 지우고
-				dao.deleteStore(dto);
-				// 매장 자리 정보도 지움
-				stDao.seatDelete(sDto);
-				// 매장 메뉴 정도도 지움
-				mDao.deleteAllMenu(mDto);
-				// 매장 리뷰 정보도 지움
-				rDao.deleteAllReview(rDto);
-				// 매장에서 주문했던 내역도 지움
-				oDao.deleteAllOrder(oDto);
-				// 해당 유저가 다른 곳에서 주문했던 내역도 지움
-				oDao.deleteEmailOrder(oDto);
-				
-				map.put("isDeleted", true);
-			}
-		}
+		// 각 상점 번호로 자리, 메뉴, 리뷰, 주문 정보를 다룰 수 있도록 세팅하고
+		stDto.setNum(dto.getNum());
+		mDto.setStoreNum(dto.getNum());
+		rDto.setStoreNum(dto.getNum());
+		oDto.setNum(dto.getNum());
+		
+		// 매장 정보를 지우고
+		dao.deleteStore(dto);
+		// 매장 자리 정보도 지움
+		stDao.seatDelete(stDto);
+		// 매장 메뉴 정도도 지움
+		mDao.deleteAllMenu(mDto);
+		// 매장 리뷰 정보도 지움
+		rDao.deleteAllReview(rDto);
+		// 매장에서 주문했던 내역도 지움
+		oDao.deleteAllOrder(oDto);
+		
+		map.put("isDeleted", true);
 		
 		return map;
 	}
