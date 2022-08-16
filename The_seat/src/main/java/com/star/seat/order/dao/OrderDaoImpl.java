@@ -33,12 +33,6 @@ public class OrderDaoImpl implements OrderDao{
 		return session.selectList("order.getOrderMenuList", dto);
 	}
 	
-	//orderNum 이 같은 주문내역의 menu, menuCount, price 가져오기
-	@Override
-	public int getCount(String email) {
-		return session.selectOne("order.getCount", email);
-	}
-	
 	//주문하기
 	@Override
 	public void insert(OrderDto dto) {
