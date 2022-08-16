@@ -44,7 +44,7 @@ type="text/css" />
 			<div>
 				<h3 style="margin-bottom:20px;">${dto.name}님의 마이페이지
 					<c:choose>
-						<c:when test="${myStoreList.size() eq 0 }"> 
+						<c:when test="${myStoreCount eq 0 }"> 
 							<span>(🍽손님)</span>
 						</c:when>
 						<c:otherwise>

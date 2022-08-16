@@ -140,8 +140,8 @@ public class UsersController {
 		//접속중인 회원의 회원정보를 ModelAndView 객체에 담아준다.
 		mView.addObject("dto", service.getInfo(email));
 		
-		//접속중인 회원이 가진 매장 리스트 가져가기
-		mView.addObject("myStoreList", sService.getMyStores(email));
+		//접속중인 회원이 가진 매장 리스트의 수를 담아준다.
+		mView.addObject("myStoreCount", sService.getMyStores(email).size());
 		
 		//접속중인 회원의 주문내역 가져가기
 		mView.addObject("orderData", order_service.getList(strPageNum, email));
