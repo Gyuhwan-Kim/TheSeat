@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,22 +26,22 @@ public class MenuController {
 	@Autowired
 	private StoreService sService;
 	
-	// 임시 메뉴관리 페이지 이동
+	// 메뉴 관리 페이지 이동
 	@RequestMapping(value = "/store/manageMenu.do", method = RequestMethod.GET)
-	public ModelAndView getList(StoreDto sDto, HttpServletRequest request) {
+	public ModelAndView getList(StoreDto sDto, HttpSession session) {
+		// session scope에 있는 email 정보를 받아온다.
+		String email = (String)session.getAttribute("email");
 
-		int num=sDto.getNum();
-		String storeName=sDto.getStoreName();
-		request.setAttribute("num", num);
-		// 해당 매장의 메뉴 정보를 가져오는 method
-		service.getMenuList(sDto, request);
-		
-		// 해당 매장의 정보를 가져오는 method
-		sService.getMyStore_num(sDto, request);
-		
 		ModelAndView mView=new ModelAndView();
-		mView.addObject("storeDBNum", sDto.getNum());
-		mView.addObject("storeDBName", sDto.getStoreName());
+		// email 값과 DB의 매장 번호 data로 해당 매장의 category 정보를 불러온다.
+		mView.addObject("categoryList", sService.getMyStore(email, sDto).getCategory());
+
+		// 해당 매장의 메뉴 정보를 가져와서 ModelAndView 객체에 담아줌
+		// StoreDto 객체에는 해당 매장 정보가 저장된 DB 번호, 카테고리 정보가 들어있다.
+		mView.addObject("menuList", service.getMenuList(email, sDto));
+		
+		// storeNum data는 요청시 넘겨받은 그대로를 돌려준다.
+		mView.addObject("storeNum", sDto.getNum());
 
 		mView.setViewName("store/manageMenu");
 		

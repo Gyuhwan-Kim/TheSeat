@@ -1,5 +1,7 @@
 package com.star.seat.menu.service;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.web.bind.annotation.RequestParam;
@@ -9,7 +11,7 @@ import com.star.seat.store.dto.StoreDto;
 
 public interface MenuService {
 	// 해당 매장의 메뉴 정보를 가져오는 method (사장님)
-	public void getMenuList(StoreDto sDto, HttpServletRequest request);
+	public List<MenuDto> getMenuList(String email, StoreDto sDto);
 
 	// 해당 매장의 메뉴 정보를 가져오는 method (유저)
 	public void getMenuList_user(StoreDto sDto, HttpServletRequest request);

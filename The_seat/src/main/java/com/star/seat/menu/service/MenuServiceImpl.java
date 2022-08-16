@@ -24,29 +24,14 @@ public class MenuServiceImpl implements MenuService{
 	@Autowired
 	private StoreDao sDao;
 	
-	// 해당 매장의 메뉴 정보를 가져오는 method (사장님)
+	// 해당 매장의 메뉴 정보를 가져오는 method (매장 관리 페이지)
 	@Override
-	public void getMenuList(StoreDto sDto, HttpServletRequest request) {
-		String email=(String)request.getSession().getAttribute("email");
-		String category=sDto.getCategory();
+	public List<MenuDto> getMenuList(String email, StoreDto sDto) {
 		sDto.setOwner(email);
 
-		sDto=sDao.getMyStore_num(sDto);
-		MenuDto mDto=new MenuDto();
-		mDto.setStoreNum(sDto.getNum());
-		mDto.setCategory(category);
-		//List<MenuDto> list=dao.getMenuList(sDto);
-		Map<String, Object> map=new HashMap<>();
-		map.put("sDto", sDto);
-		map.put("mDto", mDto);
-		List<MenuDto> list=null;
-		if(category!=null) {
-			list=dao.getMenuList(map);
-		} else if(category==null){
-			list=dao.getMenuList2(sDto);
-		}
-		request.setAttribute("menuList", list);
-		request.setAttribute("storeData", sDto);
+		// 요청 시 넘겨받은 매장의 DB 번호와 email 값으로 해당 매장의 메뉴 정보를 불러온다.
+
+		return dao.getMenuList(sDto);
 	}
 	
 	// 해당 매장의 메뉴 정보를 가져오는 method (유저)

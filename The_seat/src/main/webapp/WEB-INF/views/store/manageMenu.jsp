@@ -22,10 +22,10 @@
                 <section class="menu__category mt-4">
                     <ul id="categories">
                         <li>
-                            <a href="${pageContext.request.contextPath}/store/manageMenu.do?num=${dto.num}&storeName=${dto.storeName}">전체</a></li>
+                            <a href="${pageContext.request.contextPath}/store/manageMenu.do?num=${storeNum}">전체</a></li>
                         <c:forEach var="tmp" items="${categoryList }" varStatus="status">
-			            	<li data-num="${dto.num }" data-num2="${status.index }" class="category">
-			            	<a href="${pageContext.request.contextPath}/store/manageMenu.do?num=${dto.num}&storeName=${dto.storeName}&category=${tmp}">${tmp }</a></li>
+			            	<li data-num="${storeNum }" data-num2="${status.index }" class="category">
+			            	<a href="${pageContext.request.contextPath}/store/manageMenu.do?num=${storeNum}&category=${tmp}">${tmp }</a></li>
 			            </c:forEach>
                     </ul>
                 <button id="categoryBtn" style="color:rgb(253, 197, 14); font-weight: 500;" data-bs-toggle="modal" data-bs-target="#modal-categoryBtn">카테고리 추가</button>
@@ -80,11 +80,11 @@
                     </c:forEach>
                 </article>
                 <aside class="aside">
-			        <button onclick="location.href='${pageContext.request.contextPath}/store/myStore.do?num=${num}'">매장 정보</button>
+			        <button onclick="location.href='${pageContext.request.contextPath}/store/myStore.do?num=${storeNum}'">매장 정보</button>
 			        <button onclick="location.href='#'">메뉴 관리</button>
-			        <button onclick="location.href='${pageContext.request.contextPath}/store/storeReview.do?num=${num}'">리뷰 관리</button>
-			        <button onclick="location.href='${pageContext.request.contextPath}/store/storeOrder.do?num=${num}'">주문 확인</button>
-			        <button onclick="location.href='${pageContext.request.contextPath}/store/storeSeat.do?num=${num}'">자리 관리</button>
+			        <button onclick="location.href='${pageContext.request.contextPath}/store/storeReview.do?num=${storeNum}'">리뷰 관리</button>
+			        <button onclick="location.href='${pageContext.request.contextPath}/store/storeOrder.do?num=${storeNum}'">주문 확인</button>
+			        <button onclick="location.href='${pageContext.request.contextPath}/store/storeSeat.do?num=${storeNum}'">자리 관리</button>
 			    </aside>
 
         <!--------------------------------------- 메뉴 등록 모달창 ------------------------------>
@@ -103,7 +103,7 @@
 	                    </a>
 	                    <p><strong>👆🏼 클릭하여 이미지를 넣어주세요!</strong></p>
                         
-                        <input type="hidden" name="num" value="${storeDBNum }" />
+                        <input type="hidden" name="num" value="${storeNum }" />
                         <input class="form-control" type="file" name="imageFile" id="image" style="visibility:hidden; margin:0;">
                         <input class="form-control" type="text" name="menuName" id="menuname" placeholder="상품명" required="required">
                         <input class="form-control" type="text" name="price" id="menuprice" placeholder="상품가격">
@@ -131,9 +131,9 @@
                     <button id="modal-close" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body menu__add-modal">
-                    <form data-num="${dto.num }" id="addCategoryForm" action="${pageContext.request.contextPath}/store/addCategory.do" method="post">                 
+                    <form data-num="${storeNum }" id="addCategoryForm" action="${pageContext.request.contextPath}/store/addCategory.do" method="post">                 
                         <label class="form-label mb-4" for="category" style="font-weight: 500;">추가할 카테고리 이름</label>
-                        <input type="hidden" name="num" value="${storeDBNum}" />
+                        <input type="hidden" name="num" value="${storeNum}" />
                         <input class="form-control" type="text" id="inputCategory" name="category"/>
                         <button id="addCategory" type="submit" class="submitBtn mt-4">완료</button>
                     </form>
@@ -194,7 +194,7 @@
 			}).then(function(data){
 				if(data.beAdded){
 					alert("메뉴가 추가되었습니다.");
-					location.href="${pageContext.request.contextPath}/store/manageMenu.do?num=${storeData.num}&storeName=${storeData.storeName}";
+					location.href="${pageContext.request.contextPath}/store/manageMenu.do?num=${storeNum}";
 				}
 			});	
 		}
@@ -215,7 +215,7 @@
 					return response.json();
 				}).then(function(data){
 					if(data.beDeleted){
-						location.href="${pageContext.request.contextPath}/store/manageMenu.do?num=${storeData.num}&storeName=${storeData.storeName}";
+						location.href="${pageContext.request.contextPath}/store/manageMenu.do?num=${storeNum}";
 					}
 				});	
 			}
@@ -224,8 +224,7 @@
 	
 	//해당 매장의 메뉴를 best로 설정 및 취소하는 method
 	let icons = document.querySelectorAll('.starIcon');
-	let storeNum=${storeDBNum};
-	let storeName="${storeDBName}";
+	let storeNum=${storeNum};
 	
 	for (let i=0; i < icons.length; i++) {
 		icons[i].addEventListener('click', ()=> {
@@ -234,7 +233,7 @@
 			let num=icons[i].getAttribute("data-num");
 			if(!beFilled){
 				let best="yes";
-				let obj={num, best, storeNum, storeName};
+				let obj={num, best, storeNum};
 				ajaxPromise("${pageContext.request.contextPath}/store/bestOnOff.do", "post", obj)
 				.then(function(response){
 					return response.json();
@@ -247,7 +246,7 @@
 				});
 			} else {
 				let best="no";
-				let obj={num, best, storeNum, storeName};
+				let obj={num, best, storeNum};
 				ajaxPromise("${pageContext.request.contextPath}/store/bestOnOff.do", "post", obj)
 				.then(function(response){
 					return response.json();
@@ -320,12 +319,12 @@
 					newCatOptions=document.querySelectorAll(".categoryOption");
 					
 					// 해당 매장의 DB 번호를 받아서
-					let dataNum=${dto.num};
+					let dataNum=${storeNum};
 					
 					// 새로운 링크 버튼을 만들고 속성과 값을 부여함.
 					let newLink=document.createElement("a");
 					newLink.innerText=category;
-					let path="${pageContext.request.contextPath}/store/manageMenu.do?num=${dto.num}&storeName=${dto.storeName}&category="+category;
+					let path="${pageContext.request.contextPath}/store/manageMenu.do?num=${storeNum}&category="+category;
 					newLink.setAttribute("href", path);
 					
 					// 새로운 태그 버튼을 만들고 속성과 값을 부여함
