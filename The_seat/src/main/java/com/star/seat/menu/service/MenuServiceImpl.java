@@ -1,6 +1,7 @@
 package com.star.seat.menu.service;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,6 +23,103 @@ public class MenuServiceImpl implements MenuService{
 	private MenuDao dao;
 	@Autowired
 	private StoreDao sDao;
+	
+	// 해당 매장의 메뉴 정보를 가져오는 method (사장님)
+	@Override
+	public void getMenuList(StoreDto sDto, HttpServletRequest request) {
+		String email=(String)request.getSession().getAttribute("email");
+		String category=sDto.getCategory();
+		sDto.setOwner(email);
+
+		sDto=sDao.getMyStore_num(sDto);
+		MenuDto mDto=new MenuDto();
+		mDto.setStoreNum(sDto.getNum());
+		mDto.setCategory(category);
+		//List<MenuDto> list=dao.getMenuList(sDto);
+		Map<String, Object> map=new HashMap<>();
+		map.put("sDto", sDto);
+		map.put("mDto", mDto);
+		List<MenuDto> list=null;
+		if(category!=null) {
+			list=dao.getMenuList(map);
+		} else if(category==null){
+			list=dao.getMenuList2(sDto);
+		}
+		request.setAttribute("menuList", list);
+		request.setAttribute("storeData", sDto);
+	}
+	
+	// 해당 매장의 메뉴 정보를 가져오는 method (유저)
+	@Override
+	public void getMenuList_user(StoreDto sDto, HttpServletRequest request) {
+		List<MenuDto> list=dao.getMenuList_num(sDto);
+		request.setAttribute("menuList", list);
+	}
+	
+	// 매장 카테고리를 추가하는 method
+	@Override
+	public void addCategory(StoreDto dto) {
+		// 해당 매장에 해당하는 DB 번호를 받아서 dto에 넣고
+		
+		// DB에서 해당 번호의 정보를 받아옴.
+		StoreDto myDto=sDao.getMyStore_num(dto);
+		
+		// 만약 DB에 매장 tag 정보가 없다면
+		if(myDto.getCategory()==null) {
+			// 이스터 에그를 추가해주고
+			myDto.setCategory("easter egg");
+		}
+		
+		// DB의 내용을 , 로 구분해서 String array로 만들어주고
+		String[] categories=myDto.getCategory().split(",");
+		// 새로운 array를 만들어서 거기에 하나씩 담아줌.
+		List<String> list=new ArrayList<>();
+		for(int i=0; i<categories.length; i++) {
+			list.add(categories[i]);
+		}
+		
+		// 입력한 tag의 정보를 읽어서
+		String newCategory=dto.getCategory();
+
+		// array에 담아준 다음
+		list.add(newCategory);
+		// array 각 성분이 , 로 구분된 String으로 바꿔서
+		String strList=String.join(",", list);
+		
+		// DB에서 받아온 dto에 넣은 다음에
+		myDto.setCategory(strList);
+		// dto를 넣어서 update
+		dao.addCategory(myDto);
+	}
+	
+	// 매장 메뉴의 카테고리를 삭제하는 method
+	@Override
+	public void deleteCategory(StoreDto dto) {
+		// 해당 매장에 해당하는 DB 번호를 받아서 dto에 넣고
+		
+		// DB에서 해당 번호의 정보를 받아옴.
+		StoreDto myDto=sDao.getMyStore_num(dto);
+		
+		// DB의 내용을 , 로 구분해서 String array로 만들어주고
+		String[] categories=myDto.getCategory().split(",");
+		// 새로운 array를 만들어서 거기에 하나씩 담아줌.
+		List<String> list=new ArrayList<>();
+		for(int i=0; i<categories.length; i++) {
+			list.add(categories[i]);
+		}
+		
+		// 입력한 tag의 정보를 읽어서
+		String category=dto.getCategory();
+		// array에서 없앤다음
+		list.remove(list.indexOf(category));
+
+		// array 각 성분이 , 로 구분된 String으로 바꿔서
+		String strList=String.join(",", list);
+		// DB에서 받아온 dto에 넣은 다음에
+		myDto.setCategory(strList);
+		// dto를 넣어서 update
+		dao.deleteCategory(myDto);
+	}
 	
 	// 해당 매장의 메뉴 정보를 추가하는 method
 	@Override
@@ -63,38 +161,6 @@ public class MenuServiceImpl implements MenuService{
 		dto.setMenuImage("/upload/"+saveImageName);
 		
 		dao.addMenu(dto);
-	}
-	
-	// 해당 매장의 메뉴 정보를 가져오는 method (사장님)
-	@Override
-	public void getMenuList(StoreDto sDto, HttpServletRequest request) {
-		String email=(String)request.getSession().getAttribute("email");
-		String category=sDto.getCategory();
-		sDto.setOwner(email);
-
-		sDto=sDao.getMyStore_num(sDto);
-		MenuDto mDto=new MenuDto();
-		mDto.setStoreNum(sDto.getNum());
-		mDto.setCategory(category);
-		//List<MenuDto> list=dao.getMenuList(sDto);
-		Map<String, Object> map=new HashMap<>();
-		map.put("sDto", sDto);
-		map.put("mDto", mDto);
-		List<MenuDto> list=null;
-		if(category!=null) {
-			list=dao.getMenuList(map);
-		} else if(category==null){
-			list=dao.getMenuList2(sDto);
-		}
-		request.setAttribute("menuList", list);
-		request.setAttribute("storeData", sDto);
-	}
-	
-	// 해당 매장의 메뉴 정보를 가져오는 method (유저)
-	@Override
-	public void getMenuList_user(StoreDto sDto, HttpServletRequest request) {
-		List<MenuDto> list=dao.getMenuList_num(sDto);
-		request.setAttribute("menuList", list);
 	}
 	
 	// 해당 매장의 메뉴 정보를 삭제하는 method

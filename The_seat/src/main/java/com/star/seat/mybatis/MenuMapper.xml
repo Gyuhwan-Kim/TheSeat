@@ -73,4 +73,18 @@
 		set storeName=#{storeName}
 		where storeNum=#{num}
 	</update>
+	
+	<!-- 매장 카테고리를 추가하는 method -->
+	<update id="addCategory" parameterType="storeDto">
+		update store
+		set category=#{category}
+		where num=#{num}
+	</update>
+	
+	<!-- 매장 정보를 삭제하는 method -->
+	<delete id="deleteStore" parameterType="storeDto">
+		delete
+		from store
+		where num=#{num} and owner=#{owner}
+	</delete>
 </mapper>

@@ -47,6 +47,32 @@ public class MenuController {
 		return mView;
 	}
 	
+	// 매장 메뉴 카테고리 추가하는 method
+	@RequestMapping(value = "/store/addCategory.do", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> addCategory(StoreDto dto){
+		
+		service.addCategory(dto);
+		
+		Map<String, Object> map=new HashMap<>();
+		map.put("beAdded", true);
+		
+		return map;
+	}
+	
+	// 매장 메뉴의 카테고리를 삭제하는 method
+	@RequestMapping(value = "/store/deleteCategory.do", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> deleteCategory(StoreDto dto){
+		
+		service.deleteCategory(dto);
+		
+		Map<String, Object> map=new HashMap<>();
+		map.put("beDeleted", true);
+		
+		return map;
+	}
+	
 	// 해당 매장의 메뉴를 추가하는 method
 	@RequestMapping(value = "/store/addMenu.do", method = RequestMethod.POST)
 	@ResponseBody
