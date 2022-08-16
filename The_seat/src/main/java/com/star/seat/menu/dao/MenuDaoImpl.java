@@ -15,23 +15,11 @@ public class MenuDaoImpl implements MenuDao{
 	@Autowired
 	private SqlSession session;
 
-	/*
 	// 해당 매장의 메뉴 정보를 가져오는 method (사장님)
 	@Override
 	public List<MenuDto> getMenuList(StoreDto dto) {
-		
-		return session.selectList("getMenuList", dto);
-	}
-	*/
-	@Override
-	public List<MenuDto> getMenuList(Map<String, Object> map) {
-		
-		return session.selectList("getMenuList", map);
-	}
-	@Override
-	public List<MenuDto> getMenuList2(StoreDto dto) {
 
-		return session.selectList("getMenuList2", dto);
+		return session.selectList("getMenuList", dto);
 	}
 	
 	// 해당 매장의 메뉴 정보를 가져오는 method (유저)

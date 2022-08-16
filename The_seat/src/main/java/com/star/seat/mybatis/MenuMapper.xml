@@ -8,22 +8,21 @@
 		values(storeMenu_seq.nextval, #{storeNum},#{storeName}, #{menuImage}, #{menuName}, #{content}, #{price}, 'no', #{category})
 	</insert>
 	
-	<!-- 해당 매장의 메뉴 정보를 가져오는 method (사장님)-->
-	<select id="getMenuList" parameterType="hashmap" resultType="menuDto">
+	<!-- 해당 매장의 메뉴 정보를 가져오는 method (사장님)-->	
+	<select id="getMenuList" parameterType="storeDto" resultType="menuDto">
 		select storeMenu.num as num, storeMenu.storeName as storeName, menuImage, menuName, content, price, best, storeMenu.category as category
 		from storeMenu
 		inner join store
-		on store.num=storeMenu.storeNum
-		where store.owner=#{sDto.owner} and store.num=#{sDto.num}
-		and storeMenu.category=#{mDto.category}
-	</select>
-	
-	<select id="getMenuList2" parameterType="storeDto" resultType="menuDto">
-		select storeMenu.num as num, storeMenu.storeName as storeName, menuImage, menuName, content, price, best, storeMenu.category as category
-		from storeMenu
-		inner join store
-		on store.num=storeMenu.storeNum
-		where store.owner=#{owner} and store.num=#{num}
+		on store.num=storeMenu.storeNum		
+		<choose>
+			<when test="category eq null">
+				where store.owner=#{owner} and store.num=#{num}
+			</when>
+			<when test="category neq null">
+				where store.owner=#{owner} and store.num=#{num}
+				and storeMenu.category=#{category}
+			</when>
+		</choose>
 	</select>
 	
 	<!-- 해당 매장의 메뉴 정보를 가져오는 method (유저)-->

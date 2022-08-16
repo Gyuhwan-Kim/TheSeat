@@ -9,9 +9,7 @@ import com.star.seat.store.dto.StoreDto;
 public interface MenuDao {
 	
 	// 해당 매장의 메뉴 정보를 가져오는 method (사장님)
-	//public List<MenuDto> getMenuList(StoreDto dto);
-	public List<MenuDto> getMenuList(Map<String, Object> map);
-	public List<MenuDto> getMenuList2(StoreDto dto);
+	public List<MenuDto> getMenuList(StoreDto dto);
 	
 	// 해당 매장의 메뉴 정보를 가져오는 method (유저)
 	public List<MenuDto> getMenuList_num(StoreDto dto);
