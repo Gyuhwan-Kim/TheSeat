@@ -32,7 +32,6 @@ create sequence store_seq;
 CREATE TABLE storeMenu(
 	num number primary key,
 	storeNum number,
-	storeName varchar2(100) not null,
 	menuImage clob,
 	menuName varchar2(100) not null,
 	content clob,

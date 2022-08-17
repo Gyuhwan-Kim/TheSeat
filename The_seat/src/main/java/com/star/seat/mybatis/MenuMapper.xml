@@ -4,13 +4,13 @@
 	<!-- 해당 매장의 메뉴 정보를 추가하는 method -->
 	<insert id="addMenu" parameterType="menuDto">
 		insert into storeMenu
-		(num, storeNum, storeName, menuImage, menuName, content, price, best, category)
-		values(storeMenu_seq.nextval, #{storeNum},#{storeName}, #{menuImage}, #{menuName}, #{content}, #{price}, 'no', #{category})
+		(num, storeNum, menuImage, menuName, content, price, best, category)
+		values(storeMenu_seq.nextval, #{storeNum}, #{menuImage}, #{menuName}, #{content}, #{price}, 'no', #{category})
 	</insert>
 	
 	<!-- 해당 매장의 메뉴 정보를 가져오는 method (사장님)-->	
 	<select id="getMenuList" parameterType="storeDto" resultType="menuDto">
-		select storeMenu.num as num, storeMenu.storeName as storeName, menuImage, menuName, content, price, best, storeMenu.category as category
+		select storeMenu.num as num, menuImage, menuName, content, price, best, storeMenu.category as category
 		from storeMenu
 		inner join store
 		on store.num=storeMenu.storeNum		
