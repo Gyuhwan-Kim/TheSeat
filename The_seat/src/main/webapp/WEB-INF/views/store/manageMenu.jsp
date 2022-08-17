@@ -103,7 +103,7 @@
 	                    </a>
 	                    <p><strong>👆🏼 클릭하여 이미지를 넣어주세요!</strong></p>
                         
-                        <input type="hidden" name="num" value="${storeNum }" />
+                        <input type="hidden" name="storeNum" value="${storeNum }" />
                         <input class="form-control" type="file" name="imageFile" id="image" style="visibility:hidden; margin:0;">
                         <input class="form-control" type="text" name="menuName" id="menuname" placeholder="상품명" required="required">
                         <input class="form-control" type="text" name="price" id="menuprice" placeholder="상품가격">
@@ -192,9 +192,15 @@
 			.then(function(response){
 				return response.json();
 			}).then(function(data){
-				if(data.beAdded){
-					alert("메뉴가 추가되었습니다.");
-					location.href="${pageContext.request.contextPath}/store/manageMenu.do?num=${storeNum}";
+				if(data.authority){
+					if(data.isAdded){
+						alert("메뉴가 추가되었습니다.");
+						location.href="${pageContext.request.contextPath}/store/manageMenu.do?num=${storeNum}";
+					} else {
+						alert("메뉴를 추가할 수 없습니다. 문제가 반복된다면 문의 바랍니다.");
+					}
+				} else {
+					alert("메뉴를 추가할 권한이 없습니다.");
 				}
 			});	
 		}

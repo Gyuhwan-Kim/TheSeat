@@ -69,14 +69,11 @@ public class MenuController {
 	// 해당 매장의 메뉴를 추가하는 method
 	@RequestMapping(value = "/store/addMenu.do", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> addMenu(@RequestParam int num, MenuDto dto, HttpServletRequest request) {
+	public Map<String, Object> addMenu(MenuDto dto, HttpServletRequest request) {
+		String email = (String)request.getSession().getAttribute("email");
+		String realPath = request.getServletContext().getRealPath("/upload");
 		
-		service.addMenu(num, dto, request);
-		
-		Map<String, Object> map=new HashMap<>();
-		map.put("beAdded", true);
-		
-		return map;
+		return service.addMenu(dto, email, realPath);
 	}
 	
 	// 해당 매장의 메뉴 정보를 삭제하는 method

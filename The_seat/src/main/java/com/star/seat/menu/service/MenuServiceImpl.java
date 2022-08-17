@@ -121,44 +121,56 @@ public class MenuServiceImpl implements MenuService{
 	
 	// 해당 매장의 메뉴 정보를 추가하는 method
 	@Override
-	public void addMenu(int num, MenuDto dto, HttpServletRequest request) {
+	public Map<String, Object> addMenu(MenuDto dto, String email, String realPath) {
+		// 매장 정보를 담을 sDto를 만들어 
+		StoreDto sDto = new StoreDto();
+		// dto의 storeNum과 session의 email을 담아
+		sDto.setNum(dto.getStoreNum());
+		sDto.setOwner(email);
 		
-		StoreDto sDto=new StoreDto();
-		sDto.setNum(num);
-		sDto=sDao.getMyStore_num(sDto);
-		
-		dto.setStoreNum(num);
-		dto.setStoreName(sDto.getStoreName());
-		
-		// 파일을 저장할 실제 경로 얻어오기
-		String realPath=request.getServletContext().getRealPath("/upload");
-		// 저장할 파일의 상제 경로
-		String filePath=realPath+File.separator;
-		// 해당 경로에 접근할 수 있는 File 객체 생성
-		File f=new File(realPath);
-		// 만일 폴더가 존재하지 않으면 만듦
-		if(!f.exists()) {
-			f.mkdir();
-		}
-		
-		// upload할 image 정보
-		MultipartFile imageFile=dto.getImageFile();
-		// 원본 파일 명
-		String orgImageName=imageFile.getOriginalFilename();
-		// 저장할 파일 명
-		String saveImageName=System.currentTimeMillis()+orgImageName;
-		
-		try {
-			// folder에 image를 저장
-			imageFile.transferTo(new File(filePath+saveImageName));
+		Map<String, Object> map=new HashMap<>();
+		// DB의 data를 얻어온 것이 null이 아닐 때 (= 매장을 관리하는 사람이 맞을 때) logic 수행
+		if(sDao.getMyStore(sDto) != null) {
+			map.put("authority", true);
+			// 저장할 파일의 상제 경로
+			String filePath=realPath+File.separator;
+			// 해당 경로에 접근할 수 있는 File 객체 생성
+			File f=new File(realPath);
+			// 만일 폴더가 존재하지 않으면 만듦
+			if(!f.exists()) {
+				f.mkdir();
+			}
 			
-		} catch(Exception e) {
-			e.printStackTrace();
+			// upload할 image 정보
+			MultipartFile imageFile=dto.getImageFile();
+			// 원본 파일 명
+			String orgImageName=imageFile.getOriginalFilename();
+			// 저장할 파일 명
+			String saveImageName=System.currentTimeMillis()+orgImageName;
+			
+			try {
+				// folder에 image를 저장
+				imageFile.transferTo(new File(filePath+saveImageName));
+				
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+			// dto에는 storeNum, file, menu name, price, content, category 가 들어있다.
+			// file은 이미 저장했고, 경로만 dto에 담에
+			dto.setMenuImage("/upload/"+saveImageName);
+			
+			// DB 정보를 추가한다.
+			if(dao.addMenu(dto) == 1) {
+				map.put("isAdded", true);
+			} else {
+				map.put("isAdded", false);
+			}
+		} else {
+			map.put("authority", false);
 		}
 		
-		dto.setMenuImage("/upload/"+saveImageName);
-		
-		dao.addMenu(dto);
+		return map;
 	}
 	
 	// 해당 매장의 메뉴 정보를 삭제하는 method

@@ -5,8 +5,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.springframework.web.bind.annotation.RequestParam;
-
 import com.star.seat.menu.dto.MenuDto;
 import com.star.seat.store.dto.StoreDto;
 
@@ -24,7 +22,7 @@ public interface MenuService {
 	public Map<String, Object> deleteCategory(String email, StoreDto dto);
 	
 	// 해당 매장의 메뉴 정보를 추가하는 method
-	public void addMenu(int num, MenuDto dto, HttpServletRequest request);
+	public Map<String, Object> addMenu(MenuDto dto, String email, String realPath);
 	
 	// 해당 매장의 메뉴 정보를 삭제하는 method
 	public void deleteMenu(MenuDto dto);

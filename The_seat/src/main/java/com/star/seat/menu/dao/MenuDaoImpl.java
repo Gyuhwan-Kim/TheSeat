@@ -45,8 +45,8 @@ public class MenuDaoImpl implements MenuDao{
 	
 	// 해당 매장의 메뉴 정보를 추가하는 method
 	@Override
-	public void addMenu(MenuDto dto) {
-		session.insert("addMenu", dto);
+	public int addMenu(MenuDto dto) {
+		return session.insert("addMenu", dto);
 	}
 	
 	// 해당 매장의 메뉴 정보를 삭제하는 method

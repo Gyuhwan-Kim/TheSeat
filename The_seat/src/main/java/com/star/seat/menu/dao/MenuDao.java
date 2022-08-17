@@ -23,7 +23,7 @@ public interface MenuDao {
 	public int deleteCategory(StoreDto dto);
 	
 	// 해당 매장의 메뉴 정보를 추가하는 method
-	public void addMenu(MenuDto dto);
+	public int addMenu(MenuDto dto);
 	
 	// 해당 매장의 메뉴 정보를 삭제하는 method
 	public void deleteMenu(MenuDto dto);
