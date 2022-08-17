@@ -66,13 +66,6 @@
 		where storeNum=#{storeNum}
 	</delete>
 	
-	<!-- 해당 매장의 이름이 변경되면 메뉴 table의 메뉴에서도 storeName을 바꿔주는 method -->
-	<update id="updateStoreOfMenu" parameterType="storeDto">
-		update storeMenu
-		set storeName=#{storeName}
-		where storeNum=#{num}
-	</update>
-	
 	<!-- 매장 카테고리를 추가하는 method -->
 	<update id="addCategory" parameterType="storeDto">
 		update store
