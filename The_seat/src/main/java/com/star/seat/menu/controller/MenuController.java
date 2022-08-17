@@ -88,16 +88,9 @@ public class MenuController {
 	// 해당 매장의 메뉴를 best로 설정 및 취소하는 method
 	@RequestMapping(value = "/store/bestOnOff.do", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> bestOnOff(MenuDto dto, HttpServletRequest request){
-		
-		boolean beFour=service.bestOnOff(dto, request);
-		Map<String, Object> map=new HashMap<>();
-		if(beFour) {
-			map.put("beSwitched", false);
-		} else {
-			map.put("beSwitched", true);
-		}
-		
-		return map;
+	public Map<String, Object> bestOnOff(MenuDto dto, HttpSession session){
+		String email = (String)session.getAttribute("email");
+
+		return service.bestOnOff(email, dto);
 	}
 }

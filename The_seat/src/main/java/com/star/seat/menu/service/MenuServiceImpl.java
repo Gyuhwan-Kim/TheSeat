@@ -199,27 +199,38 @@ public class MenuServiceImpl implements MenuService{
 	
 	// 해당 매장의 메뉴를 best로 설정 및 취소하는 method
 	@Override
-	public boolean bestOnOff(MenuDto dto, HttpServletRequest request) {
-		String email=(String)request.getSession().getAttribute("email");
-		StoreDto sDto=new StoreDto();
-		int storeNum=Integer.parseInt(request.getParameter("storeNum"));
-		String storeName=request.getParameter("storeName");
-		sDto.setNum(storeNum);
-		sDto.setStoreName(storeName);
+	public Map<String, Object> bestOnOff(String email, MenuDto dto) {
+		// StoreDto를 만들어 전달받은 매장의 번호와 접속 email data를 넣어
+		StoreDto sDto = new StoreDto();
+		sDto.setNum(dto.getStoreNum());
 		sDto.setOwner(email);
 		
-		int bestCount=(dao.bestCount(sDto));
-		boolean beFour=false;
-		if(bestCount==4 && dto.getBest().equals("yes")) {
-			beFour=true;
-		} else if(bestCount==4 && dto.getBest().equals("no")){
-			beFour=false;
+		Map<String, Object> map=new HashMap<>();
+		// DB에 best로 설정된 매장의 개수를 가져와서
+		int bestCount = dao.bestCount(sDto);
+		// best 메뉴가 4개인지 여부를 기본적으로 false로 설정 후
+		boolean isFour = false;
+		// best 메뉴가 4개인데 전달받은 data가 yes일 경우 (4개에서 못늘림)
+		if(bestCount == 4 && dto.getBest().equals("yes")) {
+			isFour = true;
+			// best 메뉴가 4개지만 전달받은 data가 no 인 경우 (4개에서 줄이기)
+		} else if(bestCount == 4 && dto.getBest().equals("no")){
+			isFour = false;
 			dao.bestOnOff(dto);
-		} else if(bestCount<4) {
+			// best 메뉴가 4개 미만인 경우 (늘리거나 줄일 수 있음)
+		} else if(bestCount < 4) {
+			isFour = false;
 			dao.bestOnOff(dto);
-			beFour=false;
+		}
+
+		// best 메뉴가 4개인지 여부에 따라 다르게 return
+		if(isFour) {
+			// 4개면 못바꾸게 false return
+			map.put("isSwitched", false);
+		} else {
+			map.put("isSwitched", true);
 		}
 		
-		return beFour;
+		return map;
 	}
 }

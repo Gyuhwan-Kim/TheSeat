@@ -28,5 +28,5 @@ public interface MenuService {
 	public Map<String, Object> deleteMenu(String email, MenuDto dto);
 	
 	// 해당 매장의 메뉴를 best로 설정 및 취소하는 method
-	public boolean bestOnOff(MenuDto dto, HttpServletRequest request);
+	public Map<String, Object> bestOnOff(String email, MenuDto dto);
 }

@@ -252,9 +252,9 @@
 				.then(function(response){
 					return response.json();
 				}).then(function(data){
-					if(data.beSwitched==true){
+					if(data.isSwitched){
 						icons[i].classList.toggle('fas');
-					} else if(data.beSwitched==false){
+					} else {
 						alert("베슽흐 메뉴는 최대 4개까지만 등록할 수 있습니다.");
 					}
 				});
