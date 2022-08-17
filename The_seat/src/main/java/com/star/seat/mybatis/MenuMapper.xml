@@ -54,9 +54,9 @@
 		    	(select *
 		    	from storeMenu
 		    	inner join store
-		    	on store.storeName=storeMenu.storeName
+		    	on store.num=storeMenu.storeNum
 		    	where best='yes' and store.num=#{num} 
-		    	and store.storeName=#{storeName} and store.owner=#{owner}) result1)
+		    	and store.owner=#{owner}) result1)
 	</select>
 	
 	<!-- 해당 매장의 메뉴 전체 정보를 삭제하는 method -->
