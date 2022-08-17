@@ -51,14 +51,10 @@ public class MenuController {
 	// 매장 메뉴 카테고리 추가하는 method
 	@RequestMapping(value = "/store/addCategory.do", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> addCategory(StoreDto dto){
+	public Map<String, Object> addCategory(StoreDto dto, HttpSession session){
+		String email = (String)session.getAttribute("email");
 		
-		service.addCategory(dto);
-		
-		Map<String, Object> map=new HashMap<>();
-		map.put("beAdded", true);
-		
-		return map;
+		return service.addCategory(email, dto);
 	}
 	
 	// 매장 메뉴의 카테고리를 삭제하는 method

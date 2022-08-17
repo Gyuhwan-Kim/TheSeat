@@ -16,7 +16,7 @@ public interface MenuDao {
 	
 	// 매장 카테고리를 추가하는 method
 	// 사실상 update를 이용하는 것
-	public void addCategory(StoreDto dto);
+	public int addCategory(StoreDto dto);
 	
 	// 매장 카테고리를 추가하는 method
 	// 사실상 update를 이용하는 것

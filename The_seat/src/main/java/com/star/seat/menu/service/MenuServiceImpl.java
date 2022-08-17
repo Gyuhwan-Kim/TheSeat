@@ -43,38 +43,41 @@ public class MenuServiceImpl implements MenuService{
 	
 	// 매장 카테고리를 추가하는 method
 	@Override
-	public void addCategory(StoreDto dto) {
-		// 해당 매장에 해당하는 DB 번호를 받아서 dto에 넣고
-		
-		// DB에서 해당 번호의 정보를 받아옴.
-		StoreDto myDto=sDao.getMyStore_num(dto);
-		
-		// 만약 DB에 매장 tag 정보가 없다면
-		if(myDto.getCategory()==null) {
-			// 이스터 에그를 추가해주고
-			myDto.setCategory("easter egg");
-		}
-		
-		// DB의 내용을 , 로 구분해서 String array로 만들어주고
-		String[] categories=myDto.getCategory().split(",");
-		// 새로운 array를 만들어서 거기에 하나씩 담아줌.
-		List<String> list=new ArrayList<>();
-		for(int i=0; i<categories.length; i++) {
-			list.add(categories[i]);
-		}
-		
+	public Map<String, Object> addCategory(String email, StoreDto dto) {
+		// dto에는 해당 매장 번호가 있다. 추가적으로 email 정보를 넣어준다.
+		dto.setOwner(email);
 		// 입력한 tag의 정보를 읽어서
-		String newCategory=dto.getCategory();
-
-		// array에 담아준 다음
-		list.add(newCategory);
-		// array 각 성분이 , 로 구분된 String으로 바꿔서
-		String strList=String.join(",", list);
+		String newCategory = dto.getCategory();
+		
+		// DB에서 해당 번호의 매장 정보로 dto를 갱신한 뒤
+		dto = sDao.getMyStore(dto);
+		
+		// 우선 기본값을 빈 String으로 함 (null 인 경우)
+		String strCategories = "";
+		// DB의 내용이 null이 아니면 위의 값으로 갱신하되, dummy data를 넣어준다
+		if(dto.getCategory() != null) {
+			strCategories = dto.getCategory() + ",empty";
+		}
+		// dummy data를 포함한 String array로 변형
+		// 길이를 +1 하는 일종의 눈속임
+		String[] categories = strCategories.split(",");
+		// String array의 마지막 dummy 자리에 추가한 category 대입
+		categories[categories.length-1] = newCategory;
+		// array 각 성분이 , 로 구분된 String으로 바꿔서 갱신
+		strCategories = String.join(",", categories);
 		
 		// DB에서 받아온 dto에 넣은 다음에
-		myDto.setCategory(strList);
+		dto.setCategory(strCategories);
+		
+		Map<String, Object> map=new HashMap<>();
 		// dto를 넣어서 update
-		dao.addCategory(myDto);
+		if(dao.addCategory(dto) == 1) {
+			map.put("isAdded", true);
+		} else {
+			map.put("isAdded", false);
+		}
+
+		return map;
 	}
 	
 	// 매장 메뉴의 카테고리를 삭제하는 method

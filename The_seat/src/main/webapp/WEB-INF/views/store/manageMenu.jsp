@@ -306,7 +306,7 @@
 				let newCategory=document.querySelector("#inputCategory");
 				// 나중에 쓸 값
 				let newCategory2=document.querySelector("#inputCategory").value;
-				if(data.beAdded){
+				if(data.isAdded){
 					// 카테고리 추가 input 창을 reset함
 					newCategory.value="";
 					// 메뉴 등록 모달 창에 select 추가
@@ -368,8 +368,11 @@
 						document.querySelector("#addBox").prepend(btn);	
 					}
 		
+					alert("카테고리를 추가했습니다.");
 					// 모달 창을 닫는다.
 					document.querySelector("#modal-close").click();
+				} else {
+					alert("카테고리를 추가하지 못했습니다. 문제가 반복된다면 문의 바랍니다.");
 				}
 			});
 		}

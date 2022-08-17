@@ -1,6 +1,7 @@
 package com.star.seat.menu.service;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -17,7 +18,7 @@ public interface MenuService {
 	public void getMenuList_user(StoreDto sDto, HttpServletRequest request);
 	
 	// 매장 카테고리를 추가하는 method
-	public void addCategory(StoreDto dto);
+	public Map<String, Object> addCategory(String email, StoreDto dto);
 	
 	// 매장 메뉴의 카테고리를 삭제하는 method
 	public void deleteCategory(StoreDto dto);

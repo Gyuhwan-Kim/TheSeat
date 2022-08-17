@@ -32,8 +32,8 @@ public class MenuDaoImpl implements MenuDao{
 	// 매장 카테고리를 추가하는 method
 	// 사실상 update를 이용하는 것
 	@Override
-	public void addCategory(StoreDto dto) {
-		session.update("addCategory", dto);
+	public int addCategory(StoreDto dto) {
+		return session.update("addCategory", dto);
 	}
 	
 	// 매장 카테고리를 추가하는 method
