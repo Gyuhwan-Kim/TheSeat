@@ -82,31 +82,41 @@ public class MenuServiceImpl implements MenuService{
 	
 	// 매장 메뉴의 카테고리를 삭제하는 method
 	@Override
-	public void deleteCategory(StoreDto dto) {
-		// 해당 매장에 해당하는 DB 번호를 받아서 dto에 넣고
+	public Map<String, Object> deleteCategory(String email, StoreDto dto) {
+		// dto에는 해당 매장 번호가 있다. 추가적으로 email 정보를 넣어준다.
+		dto.setOwner(email);
+		// 삭제할 tag의 정보를 읽어서
+		String category=dto.getCategory();
 		
-		// DB에서 해당 번호의 정보를 받아옴.
-		StoreDto myDto=sDao.getMyStore_num(dto);
+		// DB에서 해당 번호의 매장 정보로 dto를 갱신한 뒤
+		dto = sDao.getMyStore(dto);
 		
 		// DB의 내용을 , 로 구분해서 String array로 만들어주고
-		String[] categories=myDto.getCategory().split(",");
+		String[] categories = dto.getCategory().split(",");
+		
 		// 새로운 array를 만들어서 거기에 하나씩 담아줌.
 		List<String> list=new ArrayList<>();
 		for(int i=0; i<categories.length; i++) {
 			list.add(categories[i]);
 		}
 		
-		// 입력한 tag의 정보를 읽어서
-		String category=dto.getCategory();
 		// array에서 없앤다음
 		list.remove(list.indexOf(category));
 
 		// array 각 성분이 , 로 구분된 String으로 바꿔서
-		String strList=String.join(",", list);
+		String strCategories=String.join(",", list);
 		// DB에서 받아온 dto에 넣은 다음에
-		myDto.setCategory(strList);
+		dto.setCategory(strCategories);
+
+		Map<String, Object> map=new HashMap<>();
 		// dto를 넣어서 update
-		dao.deleteCategory(myDto);
+		if(dao.deleteCategory(dto) == 1) {
+			map.put("isDeleted", true);
+		} else {
+			map.put("isDeleted", false);
+		}
+
+		return map;
 	}
 	
 	// 해당 매장의 메뉴 정보를 추가하는 method

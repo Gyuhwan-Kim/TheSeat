@@ -402,7 +402,7 @@
 					.then(function(response){
 						return response.json();
 					}).then(function(data){
-						if(data.beDeleted){
+						if(data.isDeleted){
 							// 해당 카테고리 버튼과 삭제버튼을 지움.
 							categories[i].remove();
 							deleteBtns[i].remove();
@@ -421,6 +421,10 @@
 									newCatOptions[j].setAttribute("data-num2", j);
 								}	
 							}
+							
+							alert(category + " 카테고리를 삭제했습니다.");
+						} else {
+							alert("카테고리를 삭제할 수 없습니다. 문제가 반복된다면 문의 바랍니다.");
 						}
 					});	
 				}
