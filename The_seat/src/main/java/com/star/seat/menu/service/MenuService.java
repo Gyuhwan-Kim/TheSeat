@@ -25,7 +25,7 @@ public interface MenuService {
 	public Map<String, Object> addMenu(MenuDto dto, String email, String realPath);
 	
 	// 해당 매장의 메뉴 정보를 삭제하는 method
-	public void deleteMenu(MenuDto dto);
+	public Map<String, Object> deleteMenu(String email, MenuDto dto);
 	
 	// 해당 매장의 메뉴를 best로 설정 및 취소하는 method
 	public boolean bestOnOff(MenuDto dto, HttpServletRequest request);

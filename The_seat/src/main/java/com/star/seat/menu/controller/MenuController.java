@@ -79,14 +79,10 @@ public class MenuController {
 	// 해당 매장의 메뉴 정보를 삭제하는 method
 	@RequestMapping("/store/deleteMenu.do")
 	@ResponseBody
-	public Map<String, Object> deleteMenu(MenuDto dto){
+	public Map<String, Object> deleteMenu(MenuDto dto, HttpSession session){
+		String email = (String)session.getAttribute("email");
 		
-		service.deleteMenu(dto);
-		
-		Map<String, Object> map=new HashMap<>();
-		map.put("beDeleted", true);
-		
-		return map;
+		return service.deleteMenu(email, dto);
 	}
 	
 	// 해당 매장의 메뉴를 best로 설정 및 취소하는 method

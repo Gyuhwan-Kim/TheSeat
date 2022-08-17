@@ -180,6 +180,7 @@
 	    }
 	}
 	
+	let storeNum=${storeNum};
 	
 	// 모달에서 메뉴 등록 버튼을 눌렀을 때 동작하는 곳
 	document.querySelector("#menuAddForm").addEventListener("submit", function(e){
@@ -213,15 +214,23 @@
 		deleteBtns[i].addEventListener("click", function(e){
 			e.preventDefault();
 			
-			let menuNum=this.getAttribute("data-num");
+			let num=this.getAttribute("data-num");
+			let obj = {num, storeNum}
 			let wantDel=confirm("이 메뉴를 삭제하시겠습니까?");
 			if(wantDel){
-				ajaxPromise("${pageContext.request.contextPath}/store/deleteMenu.do", "post", "num="+menuNum)
+				ajaxPromise("${pageContext.request.contextPath}/store/deleteMenu.do", "post", obj)
 				.then(function(response){
 					return response.json();
 				}).then(function(data){
-					if(data.beDeleted){
-						location.href="${pageContext.request.contextPath}/store/manageMenu.do?num=${storeNum}";
+					if(data.authority){
+						if(data.isDeleted){
+							alert("메뉴가 삭제되었습니다.");
+							location.href="${pageContext.request.contextPath}/store/manageMenu.do?num=${storeNum}";
+						} else {
+							alert("메뉴를 삭제할 수 없습니다. 문제가 반복된다면 문의 바랍니다.");
+						}	
+					} else {
+						alert("메뉴를 삭제할 권한이 없습니다.");
 					}
 				});	
 			}
@@ -230,7 +239,6 @@
 	
 	//해당 매장의 메뉴를 best로 설정 및 취소하는 method
 	let icons = document.querySelectorAll('.starIcon');
-	let storeNum=${storeNum};
 	
 	for (let i=0; i < icons.length; i++) {
 		icons[i].addEventListener('click', ()=> {

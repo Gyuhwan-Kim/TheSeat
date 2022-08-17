@@ -51,8 +51,8 @@ public class MenuDaoImpl implements MenuDao{
 	
 	// 해당 매장의 메뉴 정보를 삭제하는 method
 	@Override
-	public void deleteMenu(MenuDto dto) {
-		session.delete("deleteMenu", dto);	
+	public int deleteMenu(MenuDto dto) {
+		return session.delete("deleteMenu", dto);	
 	}
 	
 	// 해당 매장의 메뉴를 best로 설정 및 취소하는 method

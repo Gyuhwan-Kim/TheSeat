@@ -174,8 +174,27 @@ public class MenuServiceImpl implements MenuService{
 	}
 	
 	// 해당 매장의 메뉴 정보를 삭제하는 method
-	public void deleteMenu(MenuDto dto) {
-		dao.deleteMenu(dto);
+	public Map<String, Object> deleteMenu(String email, MenuDto dto) {
+		// 매장 정보를 담을 sDto를 만들어 
+		StoreDto sDto = new StoreDto();
+		// dto의 storeNum과 session의 email을 담아
+		sDto.setNum(dto.getStoreNum());
+		sDto.setOwner(email);
+		
+		Map<String, Object> map=new HashMap<>();
+		// DB의 data를 얻어온 것이 null이 아닐 때 (= 매장을 관리하는 사람이 맞을 때) logic 수행
+		if(sDao.getMyStore(sDto) != null) {
+			map.put("authority", true);
+			if(dao.deleteMenu(dto) == 1) {
+				map.put("isDeleted", true);
+			} else {
+				map.put("isDeleted", false);
+			}
+		} else {
+			map.put("authority", false);
+		}
+		
+		return map;
 	}
 	
 	// 해당 매장의 메뉴를 best로 설정 및 취소하는 method

@@ -26,7 +26,7 @@ public interface MenuDao {
 	public int addMenu(MenuDto dto);
 	
 	// 해당 매장의 메뉴 정보를 삭제하는 method
-	public void deleteMenu(MenuDto dto);
+	public int deleteMenu(MenuDto dto);
 	
 	// 해당 매장의 메뉴를 best로 설정 및 취소하는 method
 	public void bestOnOff(MenuDto dto);
