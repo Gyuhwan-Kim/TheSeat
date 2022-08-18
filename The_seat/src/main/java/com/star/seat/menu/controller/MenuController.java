@@ -38,7 +38,7 @@ public class MenuController {
 
 		// 해당 매장의 메뉴 정보를 가져와서 ModelAndView 객체에 담아줌
 		// StoreDto 객체에는 해당 매장 정보가 저장된 DB 번호, 카테고리 정보가 들어있다.
-		mView.addObject("menuList", service.getMenuList(email, sDto));
+		mView.addObject("menuList", service.getMenuList(sDto));
 		
 		// storeNum data는 요청시 넘겨받은 그대로를 돌려준다.
 		mView.addObject("storeNum", sDto.getNum());

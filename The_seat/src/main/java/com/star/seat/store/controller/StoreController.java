@@ -153,7 +153,7 @@ public class StoreController {
 		
 		service.getMyStore_num(dto, request);
 		
-		mService.getMenuList_user(dto, request);	
+		mService.getMenuList(dto);	
 		int storeNum = Integer.parseInt(request.getParameter("num"));
 		dto.setNum(storeNum);
 		//dto에 num 정보 넣어서 같은 num 의 자리정보 dto 에 담아오기

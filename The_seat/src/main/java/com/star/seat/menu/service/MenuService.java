@@ -9,11 +9,8 @@ import com.star.seat.menu.dto.MenuDto;
 import com.star.seat.store.dto.StoreDto;
 
 public interface MenuService {
-	// 해당 매장의 메뉴 정보를 가져오는 method (사장님)
-	public List<MenuDto> getMenuList(String email, StoreDto sDto);
-
-	// 해당 매장의 메뉴 정보를 가져오는 method (유저)
-	public void getMenuList_user(StoreDto sDto, HttpServletRequest request);
+	// 해당 매장의 메뉴 정보를 가져오는 method
+	public List<MenuDto> getMenuList(StoreDto sDto);
 	
 	// 매장 카테고리를 추가하는 method
 	public Map<String, Object> addCategory(String email, StoreDto dto);

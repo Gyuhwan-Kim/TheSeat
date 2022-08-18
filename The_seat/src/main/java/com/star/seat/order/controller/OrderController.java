@@ -48,7 +48,7 @@ public class OrderController {
 	@RequestMapping(value = "/order/order.do", method = RequestMethod.GET)
 	public ModelAndView authOrder(ModelAndView mView, SeatDto sDto, StoreDto dto, HttpServletRequest request){
 		sService.getMyStore_num(dto, request);
-		mService.getMenuList_user(dto, request);
+		mService.getMenuList(dto);
 		int tableNum = Integer.parseInt(request.getParameter("tableNum"));
 		request.setAttribute("tableNum", tableNum);
 		long orderNum = Long.parseLong(request.getParameter("orderNum"));
