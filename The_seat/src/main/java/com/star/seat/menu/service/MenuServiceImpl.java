@@ -129,45 +129,39 @@ public class MenuServiceImpl implements MenuService{
 		sDto.setOwner(email);
 		
 		Map<String, Object> map=new HashMap<>();
-		// DB의 data를 얻어온 것이 null이 아닐 때 (= 매장을 관리하는 사람이 맞을 때) logic 수행
-		if(sDao.getStoreData(sDto) != null) {
-			map.put("authority", true);
-			// 저장할 파일의 상제 경로
-			String filePath=realPath+File.separator;
-			// 해당 경로에 접근할 수 있는 File 객체 생성
-			File f=new File(realPath);
-			// 만일 폴더가 존재하지 않으면 만듦
-			if(!f.exists()) {
-				f.mkdir();
-			}
+		// 저장할 파일의 상제 경로
+		String filePath=realPath+File.separator;
+		// 해당 경로에 접근할 수 있는 File 객체 생성
+		File f=new File(realPath);
+		// 만일 폴더가 존재하지 않으면 만듦
+		if(!f.exists()) {
+			f.mkdir();
+		}
+		
+		// upload할 image 정보
+		MultipartFile imageFile=dto.getImageFile();
+		// 원본 파일 명
+		String orgImageName=imageFile.getOriginalFilename();
+		// 저장할 파일 명
+		String saveImageName=System.currentTimeMillis()+orgImageName;
+		
+		try {
+			// folder에 image를 저장
+			imageFile.transferTo(new File(filePath+saveImageName));
 			
-			// upload할 image 정보
-			MultipartFile imageFile=dto.getImageFile();
-			// 원본 파일 명
-			String orgImageName=imageFile.getOriginalFilename();
-			// 저장할 파일 명
-			String saveImageName=System.currentTimeMillis()+orgImageName;
-			
-			try {
-				// folder에 image를 저장
-				imageFile.transferTo(new File(filePath+saveImageName));
-				
-			} catch(Exception e) {
-				e.printStackTrace();
-			}
-			
-			// dto에는 storeNum, file, menu name, price, content, category 가 들어있다.
-			// file은 이미 저장했고, 경로만 dto에 담에
-			dto.setMenuImage("/upload/"+saveImageName);
-			
-			// DB 정보를 추가한다.
-			if(dao.addMenu(dto) == 1) {
-				map.put("isAdded", true);
-			} else {
-				map.put("isAdded", false);
-			}
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		// dto에는 storeNum, file, menu name, price, content, category 가 들어있다.
+		// file은 이미 저장했고, 경로만 dto에 담에
+		dto.setMenuImage("/upload/"+saveImageName);
+		
+		// DB 정보를 추가한다.
+		if(dao.addMenu(dto) == 1) {
+			map.put("isAdded", true);
 		} else {
-			map.put("authority", false);
+			map.put("isAdded", false);
 		}
 		
 		return map;
@@ -182,16 +176,10 @@ public class MenuServiceImpl implements MenuService{
 		sDto.setOwner(email);
 		
 		Map<String, Object> map=new HashMap<>();
-		// DB의 data를 얻어온 것이 null이 아닐 때 (= 매장을 관리하는 사람이 맞을 때) logic 수행
-		if(sDao.getStoreData(sDto) != null) {
-			map.put("authority", true);
-			if(dao.deleteMenu(dto) == 1) {
-				map.put("isDeleted", true);
-			} else {
-				map.put("isDeleted", false);
-			}
+		if(dao.deleteMenu(dto) == 1) {
+			map.put("isDeleted", true);
 		} else {
-			map.put("authority", false);
+			map.put("isDeleted", false);
 		}
 		
 		return map;

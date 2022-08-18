@@ -193,15 +193,11 @@
 			.then(function(response){
 				return response.json();
 			}).then(function(data){
-				if(data.authority){
-					if(data.isAdded){
-						alert("메뉴가 추가되었습니다.");
-						location.href="${pageContext.request.contextPath}/store/manageMenu.do?num=${storeNum}";
-					} else {
-						alert("메뉴를 추가할 수 없습니다. 문제가 반복된다면 문의 바랍니다.");
-					}
+				if(data.isAdded){
+					alert("메뉴가 추가되었습니다.");
+					location.href="${pageContext.request.contextPath}/store/manageMenu.do?num=${storeNum}";
 				} else {
-					alert("메뉴를 추가할 권한이 없습니다.");
+					alert("메뉴를 추가할 수 없습니다. 문제가 반복된다면 문의 바랍니다.");
 				}
 			});	
 		}
@@ -222,15 +218,11 @@
 				.then(function(response){
 					return response.json();
 				}).then(function(data){
-					if(data.authority){
-						if(data.isDeleted){
-							alert("메뉴가 삭제되었습니다.");
-							location.href="${pageContext.request.contextPath}/store/manageMenu.do?num=${storeNum}";
-						} else {
-							alert("메뉴를 삭제할 수 없습니다. 문제가 반복된다면 문의 바랍니다.");
-						}	
+					if(data.isDeleted){
+						alert("메뉴가 삭제되었습니다.");
+						location.href="${pageContext.request.contextPath}/store/manageMenu.do?num=${storeNum}";
 					} else {
-						alert("메뉴를 삭제할 권한이 없습니다.");
+						alert("메뉴를 삭제할 수 없습니다. 문제가 반복된다면 문의 바랍니다.");
 					}
 				});	
 			}
