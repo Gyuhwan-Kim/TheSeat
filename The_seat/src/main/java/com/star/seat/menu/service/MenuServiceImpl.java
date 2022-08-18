@@ -50,7 +50,7 @@ public class MenuServiceImpl implements MenuService{
 		String newCategory = dto.getCategory();
 		
 		// DB에서 해당 번호의 매장 정보로 dto를 갱신한 뒤
-		dto = sDao.getMyStore(dto);
+		dto = sDao.getStoreData(dto);
 		
 		// 우선 기본값을 빈 String으로 함 (null 인 경우)
 		String strCategories = "";
@@ -89,7 +89,7 @@ public class MenuServiceImpl implements MenuService{
 		String category=dto.getCategory();
 		
 		// DB에서 해당 번호의 매장 정보로 dto를 갱신한 뒤
-		dto = sDao.getMyStore(dto);
+		dto = sDao.getStoreData(dto);
 		
 		// DB의 내용을 , 로 구분해서 String array로 만들어주고
 		String[] categories = dto.getCategory().split(",");
@@ -130,7 +130,7 @@ public class MenuServiceImpl implements MenuService{
 		
 		Map<String, Object> map=new HashMap<>();
 		// DB의 data를 얻어온 것이 null이 아닐 때 (= 매장을 관리하는 사람이 맞을 때) logic 수행
-		if(sDao.getMyStore(sDto) != null) {
+		if(sDao.getStoreData(sDto) != null) {
 			map.put("authority", true);
 			// 저장할 파일의 상제 경로
 			String filePath=realPath+File.separator;
@@ -183,7 +183,7 @@ public class MenuServiceImpl implements MenuService{
 		
 		Map<String, Object> map=new HashMap<>();
 		// DB의 data를 얻어온 것이 null이 아닐 때 (= 매장을 관리하는 사람이 맞을 때) logic 수행
-		if(sDao.getMyStore(sDto) != null) {
+		if(sDao.getStoreData(sDto) != null) {
 			map.put("authority", true);
 			if(dao.deleteMenu(dto) == 1) {
 				map.put("isDeleted", true);

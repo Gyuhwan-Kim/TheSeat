@@ -87,7 +87,7 @@ public class OrderServiceImpl implements OrderService {
 			int sNum=list.get(i).getNum();
 			sDto.setNum(sNum);
 			// 해당 매장의 정보를 받아옴
-			sDto=sDao.getMyStore_num(sDto);
+			sDto=sDao.getStoreData(sDto);
 			// 매장 주인의 이메일과 접속 이메일이 겹치면 yes로
 			// yes라면 review 등록 버튼을 disabled로 출력할 것.
 			if(sDto.getOwner().equals(email)) {

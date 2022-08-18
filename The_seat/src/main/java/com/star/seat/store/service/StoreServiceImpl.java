@@ -77,7 +77,7 @@ public class StoreServiceImpl implements StoreService{
 		dto.setOwner(email);
 		
 		// dto를 새로운 친구로 갱신
-		dto = dao.getMyStore(dto);
+		dto = dao.getStoreData(dto);
 
 		return dto;
 	}
@@ -86,7 +86,7 @@ public class StoreServiceImpl implements StoreService{
 	@Override
 	public void getMyStore_num(StoreDto dto, HttpServletRequest request) {		
 
-		  StoreDto theDto=dao.getMyStore_num(dto);   
+		  StoreDto theDto=dao.getStoreData(dto);   
 	      
 	      // 카테고리 리스트를 만들어서 request에 넣을 준비
 	      // DB의 내용을 , 로 구분해서 String array로 만들어주고
@@ -188,7 +188,7 @@ public class StoreServiceImpl implements StoreService{
 		String newTag = dto.getStoreTag();
 		
 		// DB에서 해당 번호의 정보를 받아온 dto로 갱신한 뒤
-		dto = dao.getMyStore(dto);
+		dto = dao.getStoreData(dto);
 		
 		// 우선 기본값을 아무런 내용이 없는 String으로 함 (null)
 		String strTags = "";
@@ -227,7 +227,7 @@ public class StoreServiceImpl implements StoreService{
 		String tag = dto.getStoreTag();
 		
 		// DB에서 받아온 기존 매장 정보의 dto로 갱신한 뒤
-		dto = dao.getMyStore(dto);
+		dto = dao.getStoreData(dto);
 		
 		// DB의 내용을 , 로 구분해서 String array로 만들어주고
 		String[] tags = dto.getStoreTag().split(",");

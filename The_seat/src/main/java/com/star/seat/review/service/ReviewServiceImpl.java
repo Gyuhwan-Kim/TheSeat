@@ -62,7 +62,7 @@ public class ReviewServiceImpl implements ReviewService{
 		StoreDto sDto=new StoreDto();
 		sDto.setNum(dto.getStoreNum());
 		// 해당 매장의 정보를 불러옴
-		sDto=sDao.getMyStore_num(sDto);
+		sDto=sDao.getStoreData(sDto);
 		dto.setStoreName(sDto.getStoreName());
 		
 		// 해당 댓글 작성자의 이메일과 사장님의 이메일이 같으면
