@@ -83,7 +83,7 @@ public class StoreController {
 		String email = (String)session.getAttribute("email");
 		
 		// service에서 매장 정보를 DB에서 꺼내온 data로 dto 갱신
-		dto = service.getMyStore(email, dto);
+		dto = service.getStoreData(email, dto);
 		
 		String[] tagList = {}; 
 		// 만약 dto에 매장 tag 정보가 있다면 String array를 덮어씀

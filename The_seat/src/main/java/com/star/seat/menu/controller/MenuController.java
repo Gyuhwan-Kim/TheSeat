@@ -34,7 +34,7 @@ public class MenuController {
 
 		ModelAndView mView=new ModelAndView();
 		// email 값과 DB의 매장 번호 data로 해당 매장의 category 정보를 불러온다.
-		mView.addObject("categoryList", sService.getMyStore(email, sDto).getCategory());
+		mView.addObject("categoryList", sService.getStoreData(email, sDto).getCategory());
 
 		// 해당 매장의 메뉴 정보를 가져와서 ModelAndView 객체에 담아줌
 		// StoreDto 객체에는 해당 매장 정보가 저장된 DB 번호, 카테고리 정보가 들어있다.

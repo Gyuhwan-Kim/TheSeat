@@ -72,7 +72,7 @@ public class StoreServiceImpl implements StoreService{
 	
 	// 사장님의 매장 정보 하나를 불러오는 method(이메일과 rnum 이용)
 	@Override
-	public StoreDto getMyStore(String email, StoreDto dto) {
+	public StoreDto getStoreData(String email, StoreDto dto) {
 
 		dto.setOwner(email);
 		
