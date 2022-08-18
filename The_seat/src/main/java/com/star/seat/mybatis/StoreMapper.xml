@@ -18,15 +18,8 @@
 		order by num
 	</select>
 	
-	<!-- 사장님의 매장 정보 하나만 가져오는 method(이메일과 rnum 이용) -->
-	<select id="getMyStore" parameterType="storeDto" resultType="storeDto">
-		select *
-		from store
-		where owner=#{owner} and num=#{num}
-	</select>
-	
-	<!-- 사장님의 매장 정보 하나만 가져오는 method(해당 매장 DB 번호 이용) -->
-	<select id="getMyStore_num" parameterType="storeDto" resultType="storeDto">
+	<!-- 매장 정보 하나만 가져오는 method -->
+	<select id="getStoreData" parameterType="storeDto" resultType="storeDto">
 		select *
 		from store
 		where num=#{num}

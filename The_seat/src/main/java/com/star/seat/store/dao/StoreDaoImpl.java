@@ -28,21 +28,11 @@ public class StoreDaoImpl implements StoreDao{
 		return list;
 	}
 	
-	// 사장님의 매장 정보 하나를 불러오는 method(이메일과 rnum 이용)
+	// 매장 정보 하나를 불러오는 method
 	@Override
-	public StoreDto getMyStore(StoreDto dto) {
+	public StoreDto getStoreData(StoreDto dto) {
 		
-		StoreDto myDto=session.selectOne("getMyStore", dto);
-		
-		return myDto;
-	}
-	
-	// (사장님의) 매장 정보 하나를 불러오는 method(해당 매장 DB 번호 이용)
-	@Override
-	public StoreDto getMyStore_num(StoreDto dto) {
-		StoreDto myDto=session.selectOne("getMyStore_num", dto);
-		
-		return myDto;
+		return session.selectOne("getStoreData", dto);
 	}
 	
 	// 매장 검색 목록 불러오는 method
