@@ -70,11 +70,9 @@ public class StoreServiceImpl implements StoreService{
 		return dao.getMyStores(email);
 	}
 	
-	// 사장님의 매장 정보 하나를 불러오는 method(이메일과 rnum 이용)
+	// 매장 정보 하나를 불러오는 method
 	@Override
-	public StoreDto getStoreData(String email, StoreDto dto) {
-
-		dto.setOwner(email);
+	public StoreDto getStoreData(StoreDto dto) {
 		
 		// dto를 새로운 친구로 갱신
 		dto = dao.getStoreData(dto);
