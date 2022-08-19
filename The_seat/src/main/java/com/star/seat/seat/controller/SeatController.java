@@ -25,11 +25,10 @@ public class SeatController {
 	
 	//매장 자리관리 페이지로 이동 요청 처리
 	@RequestMapping("/store/storeSeat")
-	public ModelAndView getSeat(SeatDto dto, ModelAndView mView,HttpServletRequest request) {
-		int storeNum = Integer.parseInt(request.getParameter("num"));
-		request.setAttribute("num", storeNum);
-		dto.setNum(storeNum);
-		//dto에 num 정보 넣어서 같은 num 의 자리정보 dto 에 담아오기
+	public ModelAndView getSeat(SeatDto dto) {
+		ModelAndView mView = new ModelAndView();
+		
+		// 넘겨받은 SeatDto에는 DB에 저장된 매장의 number data가 있음
 		mView.addObject("sDto", service.getSeat(dto));
 		mView.setViewName("store/storeSeat");
 		return mView;
