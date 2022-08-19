@@ -44,11 +44,10 @@ public class ReviewController {
 	@ResponseBody
 	public Map<String, Object> getReviewList(ReviewDto dto, HttpServletRequest request){
 		
-		List<ReviewDto> list=service.getReviewList(dto, request);
+		Map<String, Object> map = new HashMap<>();
 		
-		Map<String, Object> map=new HashMap<>();
 		map.put("beTaken", true);
-		map.put("reviewList", list);
+		map.put("reviewList", service.getReviewList(dto));
 		
 		return map;
 	}

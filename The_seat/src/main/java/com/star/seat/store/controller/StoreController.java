@@ -149,21 +149,28 @@ public class StoreController {
 
 	// 매장 상세 정보 페이지로 이동
 	@RequestMapping(value = "/store/storeDetail.do",method = RequestMethod.GET)
-	public ModelAndView goStoreDetail(SeatDto sDto, StoreDto dto, ReviewDto rDto, ModelAndView mView, HttpServletRequest request) {
+	public ModelAndView goStoreDetail(StoreDto dto, SeatDto sDto, HttpServletRequest request) {
+		ModelAndView mView = new ModelAndView();
+		// 번호 정보가 담긴 dto를 통해 DB에서 매장 data를 불러옴
+		StoreDto storeData = service.getStoreData(dto);
+		mView.addObject("dto", storeData);
+		mView.addObject("tagList", storeData.getStoreTag());
+		mView.addObject("categoryList", storeData.getCategory());
 		
-		service.getMyStore_num(dto, request);
+		// 번호 정보가 담긴 dto를 통해 DB에서 메뉴 List를 불러온 것을 그대로 ModelAndView 객체에 담아줌
+		mView.addObject("menuList", mService.getMenuList(dto));
+	
+		// dto의 number 정보는 DB에 저장된 매장의 번호이다.
+		// 그 값을 받아 service에 전해준다.
+		ReviewDto rDto = new ReviewDto();
+		rDto.setStoreNum(dto.getNum());
 		
-		mService.getMenuList(dto);	
-		int storeNum = Integer.parseInt(request.getParameter("num"));
-		dto.setNum(storeNum);
-		//dto에 num 정보 넣어서 같은 num 의 자리정보 dto 에 담아오기
-		
-		rDto.setStoreNum(storeNum);
-		List<ReviewDto> list=rService.getReviewList(rDto, request);
+		mView.addObject("reviewList", rService.getReviewList(rDto));
 		
 		seatService.getSeat(sDto, mView, request);
-		mView.addObject("reviewList", list);
+		
 		mView.setViewName("store/storeDetail");
+		
 		return mView;
 	}
 	
@@ -175,9 +182,7 @@ public class StoreController {
 		ReviewDto rDto=new ReviewDto();
 		rDto.setStoreNum(dto.getNum());
 		
-		List<ReviewDto> list=rService.getReviewList(rDto, request);
-		
-		request.setAttribute("reviewList", list);
+		request.setAttribute("reviewList", rService.getReviewList(rDto));
 		
 		return "store/storeReview";
 	}

@@ -90,8 +90,8 @@
 
 			<div class="card-header bg-transparent border-dark-light">
 				<h4 style="line-height: 3.5;">
-					별점 : ⭐${avgStar }
-					<c:if test="${totalReviewCount gt 10 }">
+					별점 : ⭐${dto.avgStar }
+					<c:if test="${dto.reviewCount gt 10 }">
 							 (10+)
 						</c:if>
 				</h4>
@@ -115,7 +115,7 @@
 					남은 자리 : <span id="emptySeatNum"></span> / <span id="totalSeatNum"></span>
 				</h4>
 				<button type="button" id="reviewBtn" data-bs-toggle="modal"
-					data-bs-target="#staticBackdrop">리뷰 : ${totalReviewCount }개
+					data-bs-target="#staticBackdrop">리뷰 : ${dto.reviewCount }개
 				</button>
 			</div>
 			<div class="card-footer bg-transparent border-dark-light">

@@ -94,29 +94,20 @@ public class ReviewServiceImpl implements ReviewService{
 	
 	// 해당 매장 리뷰 정보를 가져오는 method
 	@Override
-	public List<ReviewDto> getReviewList(ReviewDto dto, HttpServletRequest request) {
-		List<ReviewDto> list=dao.getReviewList(dto);
+	public List<ReviewDto> getReviewList(ReviewDto dto) {
+		// 전달받은 dto에는 DB에 저장된 매장의 number data가 storeNum에 있다.
+		List<ReviewDto> list = dao.getReviewList(dto);
 		
-		if(list!=null) {
-			for(int i=0; i<list.size(); i++) {
-				// 해당 댓글의 DB 번호를 불러옴
-				int num=list.get(i).getNum();
-				// 그 번호를 dto의 targetNum에 넣어줌
-				dto.setNum(num);
-				// 만약 그 targetNum으로 된 것이 있으면 yes, 없으면 no
-				if(dao.getMyReview(dto)!=null) {
-					list.get(i).setReviewCheck("yes");
-				} else {
+		Map<String, Object> map = new HashMap<>();
+		if(list != null) {
+			for(int i = 0; i < list.size(); i++) {
+				if(list.get(i).getTargetNum() == 0) {
 					list.get(i).setReviewCheck("no");
+				} else {
+					list.get(i).setReviewCheck("yes");
 				}
 			}
 		}
-		
-		int totalReviewCount=dao.getTotalReviewCount(dto);
-		float avgStar=(float)(Math.round(dao.getAvgStar(dto)*100)/100.0);
-
-		request.setAttribute("totalReviewCount", totalReviewCount);
-		request.setAttribute("avgStar", avgStar);
 			
 		return list;
 	}

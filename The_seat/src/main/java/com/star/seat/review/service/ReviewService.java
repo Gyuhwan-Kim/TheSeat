@@ -12,7 +12,7 @@ public interface ReviewService {
 	public float addReview(ReviewDto dto, HttpServletRequest request);
 	
 	// 해당 매장 리뷰 정보를 가져오는 method
-	public List<ReviewDto> getReviewList(ReviewDto dto, HttpServletRequest request);
+	public List<ReviewDto> getReviewList(ReviewDto dto);
 	
 	// 해당 DB번호의 리뷰 정보를 삭제하는 method
 	public float deleteReview(ReviewDto dto);
