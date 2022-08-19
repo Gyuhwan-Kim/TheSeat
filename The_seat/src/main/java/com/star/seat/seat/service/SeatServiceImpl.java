@@ -39,13 +39,9 @@ public class SeatServiceImpl implements SeatService {
 	}
 
 	@Override
-	public ModelAndView getSeat(SeatDto dto, ModelAndView mView, HttpServletRequest request) {
-		int storeNum = Integer.parseInt(request.getParameter("num"));
-		SeatDto sDto = new SeatDto();
-		sDto.setNum(storeNum);
-		sDto= dao.getSeat(dto);
-		mView.addObject("sDto", sDto);
-		return mView;
+	public SeatDto getSeat(SeatDto dto) {
+
+		return dao.getSeat(dto);
 	};
 	
 	@Override

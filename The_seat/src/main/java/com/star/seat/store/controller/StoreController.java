@@ -149,7 +149,7 @@ public class StoreController {
 
 	// 매장 상세 정보 페이지로 이동
 	@RequestMapping(value = "/store/storeDetail.do",method = RequestMethod.GET)
-	public ModelAndView goStoreDetail(StoreDto dto, SeatDto sDto, HttpServletRequest request) {
+	public ModelAndView goStoreDetail(StoreDto dto, SeatDto sDto) {
 		ModelAndView mView = new ModelAndView();
 		// 번호 정보가 담긴 dto를 통해 DB에서 매장 data를 불러옴
 		StoreDto storeData = service.getStoreData(dto);
@@ -164,10 +164,11 @@ public class StoreController {
 		// 그 값을 받아 service에 전해준다.
 		ReviewDto rDto = new ReviewDto();
 		rDto.setStoreNum(dto.getNum());
-		
+		// 매장 number 정보를 담은 rDto를 통해 리뷰 List를 불러온 것을 담아줌
 		mView.addObject("reviewList", rService.getReviewList(rDto));
 		
-		seatService.getSeat(sDto, mView, request);
+		// 자리에 대한 sDto의 num에는 이미 매장 정보가 들어있다. (매장의 DB num과 동일)
+		mView.addObject("sDto", seatService.getSeat(sDto));
 		
 		mView.setViewName("store/storeDetail");
 		

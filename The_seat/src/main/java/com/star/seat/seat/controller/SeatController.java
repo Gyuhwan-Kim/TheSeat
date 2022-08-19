@@ -30,7 +30,7 @@ public class SeatController {
 		request.setAttribute("num", storeNum);
 		dto.setNum(storeNum);
 		//dto에 num 정보 넣어서 같은 num 의 자리정보 dto 에 담아오기
-		service.getSeat(dto, mView, request);
+		mView.addObject("sDto", service.getSeat(dto));
 		mView.setViewName("store/storeSeat");
 		return mView;
 	}

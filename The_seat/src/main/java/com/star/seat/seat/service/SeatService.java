@@ -17,7 +17,7 @@ public interface SeatService {
 	//빈 자리 정보 수정
 	public void updateEmptySeat(SeatDto dto);
 	//자리 정보 겟
-	public ModelAndView getSeat(SeatDto dto, ModelAndView mView, HttpServletRequest request);
+	public SeatDto getSeat(SeatDto dto);
 	// 자리 이미지 업로드
 	public Map<String, Object> saveSeatImage(HttpServletRequest request, MultipartFile mFile);
 }

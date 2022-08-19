@@ -53,7 +53,7 @@ public class OrderController {
 		request.setAttribute("tableNum", tableNum);
 		long orderNum = Long.parseLong(request.getParameter("orderNum"));
 		request.setAttribute("orderNum", orderNum);
-		seatService.getSeat(sDto, mView, request);
+		mView.addObject("sDto", seatService.getSeat(sDto));
 		mView.setViewName("order/order");
 		return mView;
 	}
