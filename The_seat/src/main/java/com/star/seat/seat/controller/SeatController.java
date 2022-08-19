@@ -48,20 +48,13 @@ public class SeatController {
 		return service.saveSeatImage(imageFile, realPath);
 	}
 	
-	//ajax 자리 이미지 업로드 요청처리
-	@RequestMapping(value = "/seat/emptySeat",
-			method=RequestMethod.POST)
+	// 주문 시 자리 정보 update 요청에 대한 method
+	@RequestMapping(value = "/seat/emptySeat", method=RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> updateEmptySeat(HttpServletRequest request, SeatDto dto){
-		
-		service.updateEmptySeat(dto);
-		
-		Map<String, Object> map=new HashMap<>();
-		map.put("isSuccess", true);
-		return map;
+	public Map<String, Object> updateEmptySeat(SeatDto dto){
+
+		return service.updateEmptySeat(dto);
 	}
-	
-	
 	
 	@RequestMapping(value = "/store/updateSeat",
 			method=RequestMethod.POST)
