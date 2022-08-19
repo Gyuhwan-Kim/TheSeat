@@ -52,18 +52,14 @@ public class SeatController {
 	@RequestMapping(value = "/seat/emptySeat", method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> updateEmptySeat(SeatDto dto){
-
+		// 주문 시 빈 자리와 사용 중인 자리 정보를 update
 		return service.updateEmptySeat(dto);
 	}
 	
-	@RequestMapping(value = "/store/updateSeat",
-			method=RequestMethod.POST)
+	@RequestMapping(value = "/store/updateSeat", method=RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> updateSeat(SeatDto dto, HttpServletRequest request) {
-		service.updateSeat(dto);
-		
-		Map<String, Object> map=new HashMap<>();
-		map.put("isSuccess", true);
-		return map;
+	public Map<String, Object> updateSeat(SeatDto dto) {
+		// 매장 관리 페이지에서 자리 정보 update
+		return service.updateSeat(dto);
 	}
 }

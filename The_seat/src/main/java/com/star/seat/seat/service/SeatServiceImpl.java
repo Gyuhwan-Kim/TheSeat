@@ -27,9 +27,16 @@ public class SeatServiceImpl implements SeatService {
 	}
 
 	@Override
-	public void updateSeat(SeatDto dto) {
+	public Map<String, Object> updateSeat(SeatDto dto) {
+		Map<String, Object> map=new HashMap<>();
+		// 자리 정보 변경 시 update하고, 성공여부를 다르게 return
+		if(dao.updateSeat(dto) == 1) {
+			map.put("isSuccess", true);
+		} else {
+			map.put("isSuccess", false);
+		}
 		
-		dao.updateSeat(dto);
+		return map;
 	}
 	
 	@Override

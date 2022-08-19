@@ -6,7 +6,7 @@ public interface SeatDao {
 	// 매장 자리 정보를 추가하는 method
 	public void insertSeat(SeatDto dto);
 	// 자리 정보 수정
-	public void updateSeat(SeatDto dto);
+	public int updateSeat(SeatDto dto);
 	// 빈 자리 정보 수정
 	public int updateEmptySeat(SeatDto dto);
 	// 자리 정보 가져가기

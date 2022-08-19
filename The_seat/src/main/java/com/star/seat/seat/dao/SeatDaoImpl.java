@@ -19,8 +19,8 @@ public class SeatDaoImpl implements SeatDao {
 	}
 
 	@Override
-	public void updateSeat(SeatDto dto) {
-		session.update("seat.updateSeat", dto);
+	public int updateSeat(SeatDto dto) {
+		return session.update("seat.updateSeat", dto);
 	}
 	
 	@Override

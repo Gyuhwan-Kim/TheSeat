@@ -193,8 +193,12 @@
 			return response.json();
 		})
 		.then(function(data) {
-			alert("자리 정보가 수정되었습니다.");
-			location.href="${pageContext.request.contextPath}/store/storeSeat.do?num="+num;
+			if(data.isSuccess){
+				alert("자리 정보가 수정되었습니다.");
+				location.href="${pageContext.request.contextPath}/store/storeSeat.do?num="+num;
+			} else {
+				alert("자리 정보를 수정할 수 없습니다. 문제가 반복된다면 문의 바랍니다.");
+			}
 		});
 	});
 	
