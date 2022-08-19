@@ -38,11 +38,14 @@ public class SeatController {
 	@RequestMapping(value = "/store/ajax_seat_upload",
 			method=RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> AjaxSeatUpload(HttpServletRequest request,
-			@RequestParam MultipartFile image){
+	public Map<String, Object> ajaxSeatUpload(HttpServletRequest request,
+			@RequestParam MultipartFile imageFile){
+		// webapp/upload 폴더까지의 실제 경로 얻어내기 
+		String realPath = request.getServletContext().getRealPath("/upload");
 		
+		//업로드된 파일에 대한 정보를 MultipartFile 객체를 이용해서 얻어낼수 있다.
 		//서비스를 이용해서 이미지를 upload 폴더에 저장하고 리턴되는 Map 을 리턴해서 json 문자열 응답하기
-		return service.saveSeatImage(request, image);
+		return service.saveSeatImage(imageFile, realPath);
 	}
 	
 	//ajax 자리 이미지 업로드 요청처리

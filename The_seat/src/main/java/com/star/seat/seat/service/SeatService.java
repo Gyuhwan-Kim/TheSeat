@@ -19,5 +19,5 @@ public interface SeatService {
 	//자리 정보 겟
 	public SeatDto getSeat(SeatDto dto);
 	// 자리 이미지 업로드
-	public Map<String, Object> saveSeatImage(HttpServletRequest request, MultipartFile mFile);
+	public Map<String, Object> saveSeatImage(MultipartFile mFile, String realPath);
 }

@@ -45,7 +45,7 @@ public class SeatServiceImpl implements SeatService {
 	};
 	
 	@Override
-	public Map<String, Object> saveSeatImage(HttpServletRequest request, MultipartFile mFile) {
+	public Map<String, Object> saveSeatImage(MultipartFile mFile, String realPath) {
 		//업로드된 파일에 대한 정보를 MultipartFile 객체를 이용해서 얻어낼수 있다.	
 		
 		//원본 파일명
@@ -54,9 +54,8 @@ public class SeatServiceImpl implements SeatService {
 		// 1234123424343xxx.jpg
 		String saveFileName=System.currentTimeMillis()+orgFileName;
 		
-		// webapp/upload 폴더까지의 실제 경로 얻어내기 
-		String realPath=request.getServletContext().getRealPath("/upload");
 		// upload 폴더가 존재하지 않을경우 만들기 위한 File 객체 생성
+		// webapp/upload 폴더까지의 실제 경로를 사용
 		File upload=new File(realPath);
 		if(!upload.exists()) {//만일 존재 하지 않으면
 			upload.mkdir(); //만들어준다.
