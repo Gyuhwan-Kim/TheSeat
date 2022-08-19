@@ -22,8 +22,9 @@ create table store(
 	image_3 clob,
 	image_4 clob,
 	storeOpen varchar2(10) not null,
-	imageCheck varchar2(10),
 	category clob,
+	avgStar number,
+	reviewCount number,
 	regdate date
 );
 
