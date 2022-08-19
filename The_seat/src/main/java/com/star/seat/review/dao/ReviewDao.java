@@ -36,9 +36,6 @@ public interface ReviewDao {
 	// 해당 DB 번호로 되어있는 매장에 대한 평균 별점을 얻어내는 method
 	public float getAvgStar(ReviewDto dto);
 	
-	// 해당 DB 번호로 되어있는 매장의 총 리뷰 수를 얻어내는 method
-	public int getTotalReviewCount(ReviewDto dto);
-	
 	// 해당 orderNum에 준 내 별점 정보를 얻어내는 method
 	public int getMyStar(ReviewDto dto);
 	

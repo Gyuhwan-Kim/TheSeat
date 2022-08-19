@@ -75,12 +75,6 @@ public class ReviewDaoImpl implements ReviewDao{
 		return session.selectOne("getAvgStar", dto);
 	}
 	
-	// 해당 DB 번호로 되어있는 매장의 총 리뷰 수를 얻어내는 method
-	@Override
-	public int getTotalReviewCount(ReviewDto dto) {
-		return session.selectOne("getTotalReviewCount", dto);
-	}
-	
 	// 해당 orderNum에 준 내 별점 정보를 얻어내는 method
 	@Override
 	public int getMyStar(ReviewDto dto) {
