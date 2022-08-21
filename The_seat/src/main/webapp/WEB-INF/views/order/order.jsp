@@ -144,7 +144,7 @@
 	if (index2 <= -1) {
 		notEmptySeat.push(tableNum);
 	};
-	let objSeat = {num:${dto.num }, emptySeat:emptySeat, notEmptySeat:notEmptySeat};
+	let objSeat = {num:${dto.num }, emptySeat:emptySeat.toString(), notEmptySeat:notEmptySeat.toString()};
 	// 다시담기
 	document.querySelector("#reset").addEventListener("click",function(){
 		orderList = [];
@@ -236,30 +236,38 @@
 		let hours = today.getHours(); // 시
 		let minutes = today.getMinutes(); //분
 		let regdate = year + " 년 " + month + " 월 " + date + " 일 " + day + " " + hours + " 시 " + minutes+ " 분";
+		let jsonData = {};
 		for(let i=0; i<orderList.length; i++){
 			//주문할때 시간정보 regdate로 넣어주기
 			orderList[i].regdate=regdate;
 			// {orderNum:"123",email:"123",storeName:"근영식당",storeLogo:"/images/kim1.png",num:"201",tableNum:"1",menu:"보리굴비",menuCount:"1",price:"13000"}
 			orderList[i].amount=amount;
-			ajaxPromise("${pageContext.request.contextPath}/order/insert.do","post",orderList[i])
-			.then(function(response){
-				return response.json();
-			})
-			.then(function(data){
-				if(data.isSuccess && i==orderList.length-1){
-					ajaxPromise("${pageContext.request.contextPath}/seat/emptySeat.do","post",objSeat)
-					.then(function(response){
-						return response.json();
-					})
-					.then(function(data){
-						swal("주문 완료!", "마이페이지에서 주문상태를 확인해주세요.!", "success")
-						.then(function(){
-							location.href="${pageContext.request.contextPath}/main.do?area=&keyword=";
-						})
-					});
-				}
-			});
+			
+			jsonData[i] = orderList[i];
+			if(i == orderList.length-1){
+				jsonData[i+1] = objSeat;
+			}
 		}
+
+		let url = "${pageContext.request.contextPath}/order/insert.do";
+		let promise = fetch(url,{
+			method:"POST",
+			headers:{"Content-Type":"application/json"},
+			body: JSON.stringify(jsonData)
+		});
+		
+		promise.then(function(response){
+			return response.json();
+		}).then(function(data){
+			if(data.isSuccess){
+				swal("주문 완료!", "마이페이지에서 주문상태를 확인해주세요.!", "success")
+				.then(function(){
+					location.href="${pageContext.request.contextPath}/main.do?area=&keyword=";
+				});
+			} else {
+				alert("주문에 실패했습니다. 문제가 반복된다면 문의 바랍니다.");
+			}
+		});		
 	})
 </script>
 </body>
