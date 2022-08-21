@@ -50,7 +50,7 @@
 			<div class="col text-center" style="margin-top: 45px;">
 				<div class="row row-cols-1 row-cols-md-2 g-4 foodMenu"
 					style="width: 650px; height: 800px; overflow: auto;">
-					<c:forEach var="cat" items="${categoryList }">
+					<c:forEach var="cat" items="${dto.category }">
 						<c:forEach var="tmp" items="${menuList }">
 							<c:if test="${tmp.category == cat }">
 								<form class="orderMenu"

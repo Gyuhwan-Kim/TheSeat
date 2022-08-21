@@ -46,15 +46,19 @@ public class OrderController {
 	
 	// 좌석 선택 후 매장 주문 페이지로 이동
 	@RequestMapping(value = "/order/order.do", method = RequestMethod.GET)
-	public ModelAndView authOrder(ModelAndView mView, SeatDto sDto, StoreDto dto, HttpServletRequest request){
-		sService.getMyStore_num(dto, request);
-		mService.getMenuList(dto);
-		int tableNum = Integer.parseInt(request.getParameter("tableNum"));
-		request.setAttribute("tableNum", tableNum);
-		long orderNum = Long.parseLong(request.getParameter("orderNum"));
-		request.setAttribute("orderNum", orderNum);
+	public ModelAndView authOrder(StoreDto dto, SeatDto sDto, OrderDto oDto){
+		ModelAndView mView = new ModelAndView();
+		// StoreDto, SeatDto에는 DB에 저장된 매장 번호가 있고, 이를 이용해서 data를 불러옴
+		mView.addObject("dto", sService.getStoreData(dto));
+		mView.addObject("menuList", mService.getMenuList(dto));
 		mView.addObject("sDto", seatService.getSeat(sDto));
+		
+		// 매장 상세 페이지의 자리 선택 modal로부터 선택한 자리 번호와 주문 번호를 OrderDto에 담아 주문 페이지로 전달
+		mView.addObject("tableNum", oDto.getTableNum());
+		mView.addObject("orderNum", oDto.getOrderNum());
+		
 		mView.setViewName("order/order");
+		
 		return mView;
 	}
 	
