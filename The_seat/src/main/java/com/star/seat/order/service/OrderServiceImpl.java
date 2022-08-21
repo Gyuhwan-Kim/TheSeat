@@ -9,12 +9,16 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.star.seat.order.dao.OrderDao;
 import com.star.seat.order.dto.OrderDto;
 import com.star.seat.review.dao.ReviewDao;
 import com.star.seat.review.dto.ReviewDto;
+import com.star.seat.seat.dao.SeatDao;
+import com.star.seat.seat.dto.SeatDto;
 import com.star.seat.store.dao.StoreDao;
 import com.star.seat.store.dto.StoreDto;
 
@@ -29,6 +33,8 @@ public class OrderServiceImpl implements OrderService {
 	private ReviewDao rDao;
 	@Autowired
 	private StoreDao sDao;
+	@Autowired
+	private SeatDao stDao;
 	
 	//갤러리 이미지 list
 	@Override
@@ -179,8 +185,26 @@ public class OrderServiceImpl implements OrderService {
 	
 	//주문하기
 	@Override
-	public void orderInsert(OrderDto dto) {
-		dao.insert(dto);
+	public Map<String, Object> orderInsert(@RequestBody Map<Integer, Object> dataList) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		ObjectMapper objectMapper = new ObjectMapper();
+		for(int i = 0; i < dataList.size()-1; i++) {
+			OrderDto dto = objectMapper.convertValue(dataList.get(i), OrderDto.class);
+			
+			//주문 내용을 DB에 넣음
+			dao.insert(dto);
+		}
+		
+		SeatDto stDto = objectMapper.convertValue(dataList.get(dataList.size()-1), SeatDto.class);
+		// 자리 정보를 넣음
+		if(stDao.updateEmptySeat(stDto) == 1) {
+			map.put("isSuccess", true);
+		} else {
+			map.put("isSuccess", false);
+		}
+
+		return map;
 	}
 	
 	//주문번호가 같은 주문내용 가져가기

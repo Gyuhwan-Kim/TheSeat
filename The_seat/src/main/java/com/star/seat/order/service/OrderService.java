@@ -5,9 +5,11 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.star.seat.order.dto.OrderDto;
+import com.star.seat.seat.dto.SeatDto;
 
 public interface OrderService {
 	// email로 회원이 주문한 내역 정보 가져오기
@@ -19,7 +21,7 @@ public interface OrderService {
 	//주문 상태정보 수정
 	public Map<String, Object> updateState(OrderDto dto);
 	// 주문정보 입력하기
-	public void orderInsert(OrderDto dto);
+	public Map<String, Object> orderInsert(@RequestBody Map<Integer, Object> orderList);
 	// emaill의 주문 내역 삭제하기
 	public void deleteEmailOrder(OrderDto dto);
 }

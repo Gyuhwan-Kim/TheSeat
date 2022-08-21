@@ -3,17 +3,20 @@ package com.star.seat.order.controller;
 
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.star.seat.menu.service.MenuService;
 import com.star.seat.order.dto.OrderDto;
 import com.star.seat.order.service.OrderService;
@@ -37,11 +40,9 @@ public class OrderController {
 	// 주문하기
 	@RequestMapping(value = "/order/insert.do", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> getList(OrderDto dto){
-		service.orderInsert(dto);
-		Map<String, Object> map=new HashMap<String, Object>();
-		map.put("isSuccess",true);
-		return map;
+	public Map<String, Object> insert(@RequestBody Map<Integer, Object> dataList){
+
+		return service.orderInsert(dataList);
 	}
 	
 	// 좌석 선택 후 매장 주문 페이지로 이동
