@@ -117,10 +117,10 @@
     </div>
         <!------------------------------------ 옆 사이드바 (매장정보, 메뉴관리 탭) ----------------->
     <aside class="aside">
-        <button onclick="location.href='${pageContext.request.contextPath}/store/myStore.do?num=${num}'">매장 정보</button>
-        <button onclick="location.href='${pageContext.request.contextPath}/store/manageMenu.do?num=${num}'">메뉴 관리</button>
-        <button onclick="location.href='${pageContext.request.contextPath}/store/storeReview.do?num=${num}'">리뷰 관리</button>
-        <button onclick="location.href='${pageContext.request.contextPath}/store/storeOrder.do?num=${num}'">주문 확인</button>
+        <button onclick="location.href='${pageContext.request.contextPath}/store/myStore.do?num=${sDto.num}'">매장 정보</button>
+        <button onclick="location.href='${pageContext.request.contextPath}/store/manageMenu.do?num=${sDto.num}'">메뉴 관리</button>
+        <button onclick="location.href='${pageContext.request.contextPath}/store/storeReview.do?num=${sDto.num}'">리뷰 관리</button>
+        <button onclick="location.href='${pageContext.request.contextPath}/store/storeOrder.do?num=${sDto.num}'">주문 확인</button>
         <button onclick="location.href='#'">자리 관리</button>
     </aside>
 </div>
