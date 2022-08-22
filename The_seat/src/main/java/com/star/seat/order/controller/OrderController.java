@@ -73,7 +73,7 @@ public class OrderController {
 	// 주문내역 정보 변경 AJAX
 	@RequestMapping(value = "/order/updateState.do", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> updateState(OrderDto dto, HttpServletRequest request){
+	public Map<String, Object> updateState(OrderDto dto){
 		return service.updateState(dto);
 	}
 	

@@ -16,7 +16,7 @@ public interface OrderDao {
 	// 주문하기
 	public void insert(OrderDto dto);
 	// 주문 정보 상태 변경
-	public void updateState(OrderDto dto);
+	public int updateState(OrderDto dto);
 	//orderNum 으로 주문정보 삭제(주문 취소)
 	public void delete(int orderNum);
 	

@@ -188,10 +188,12 @@
 					return response.json();
 				})
 				.then(function(data){
-					if(data.isSuccess == true){
+					if(data.isSuccess){
 						orderCheck[i].innerText = '완료';
 						orderCheck[i].setAttribute('disabled',true);
-					};
+					} else {
+						alert("주문 확인을 할 수 없습니다. 문제가 반복된다면 문의 바랍니다.");
+					}
 				});
 			});
 		} else if(orderCheck[i].classList.contains("cancel")){
@@ -203,10 +205,12 @@
 					return response.json();
 				})
 				.then(function(data){
-					if(data.isSuccess == true){
+					if(data.isSuccess){
 						orderCheck[i].innerText = '취소 완료';
 						orderCheck[i].setAttribute('disabled',true);
-					};
+					} else {
+						alert("주문 취소를 완료할 수 없습니다. 문제가 반복된다면 문의 바랍니다.");
+					}
 				});
 			});
 		}
