@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.star.seat.menu.service.MenuService;
+import com.star.seat.order.dto.OrderDto;
 import com.star.seat.order.service.OrderService;
 import com.star.seat.paging.dto.PagingDto;
 import com.star.seat.review.dto.ReviewDto;
@@ -190,12 +191,18 @@ public class StoreController {
 	
 	// 매장 주문관리 페이지로 이동
 	@RequestMapping("/store/storeOrder")
-	public ModelAndView storeOrder(ModelAndView mView,HttpServletRequest request, 
-			HttpSession session){
-		String num = request.getParameter("num");
-		request.setAttribute("num", num);
-		oService.getStoreList(mView, request, session);
+	public ModelAndView storeOrder(HttpServletRequest request, OrderDto dto){
+		String strPageNum = request.getParameter("pageNum");
+
+		ModelAndView mView = new ModelAndView();
+		Map<String, Object> map = oService.getStoreOrderList(strPageNum, dto);
+		mView.addObject("orderList", map.get("orderList"));
+		mView.addObject("startPageNum", map.get("startPageNum"));
+		mView.addObject("endPageNum", map.get("endPageNum"));
+		mView.addObject("pageNum", map.get("pageNum"));
+		
 		mView.setViewName("store/storeOrder");
+		
 		return mView;
 	}
 	
