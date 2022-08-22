@@ -11,7 +11,7 @@ import com.star.seat.seat.dto.SeatDto;
 
 public interface SeatService {
 	//자리 정보 저장
-	public void insertSeat(SeatDto dto, HttpServletRequest request);
+	public void insertSeat(SeatDto dto);
 	//자리 정보 수정
 	public Map<String, Object> updateSeat(SeatDto dto);
 	//빈 자리 정보 수정
