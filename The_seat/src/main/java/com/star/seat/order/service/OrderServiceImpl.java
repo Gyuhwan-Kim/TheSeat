@@ -217,7 +217,7 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	public Map<String, Object> updateState(OrderDto dto) {
 		Map<String, Object> map=new HashMap<String, Object>();
-		if(dao.updateState(dto) == 1) {
+		if(dao.updateState(dto) >= 1) {
 			map.put("isSuccess",true);
 		} else {
 			map.put("isSuccess",false);
