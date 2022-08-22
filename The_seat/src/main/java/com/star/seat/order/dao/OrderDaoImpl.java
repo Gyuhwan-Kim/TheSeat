@@ -46,11 +46,6 @@ public class OrderDaoImpl implements OrderDao{
 	}
 
 	@Override
-	public int getStoreCount(int num) {
-		return session.selectOne("order.getStoreCount", num);
-	}
-
-	@Override
 	public void updateState(OrderDto dto) {
 		session.update("order.updateState", dto);
 	}

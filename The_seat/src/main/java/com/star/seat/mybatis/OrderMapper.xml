@@ -34,12 +34,6 @@
 		WHERE orderNum = #{orderNum }
 	</select>
 	
-	<select id="getStoreCount" parameterType="int" resultType="int">
-		SELECT NVL(MAX(ROWNUM), 0)
-		FROM order_
-		WHERE num= #{num }
-	</select>
-	
 	<select id="getOrderMenuList" parameterType="orderDto" resultType="orderDto">
 		SELECT menu, menuCount, price
 		FROM order_
