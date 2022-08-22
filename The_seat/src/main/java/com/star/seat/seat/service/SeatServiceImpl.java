@@ -21,7 +21,7 @@ public class SeatServiceImpl implements SeatService {
 	private SeatDao dao;
 	
 	@Override
-	public void insertSeat(SeatDto dto, HttpServletRequest request) {
+	public void insertSeat(SeatDto dto) {
 		
 		dao.insertSeat(dto);
 	}
