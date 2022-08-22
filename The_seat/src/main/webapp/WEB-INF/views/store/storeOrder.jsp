@@ -114,11 +114,11 @@
 </div>
         <!------------------------------------ 옆 사이드바 (매장정보, 메뉴관리 탭) ----------------->
         <aside class="aside">
-        <button onclick="location.href='${pageContext.request.contextPath}/store/myStore.do?num=${num}'">매장 정보</button>
-        <button onclick="location.href='${pageContext.request.contextPath}/store/manageMenu.do?num=${num}'">메뉴 관리</button>
-        <button onclick="location.href='${pageContext.request.contextPath}/store/storeReview.do?num=${num}'">리뷰 관리</button>
+        <button onclick="location.href='${pageContext.request.contextPath}/store/myStore.do?num=${orderList[0].num}'">매장 정보</button>
+        <button onclick="location.href='${pageContext.request.contextPath}/store/manageMenu.do?num=${orderList[0].num}'">메뉴 관리</button>
+        <button onclick="location.href='${pageContext.request.contextPath}/store/storeReview.do?num=${orderList[0].num}'">리뷰 관리</button>
         <button onclick="location.href='#'">주문 확인</button>
-        <button onclick="location.href='${pageContext.request.contextPath}/store/storeSeat.do?num=${num}'">자리 관리</button>
+        <button onclick="location.href='${pageContext.request.contextPath}/store/storeSeat.do?num=${orderList[0].num}'">자리 관리</button>
     </aside>
 </div>
 <script src="https://kit.fontawesome.com/2ebe86210e.js" crossorigin="anonymous"></script>
@@ -129,8 +129,7 @@
 	let phone = document.querySelectorAll(".phone");
 	let orderNumber = document.querySelectorAll(".orderNum");
 	let orderDetail = document.querySelectorAll(".orderDetail");
-	let orderConfirm = document.querySelectorAll(".confirm");
-	let orderCancel = document.querySelectorAll(".cancel");
+	let orderCheck = document.querySelectorAll(".reserve-btn")
 	
 	
 	for(let i=0; i<orderEmail.length; i++){
@@ -178,10 +177,11 @@
 				orderDetail[i].appendChild( tr ); 
 			};
 		});
-		
-		if(orderConfirm.length != 0){
+	
+	
+		if(orderCheck[i].classList.contains("confirm")){
 			//주문 확인 버튼 눌렀을 때 
-			orderConfirm[i].addEventListener("click", function(){
+			orderCheck[i].addEventListener("click", function(){
 				
 				ajaxPromise("${pageContext.request.contextPath}/order/updateState.do","post","orderNum="+orderNum+"&confirm=YES"+"&cancel=NO")
 				.then(function(response){
@@ -189,16 +189,14 @@
 				})
 				.then(function(data){
 					if(data.isSuccess == true){
-						orderConfirm[i].innerText = '완료';
-						orderConfirm[i].setAttribute('disabled',true);
+						orderCheck[i].innerText = '완료';
+						orderCheck[i].setAttribute('disabled',true);
 					};
 				});
 			});
-		}
-		
-		if(orderCancel.length != 0){
-			//주문 확인 완료 버튼 눌렀을 때 
-			orderCancel[i].addEventListener("click", function(){
+		} else if(orderCheck[i].classList.contains("cancel")){
+			//주문 취소 완료 버튼 눌렀을 때 
+			orderCheck[i].addEventListener("click", function(){
 				
 				ajaxPromise("${pageContext.request.contextPath}/order/updateState.do","post","orderNum="+orderNum+"&confirm=NO"+"&cancel=CONFIRM")
 				.then(function(response){
@@ -206,8 +204,8 @@
 				})
 				.then(function(data){
 					if(data.isSuccess == true){
-						orderCancel[i].innerText = '취소 완료';
-						orderCancel[i].setAttribute('disabled',true);
+						orderCheck[i].innerText = '취소 완료';
+						orderCheck[i].setAttribute('disabled',true);
 					};
 				});
 			});
