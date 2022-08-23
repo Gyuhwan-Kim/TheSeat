@@ -10,9 +10,9 @@
 	<!-- 작성한 리뷰 정보를 추가하는 method -->
 	<insert id="addReview" parameterType="reviewDto">
 		insert into storeReview
-		(num, storeNum, storeName, writer, content, star,
+		(num, storeNum, writer, content, star,
 			 targetNum, groupNum, orderNum, imagePath, regdate)
-		values(#{num}, #{storeNum}, #{storeName}, #{writer},
+		values(#{num}, #{storeNum}, #{writer},
 			#{content}, #{star}, #{targetNum}, #{groupNum}, #{orderNum}, #{imagePath}, sysdate)
 	</insert>
 	

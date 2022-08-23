@@ -7,10 +7,10 @@
 		FROM
 			(SELECT result1.*, ROWNUM as rnum
 			FROM
-				(SELECT orderNum, email, storeName, storeLogo, num, tableNum, amount, reviewExist, cancel, confirm, regdate, orderdate
+				(SELECT orderNum, email, storeLogo, num, tableNum, amount, reviewExist, cancel, confirm, regdate, orderdate
 				FROM order_
 				WHERE email = #{email }
-				GROUP BY orderNum, email, storeName, storeLogo, num, tableNum, amount, reviewExist, cancel, confirm, regdate, orderdate
+				GROUP BY orderNum, email, storeLogo, num, tableNum, amount, reviewExist, cancel, confirm, regdate, orderdate
 				ORDER BY regdate DESC) result1)
 		WHERE rnum BETWEEN #{startRowNum} AND #{endRowNum}
 	</select>
@@ -20,10 +20,10 @@
 		FROM
 			(SELECT result1.*, ROWNUM as rnum
 			FROM
-				(SELECT orderNum, email, storeName, storeLogo, num, tableNum, amount, reviewExist, cancel, confirm, regdate, orderdate
+				(SELECT orderNum, email, storeLogo, num, tableNum, amount, reviewExist, cancel, confirm, regdate, orderdate
 				FROM order_
 				WHERE num = #{num }
-				GROUP BY orderNum, email, storeName, storeLogo, num, tableNum, amount, reviewExist, cancel, confirm, regdate, orderdate
+				GROUP BY orderNum, email, storeLogo, num, tableNum, amount, reviewExist, cancel, confirm, regdate, orderdate
 				ORDER BY regdate DESC) result1)
 		WHERE rnum BETWEEN #{startRowNum} AND #{endRowNum}
 	</select>
@@ -42,8 +42,8 @@
 	
 	<insert id="insertOrder" parameterType="orderDto">
 		INSERT INTO order_
-		(orderNum, email, storeName, storeLogo, num, tableNum, menu, menuCount, price, amount, reviewExist, confirm, cancel, regdate, orderdate)
-		VALUES(#{orderNum },#{email }, #{storeName }, #{storeLogo }, #{num }, #{tableNum }, #{menu }, #{menuCount }, #{price }, #{amount }, 'NO' , 'NO' , 'NO' , #{regdate } , SYSDATE)
+		(orderNum, email, storeLogo, num, tableNum, menu, menuCount, price, amount, reviewExist, confirm, cancel, regdate, orderdate)
+		VALUES(#{orderNum },#{email }, #{storeLogo }, #{num }, #{tableNum }, #{menu }, #{menuCount }, #{price }, #{amount }, 'NO' , 'NO' , 'NO' , #{regdate } , SYSDATE)
 	</insert>
 
 	<delete id="deleteOrder" parameterType="int">
