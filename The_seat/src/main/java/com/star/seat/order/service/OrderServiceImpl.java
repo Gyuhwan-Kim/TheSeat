@@ -66,34 +66,32 @@ public class OrderServiceImpl implements OrderService {
 	   
 		//email 이 담긴 dto객체로 OrderDao 객체를 이용해서 주문 목록을 얻어온다.
 		List<OrderDto> list = dao.getList(dto);
-		ReviewDto rDto=new ReviewDto();
-		StoreDto sDto=new StoreDto();
-	    for(int i=0; i<list.size(); i++) {
+		ReviewDto rDto = new ReviewDto();
+		StoreDto sDto = new StoreDto();
+	    for(int i = 0; i < list.size(); i++) {
 	    	// 각 주문번호 정보에 해당 매장의 평균 별점과
 	    	// 해당 주문 번호에 대한 내 별점 담기
-	    	int num=list.get(i).getNum(); // 매장 DB 번호
-	    	rDto.setStoreNum(num);
-	    	// i번째 주문의 주문 번호를 받아서
-	    	int orderNum=list.get(i).getOrderNum();
-	    	rDto.setOrderNum(orderNum);
+	    	int num = list.get(i).getNum(); // 매장 DB 번호
+	    	sDto.setNum(num);
+	    	sDto = sDao.getStoreData(sDto);
 	    	// 해당 매장의 번호로 평균 별점을 가져옴
-	    	float avgStar=(float)(Math.round(rDao.getAvgStar(rDto)*100)/100.0);
+	    	float avgStar = sDto.getAvgStar();
 	    	list.get(i).setAvgStar(avgStar);
+	    	
+	    	// i번째 주문의 주문 번호를 받아서
+	    	int orderNum = list.get(i).getOrderNum();
+	    	rDto.setOrderNum(orderNum);
 	    	// 해당 매장의 주문 번호로 내 별점을 가져옴
 	    	// 하지만 리뷰 테이블에 정보가 없으면 에러를 발생시키기 때문에
 	    	// 만약 해당 주문 번호의 review 존재가 NO라면 myStar=0
-	    	int myStar=0;
+	    	int myStar = 0;
 	    	// 존재가 YES라면
 	    	if(list.get(i).getReviewExist().equals("YES")) {
 	    		// 해당 매장의 주문번호로 별점을 가져옴
 	    		myStar=rDao.getMyStar(rDto);
-	    		list.get(i).setMyStar(myStar);
 	    	}
-	    	// 해당 매장의 매장 DB 번호를 받아옴
-			int sNum=list.get(i).getNum();
-			sDto.setNum(sNum);
-			// 해당 매장의 정보를 받아옴
-			sDto=sDao.getStoreData(sDto);
+	    	list.get(i).setMyStar(myStar);
+	    	
 			// 매장 주인의 이메일과 접속 이메일이 겹치면 yes로
 			// yes라면 review 등록 버튼을 disabled로 출력할 것.
 			if(sDto.getOwner().equals(email)) {
