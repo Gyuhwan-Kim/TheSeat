@@ -74,6 +74,8 @@ public class OrderServiceImpl implements OrderService {
 	    	int num = list.get(i).getNum(); // 매장 DB 번호
 	    	sDto.setNum(num);
 	    	sDto = sDao.getStoreData(sDto);
+	    	// 가져온 매장 data의 매장 이름을 List의 값에 넣어줌
+	    	list.get(i).setStoreName(sDto.getStoreName());
 	    	// 해당 매장의 번호로 평균 별점을 가져옴
 	    	float avgStar = sDto.getAvgStar();
 	    	list.get(i).setAvgStar(avgStar);
