@@ -101,4 +101,11 @@
 		set storeOpen=#{storeOpen}
 		where num=#{num}
 	</update>
+	
+	<!-- 매장의 평균 별점과 리뷰 수를 수정하는 method -->
+	<update id="updateStore_review" parameterType="StoreDto">
+		update store
+		set avgStar=#{avgStar}, reviewCount=#{reviewCount}
+		where num=#{num}
+	</update>
 </mapper>

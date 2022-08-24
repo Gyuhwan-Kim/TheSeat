@@ -39,4 +39,7 @@ public interface StoreDao {
 	
 	// 매장 정보를 삭제하는 method
 	public int deleteStore(StoreDto dto);
+	
+	// 매장의 평균 별점과 리뷰 수를 수정하는 method
+	public int updateStore_review(StoreDto dto);
 }

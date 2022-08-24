@@ -79,4 +79,10 @@ public class StoreDaoImpl implements StoreDao{
 	public int deleteStore(StoreDto dto) {
 		return session.delete("deleteStore", dto);	
 	}
+	
+	// 매장의 평균 별점과 리뷰 수를 수정하는 method
+	@Override
+	public int updateStore_review(StoreDto dto) {
+		return session.update("updateStore_review", dto);
+	}
 }
