@@ -29,14 +29,11 @@ public class ReviewController {
 	@RequestMapping(value = "/store/addReview.do", method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> addReview(ReviewDto dto, HttpServletRequest request){
-		
-		float newAvgStar=service.addReview(dto, request);
-		
-		Map<String, Object> map=new HashMap<>();
-		map.put("beAdded", true);
-		map.put("newAvgStar", newAvgStar);
-		
-		return map;
+		// Tomcat 서버를 실행했을때 WebContent/upload 폴더의 실제 경로 얻어오기
+		String realPath=request.getServletContext().getRealPath("/upload");
+		String email=(String)request.getSession().getAttribute("email");
+
+		return service.addReview(dto, realPath, email);
 	}
 
 	// 해당 매장 리뷰 목록을 불러오는 method

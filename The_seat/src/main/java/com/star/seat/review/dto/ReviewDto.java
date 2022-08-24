@@ -12,7 +12,7 @@ public class ReviewDto {
 	private int star;
 	private int targetNum;
 	private int groupNum;
-	private float orderNum;
+	private int orderNum;
 	private String reviewCheck;
 	private String imagePath;
 	private String regdate;
@@ -24,7 +24,7 @@ public class ReviewDto {
 	}
 
 	public ReviewDto(int num, int storeNum, String storeName, String writer, String content, int star, int targetNum,
-			int groupNum, float orderNum, String reviewCheck, String imagePath, String regdate,
+			int groupNum, int orderNum, String reviewCheck, String imagePath, String regdate,
 			MultipartFile imageFile) {
 		super();
 		this.num = num;
@@ -106,11 +106,11 @@ public class ReviewDto {
 		this.groupNum = groupNum;
 	}
 
-	public float getOrderNum() {
+	public int getOrderNum() {
 		return orderNum;
 	}
 
-	public void setOrderNum(float orderNum) {
+	public void setOrderNum(int orderNum) {
 		this.orderNum = orderNum;
 	}
 

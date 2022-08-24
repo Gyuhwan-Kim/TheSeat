@@ -27,24 +27,22 @@ public class ReviewServiceImpl implements ReviewService{
 	
 	// 작성한 리뷰 정보를 추가하는 method
 	@Override
-	public float addReview(ReviewDto dto, HttpServletRequest request) {
-		// Tomcat 서버를 실행했을때 WebContent/upload 폴더의 실제 경로 얻어오기
-		String realPath=request.getServletContext().getRealPath("/upload");
+	public Map<String, Object> addReview(ReviewDto dto, String realPath, String email) {
 		//저장할 파일의 상세 경로
-		String filePath=realPath+File.separator;
+		String filePath = realPath+File.separator;
 		//해당 경로를 access 할수 있는 파일 객체 생성
-		File f=new File(realPath);
+		File f = new File(realPath);
 		if(!f.exists()){ //만일  폴더가 존재 하지 않으면
 			f.mkdir(); //upload 폴더 만들기 
 		}
 		
 		// upload할 image 정보
-		MultipartFile reviewImage=dto.getImageFile();
-		if(reviewImage!=null) {
+		MultipartFile reviewImage = dto.getImageFile();
+		if(reviewImage != null) {
 			//원본 파일명 
-			String orgFileName=reviewImage.getOriginalFilename();
+			String orgFileName = reviewImage.getOriginalFilename();
 			//upload 폴더에 저장된 파일명 
-			String saveFileName=System.currentTimeMillis()+orgFileName;
+			String saveFileName = System.currentTimeMillis()+orgFileName;
 			dto.setImagePath("/upload/"+saveFileName);
 			try {
 				//upload 폴더에 파일을 저장한다.
@@ -55,41 +53,60 @@ public class ReviewServiceImpl implements ReviewService{
 		} else {
 			dto.setImagePath("null");
 		}
-	
-		String email=(String)request.getSession().getAttribute("email");
+
 		dto.setWriter(email);
 		
-		StoreDto sDto=new StoreDto();
+		StoreDto sDto = new StoreDto();
 		sDto.setNum(dto.getStoreNum());
 		// 해당 매장의 정보를 불러옴
-		sDto=sDao.getStoreData(sDto);
-		dto.setStoreName(sDto.getStoreName());
+		sDto = sDao.getStoreData(sDto);
+		
+		// 미리 리뷰 table의 num column에 다음에 들어갈 숫자를 받아
+		int num = dao.getSequence();
 		
 		// 해당 댓글 작성자의 이메일과 사장님의 이메일이 같으면
 		// targetNum에 0을 넣지 않기 위해 해당 review num을 넣어줌
 		if(email.equals(sDto.getOwner())){
-			int num=dao.getSequence();
+			dto.setNum(num);
+			// 해당 num data는 매장 관리 페이지에서만 넘어온다
 			dto.setTargetNum(dto.getNum());
 			dto.setGroupNum(dto.getNum());
-			dto.setNum(num);
 		} else {
 			// 이메일이 달라서 유저인 것이 확인되면
-			// sequence의 다음 숫자를 미리 읽어와서 넣어줌.
-			int num=dao.getSequence();
+			// 미리 읽어온 sequence의 다음 숫자를 넣어줌.
 			dto.setNum(num);
 			dto.setGroupNum(num);
 		}
 		
-		OrderDto oDto=new OrderDto();
-		oDto.setOrderNum((int)dto.getOrderNum());
+		// Order table을 수정하기 위해 만듦
+		OrderDto oDto = new OrderDto();
+		oDto.setOrderNum(dto.getOrderNum());
 		oDto.setReviewExist("YES");
 		
+		// 리뷰 table에 data를 추가하고
 		dao.addReview(dto);
+		// 주문 table에 리뷰의 존재를 업데이트
 		dao.reviewExist(oDto);
 		
-		float newAvgStar=(float)(Math.round(dao.getAvgStar(dto)*100)/100.0);
+		int newReviewCount = sDto.getReviewCount() + 1;
+		// 소수점 두 자리까지 표기되도록 한 후
+		String strAvgStar = String.format("%.2f", 
+				(sDto.getAvgStar() * sDto.getReviewCount() + dto.getStar()) / newReviewCount);
+		// String을 다시 float으로 바꿔서
+		float newAvgStar = Float.valueOf(strAvgStar);
+		// sDto에 setting
+		sDto.setAvgStar(newAvgStar);
+		sDto.setReviewCount(newReviewCount);
 		
-		return newAvgStar;
+		Map<String, Object> map=new HashMap<>();
+		if(sDao.updateStore_review(sDto) == 1) {
+			map.put("isAdded", true);
+			map.put("newAvgStar", newAvgStar);
+		} else {
+			map.put("isAdded", false);
+		}
+		
+		return map;
 	}
 	
 	// 해당 매장 리뷰 정보를 가져오는 method

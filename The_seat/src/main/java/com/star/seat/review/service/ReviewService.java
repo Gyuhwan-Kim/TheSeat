@@ -9,7 +9,7 @@ import com.star.seat.review.dto.ReviewDto;
 
 public interface ReviewService {
 	// 작성한 리뷰 정보를 추가하는 method
-	public float addReview(ReviewDto dto, HttpServletRequest request);
+	public Map<String, Object> addReview(ReviewDto dto, String realPath, String email);
 	
 	// 해당 매장 리뷰 정보를 가져오는 method
 	public List<ReviewDto> getReviewList(ReviewDto dto);

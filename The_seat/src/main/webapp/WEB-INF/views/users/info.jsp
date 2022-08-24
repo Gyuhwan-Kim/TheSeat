@@ -694,7 +694,7 @@ type="text/css" />
 			.then(function(response){
 				return response.json();
 			}).then(function(data){
-				if(data.beAdded){
+				if(data.isAdded){
 					document.querySelector("#addCloseBtn").click();
 					alert("리뷰를 등록하였습니다.");
 					document.querySelector("button.reviewBtn[data-num2=\'"+num+"\']").style.display="none";
@@ -702,6 +702,8 @@ type="text/css" />
 					let newMyStar=document.querySelector("#insertStarSelect").value;
 					document.querySelector("span.myStar[data-num2=\'"+num+"\']").innerText=newMyStar;
 					document.querySelector("span.avgStar[data-num2=\'"+num+"\']").innerText=data.newAvgStar;
+				} else {
+					alert("리뷰를 등록할 수 없습니다. 문제가 반복된다면 문의 바랍니다.");
 				}
 			});
 		});
