@@ -730,7 +730,7 @@ type="text/css" />
 			.then(function(response){
 				return response.json();
 			}).then(function(data){
-				if(data.beTaken){
+				if(data.isTaken){
 					let reviewList=data.reviewList;
 					if(reviewList.length==0){
 						test=`<p>아직 작성된 리뷰가 없습니다.</p>`
@@ -818,6 +818,8 @@ type="text/css" />
 							}
 					    });
 					}
+				} else {
+					test=`<p>리뷰를 불러올 수 없습니다. 문제가 반복된다면 문의 바랍니다.</p>`
 				}
 			});
 		});	

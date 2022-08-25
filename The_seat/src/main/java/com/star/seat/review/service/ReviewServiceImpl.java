@@ -111,12 +111,15 @@ public class ReviewServiceImpl implements ReviewService{
 	
 	// 해당 매장 리뷰 정보를 가져오는 method
 	@Override
-	public List<ReviewDto> getReviewList(ReviewDto dto) {
+	public Map<String, Object> getReviewList(ReviewDto dto) {
 		// 전달받은 dto에는 DB에 저장된 매장의 number data가 storeNum에 있다.
+		Map<String, Object> map = new HashMap<>();
+
 		List<ReviewDto> list = dao.getReviewList(dto);
 		
-		Map<String, Object> map = new HashMap<>();
 		if(list != null) {
+			map.put("isTaken", true);
+			map.put("reviewList", list);
 			for(int i = 0; i < list.size(); i++) {
 				if(list.get(i).getTargetNum() == 0) {
 					list.get(i).setReviewCheck("no");
@@ -124,9 +127,11 @@ public class ReviewServiceImpl implements ReviewService{
 					list.get(i).setReviewCheck("yes");
 				}
 			}
+		} else {
+			map.put("isTaken", false);
 		}
 			
-		return list;
+		return map;
 	}
 	
 	// 해당 DB번호의 리뷰 정보를 삭제하는 method

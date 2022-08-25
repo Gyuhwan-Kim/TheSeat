@@ -39,14 +39,9 @@ public class ReviewController {
 	// 해당 매장 리뷰 목록을 불러오는 method
 	@RequestMapping(value = "/store/getReview.do", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> getReviewList(ReviewDto dto, HttpServletRequest request){
+	public Map<String, Object> getReviewList(ReviewDto dto){
 		
-		Map<String, Object> map = new HashMap<>();
-		
-		map.put("beTaken", true);
-		map.put("reviewList", service.getReviewList(dto));
-		
-		return map;
+		return service.getReviewList(dto);
 	}
 
 	// 해당 리뷰를 삭제하는 method
