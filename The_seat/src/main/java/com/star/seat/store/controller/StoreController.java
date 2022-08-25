@@ -166,7 +166,7 @@ public class StoreController {
 		ReviewDto rDto = new ReviewDto();
 		rDto.setStoreNum(dto.getNum());
 		// 매장 number 정보를 담은 rDto를 통해 리뷰 List를 불러온 것을 담아줌
-		mView.addObject("reviewList", rService.getReviewList(rDto));
+		mView.addObject("reviewList", rService.getReviewList(rDto).get("reviewList"));
 		
 		// 자리에 대한 sDto의 num에는 이미 매장 정보가 들어있다. (매장의 DB num과 동일)
 		mView.addObject("sDto", seatService.getSeat(sDto));
