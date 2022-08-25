@@ -21,7 +21,7 @@ public interface ReviewService {
 	public void deleteReview_owner(ReviewDto dto);
 	
 	// 해당 DB번호의 리뷰 정보를 가져오는 method
-	public ReviewDto getReviewData(ReviewDto dto);
+	public Map<String, Object> getReviewData(ReviewDto dto);
 	
 	// 해당 DB번호의 리뷰 정보를 수정하는 method
 	public float updateReview(ReviewDto dto, HttpServletRequest request);

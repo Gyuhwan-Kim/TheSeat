@@ -156,11 +156,20 @@ public class ReviewServiceImpl implements ReviewService{
 		dao.deleteReview_owner(dto);
 	}
 	
-	// 해당 DB번호의 리뷰 정보를 가져오는 method
+	// 리뷰 수정 modal에 해당 DB번호의 리뷰 정보를 가져오는 method
 	@Override
-	public ReviewDto getReviewData(ReviewDto dto) {
+	public Map<String, Object> getReviewData(ReviewDto dto) {
+		Map<String, Object> map = new HashMap<>();
 		
-		return dao.getReviewData(dto);
+		dto = dao.getReviewData(dto);
+		if(dto != null) {
+			map.put("isSuccess", true);
+			map.put("reviewData", dto);
+		} else {
+			map.put("isSuccess", false);
+		}
+		
+		return map;
 	}
 	
 	// 해당 DB번호의 리뷰 정보를 수정하는 method

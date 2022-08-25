@@ -75,14 +75,8 @@ public class ReviewController {
 	@RequestMapping(value = "/store/getReviewData.do", method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> getReviewData(ReviewDto dto){
-
-		ReviewDto rDto=service.getReviewData(dto);
 		
-		Map<String, Object> map=new HashMap<>();
-		map.put("beSuccess", true);
-		map.put("reviewData", rDto);
-		
-		return map;
+		return service.getReviewData(dto);
 	}
 	
 	// 해당 리뷰를 수정하는 method

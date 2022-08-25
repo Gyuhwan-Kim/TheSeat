@@ -848,12 +848,14 @@ type="text/css" />
 			.then(function(response){
 				return response.json();
 			}).then(function(data){
-				if(data.beSuccess){
+				if(data.isSuccess){
 					let path="${pageContext.request.contextPath}"+data.reviewData.imagePath;
 					document.querySelector("#updateImg").setAttribute("src", path);
 					document.querySelector("#updateOrderNum").value=data.reviewData.orderNum;
 					document.querySelector("#updateContent").innerText=data.reviewData.content;
 					document.querySelector("option.updateStar[value=\'"+data.reviewData.star+"\']").selected=true;
+				} else {
+					alert("작성한 리뷰 내역을 불러올 수 없습니다. 문제가 반복된다면 문의 바랍니다.");
 				}
 			});
 		});
