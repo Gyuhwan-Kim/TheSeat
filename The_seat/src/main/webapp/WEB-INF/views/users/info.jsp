@@ -875,12 +875,14 @@ type="text/css" />
 			.then(function(response){
 				return response.json();
 			}).then(function(data){
-				if(data.beUpdated){
+				if(data.isUpdated){
 					document.querySelector("#updateCloseBtn").click();
 					alert("리뷰를 수정하였습니다.");
 					let newMyStar=document.querySelector("#updateStarSelect").value;
 					document.querySelector("span.myStar[data-num2=\'"+num+"\']").innerText=newMyStar;
 					document.querySelector("span.avgStar[data-num2=\'"+num+"\']").innerText=data.newAvgStar;
+				} else {
+					alert("리뷰를 수정할 수 없습니다. 문제가 반복된다면 문의 바랍니다.");
 				}
 			});
 		});

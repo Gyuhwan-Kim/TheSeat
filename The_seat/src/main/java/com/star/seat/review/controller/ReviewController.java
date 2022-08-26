@@ -83,14 +83,12 @@ public class ReviewController {
 	@RequestMapping(value = "/store/updateReview.do", method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> updateReview(ReviewDto dto, HttpServletRequest request){
+		// 이메일 정보 넣어주기
+		String email=(String)request.getSession().getAttribute("email");
+		// Tomcat 서버를 실행했을때 WebContent/upload 폴더의 실제 경로 얻어오기
+		String realPath=request.getServletContext().getRealPath("/upload");
 		
-		float newAvgStar=service.updateReview(dto, request);
-		
-		Map<String, Object> map=new HashMap<>();
-		map.put("beUpdated", true);
-		map.put("newAvgStar", newAvgStar);
-		
-		return map;
+		return service.updateReview(dto, email, realPath);
 	}
 	
 	// 매장 관리 페이지에서 유저의 해당 리뷰에 대한 관리자의 리뷰가 존재하는지 여부를 알려주는 method

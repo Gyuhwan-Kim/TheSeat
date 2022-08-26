@@ -174,13 +174,10 @@ public class ReviewServiceImpl implements ReviewService{
 	
 	// 해당 DB번호의 리뷰 정보를 수정하는 method
 	@Override
-	public float updateReview(ReviewDto dto, HttpServletRequest request) {
+	public Map<String, Object> updateReview(ReviewDto dto, String email, String realPath) {
 		// 이메일 정보 넣어주기
-		String email=(String)request.getSession().getAttribute("email");
 		dto.setWriter(email);
 		
-		// Tomcat 서버를 실행했을때 WebContent/upload 폴더의 실제 경로 얻어오기
-		String realPath=request.getServletContext().getRealPath("/upload");
 		//저장할 파일의 상세 경로
 		String filePath=realPath+File.separator;
 		
@@ -201,11 +198,31 @@ public class ReviewServiceImpl implements ReviewService{
 		} else {
 			dto.setImagePath("null");
 		}
-		
+
+		// 리뷰를 업데이트 하고
 		dao.updateReview(dto);
-		float newAvgStar=(float)(Math.round(dao.getAvgStar(dto)*100)/100.0);
 		
-		return newAvgStar;
+		// 평균 별점을 다시 계산한 후
+		String strAvgStar = String.format("%.2f", dao.getAvgStar(dto));
+
+		// String을 다시 float으로 바꿔서
+		float newAvgStar = Float.valueOf(strAvgStar);
+		// sDto에 setting
+		StoreDto sDto = new StoreDto();
+		sDto.setAvgStar(newAvgStar);
+		sDto.setReviewCount(-7);
+		sDto.setNum(dto.getStoreNum());
+
+		Map<String, Object> map=new HashMap<>();
+		// 매장의 평점도 업데이트 함
+		if(sDao.updateStore_review(sDto) == 1) {
+			map.put("isUpdated", true);
+			map.put("newAvgStar", newAvgStar);
+		} else {
+			map.put("isUpdated", false);
+		}
+		
+		return map;
 	}
 	
 	// 해당 리뷰 번호로 되어있는 targetNum 정보가 있는지 여부를 알아내는 method
