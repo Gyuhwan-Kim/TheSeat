@@ -96,7 +96,7 @@ public class ReviewServiceImpl implements ReviewService{
 		float newAvgStar = Float.valueOf(strAvgStar);
 		// sDto에 setting
 		sDto.setAvgStar(newAvgStar);
-		sDto.setReviewCount(newReviewCount);
+		sDto.setReviewCount(1);
 		
 		Map<String, Object> map=new HashMap<>();
 		if(sDao.updateStore_review(sDto) == 1) {
@@ -229,7 +229,7 @@ public class ReviewServiceImpl implements ReviewService{
 		// sDto에 setting
 		StoreDto sDto = new StoreDto();
 		sDto.setAvgStar(newAvgStar);
-		sDto.setReviewCount(-7);
+		sDto.setReviewCount(0);
 		sDto.setNum(dto.getStoreNum());
 
 		Map<String, Object> map=new HashMap<>();
