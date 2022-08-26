@@ -105,14 +105,7 @@
 	<!-- 매장의 평균 별점과 리뷰 수를 수정하는 method -->
 	<update id="updateStore_review" parameterType="StoreDto">
 		update store
-		<choose>
-			<when test="reviewCount == -7">
-				set avgStar=#{avgStar}
-			</when>
-			<otherwise>
-				set avgStar=#{avgStar}, reviewCount=#{reviewCount}
-			</otherwise>
-		</choose>
+		set avgStar=#{avgStar}, reviewCount=reviewCount+(#{reviewCount})
 		where num=#{num}
 	</update>
 </mapper>
