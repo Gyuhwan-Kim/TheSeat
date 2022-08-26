@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.star.seat.order.dto.OrderDto;
 import com.star.seat.order.service.OrderService;
 import com.star.seat.review.dto.ReviewDto;
 import com.star.seat.review.service.ReviewService;
@@ -47,15 +48,9 @@ public class ReviewController {
 	// 해당 리뷰를 삭제하는 method
 	@RequestMapping(value = "/store/deleteReview.do", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> deleteReview(ReviewDto dto){
+	public Map<String, Object> deleteReview(ReviewDto dto, OrderDto oDto){
 		
-		float newAvgNum=service.deleteReview(dto);
-		
-		Map<String, Object> map=new HashMap<>();
-		map.put("beDeleted", true);
-		map.put("newAvgNum", newAvgNum);
-		
-		return map;
+		return service.deleteReview(dto, oDto);
 	}
 	
 	// 해당 사장님리뷰를 삭제하는 method

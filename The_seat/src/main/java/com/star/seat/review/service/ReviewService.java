@@ -5,6 +5,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.star.seat.order.dto.OrderDto;
 import com.star.seat.review.dto.ReviewDto;
 
 public interface ReviewService {
@@ -15,7 +16,7 @@ public interface ReviewService {
 	public Map<String, Object> getReviewList(ReviewDto dto);
 	
 	// 해당 DB번호의 리뷰 정보를 삭제하는 method
-	public float deleteReview(ReviewDto dto);
+	public Map<String, Object> deleteReview(ReviewDto dto, OrderDto oDto);
 	
 	// 해당 DB번호의 리뷰 정보를 삭제하는 method(사장님은 사장님것만 삭제)
 	public void deleteReview_owner(ReviewDto dto);

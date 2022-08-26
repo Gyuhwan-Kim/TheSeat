@@ -895,13 +895,15 @@ type="text/css" />
 		
 		let wantDelete=confirm("이 주문에 대한 리뷰를 삭제하시겠습니까?");
 		if(wantDelete){
+			let storeNum=this.getAttribute("data-num");
 			let orderNum=this.getAttribute("data-num2");
+			let obj = {storeNum, orderNum}
 			
-			ajaxPromise("${pageContext.request.contextPath}/store/deleteReview.do", "post", "orderNum="+orderNum)
+			ajaxPromise("${pageContext.request.contextPath}/store/deleteReview.do", "post", obj)
 			.then(function(response){
 				return response.json();
 			}).then(function(data){
-				if(data.beDeleted){
+				if(data.isDeleted){
 					alert("리뷰를 삭제하였습니다.");
 					document.querySelector("#updateCloseBtn").click();
 					document.querySelector("button.reviewBtn[data-num2=\'"+orderNum+"\']").style.display="block";
@@ -912,7 +914,9 @@ type="text/css" />
 					} else {
 						document.querySelector("span.avgStar[data-num2=\'"+orderNum+"\']").innerText=data.newAvgStar;
 					}
-				}			
+				} else {
+					alert("리뷰를 삭제할 수 없습니다. 문제가 반복된다면 문의 바랍니다.");
+				}
 			});	
 		}
 	});

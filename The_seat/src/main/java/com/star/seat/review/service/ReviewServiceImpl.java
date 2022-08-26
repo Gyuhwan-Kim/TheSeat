@@ -136,17 +136,36 @@ public class ReviewServiceImpl implements ReviewService{
 	
 	// 해당 DB번호의 리뷰 정보를 삭제하는 method
 	@Override
-	public float deleteReview(ReviewDto dto) {
-		OrderDto oDto=new OrderDto();
-		oDto.setOrderNum((int)dto.getOrderNum());
+	public Map<String, Object> deleteReview(ReviewDto dto, OrderDto oDto) {
+		// 두 Dto로 주문 번호인 orderNum이 담겨서 온다
 		oDto.setReviewExist("NO");
 		
+		// 넘어오는 주문번호로 리뷰 삭제
 		dao.deleteReview(dto);
+		// 리뷰의 존재를 업데이트
 		dao.reviewExist(oDto);
 		
-		float newAvgStar=(float)(Math.round(dao.getAvgStar(dto)*100)/100.0);
+		// 평균 별점을 다시 계산한 후
+		String strAvgStar = String.format("%.2f", dao.getAvgStar(dto));
+
+		// String을 다시 float으로 바꿔서
+		float newAvgStar = Float.valueOf(strAvgStar);
+		// sDto에 setting
+		StoreDto sDto = new StoreDto();
+		sDto.setAvgStar(newAvgStar);
+		sDto.setReviewCount(-1);
+		sDto.setNum(dto.getStoreNum());
+
+		Map<String, Object> map=new HashMap<>();
+		// 매장의 평점도 업데이트 함
+		if(sDao.updateStore_review(sDto) == 1) {
+			map.put("isDeleted", true);
+			map.put("newAvgStar", newAvgStar);
+		} else {
+			map.put("isDeleted", false);
+		}
 		
-		return newAvgStar;
+		return map;
 	}
 	
 	// 해당 DB번호의 리뷰 정보를 삭제하는 method(사장님은 사장님것만 삭제)
