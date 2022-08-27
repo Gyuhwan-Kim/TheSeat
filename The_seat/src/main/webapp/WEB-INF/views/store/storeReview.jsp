@@ -89,12 +89,12 @@
 														<c:when test="${tmp.reviewCheck != 'yes'}">
 															<button class="addBtn">댓글 작성</button>
 															<button data-num="${tmp.num }" data-num2="${tmp.orderNum }" class="updateBtn"style="display:none">수정</button>
-															<button data-num="${tmp.num }" data-num2="${tmp.orderNum }" class="deleteBtn" style="display:none">삭제</button>
+															<button data-num="${tmp.num }" data-num2="${tmp.storeNum }" class="deleteBtn" style="display:none">삭제</button>
 														</c:when>
 														<c:when test="${tmp.reviewCheck == 'yes'}">
 															<button class="addBtn" style="display:none">댓글 작성</button>
 															<button data-num="${tmp.num }" data-num2="${tmp.orderNum }" class="updateBtn">수정</button>
-															<button data-num="${tmp.num }" data-num2="${tmp.orderNum }" class="deleteBtn">삭제</button>
+															<button data-num="${tmp.num }" data-num2="${tmp.storeNum }" class="deleteBtn">삭제</button>
 														</c:when>
 													</c:choose>	
 												</div>
@@ -288,12 +288,14 @@
 			if(wantDelete){
 				// 해당 리뷰의 번호를 들고와서 targetNum이 이것인 것을 삭제
 				let num=this.getAttribute("data-num");
+				let storeNum = this.getAttribute("data-num2");
+				let obj = {num, storeNum};
 				
-				ajaxPromise("${pageContext.request.contextPath}/store/deleteOwnerReview.do", "post", "num="+num)
+				ajaxPromise("${pageContext.request.contextPath}/store/deleteReview.do", "post", obj)
 				.then(function(response){
 					return response.json();
 				}).then(function(data){
-					if(data.beDeleted){
+					if(data.isDeleted){
 						alert("댓글을 삭제하였습니다.");
 						ownerComments[i].innerText="사장님의 답글을 작성해주세요~";
 						addBtns[i].style.display="block";
@@ -302,6 +304,8 @@
 						ownerReviewBox[i].style.display="block";
 						ownerReviewUpdateFormBoxes[i].style.display="none";
 						review[i].innerText="답글 작성";
+					} else {
+						alert("리뷰를 삭제할 수 없습니다. 문제가 반복된다면 문의 바랍니다.");
 					}
 				});
 			}

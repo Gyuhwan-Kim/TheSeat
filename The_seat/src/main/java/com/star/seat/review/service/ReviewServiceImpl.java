@@ -145,43 +145,49 @@ public class ReviewServiceImpl implements ReviewService{
 	
 	// 해당 DB번호의 리뷰 정보를 삭제하는 method
 	@Override
-	public Map<String, Object> deleteReview(ReviewDto dto, OrderDto oDto) {
-		// 두 Dto로 주문 번호인 orderNum이 담겨서 온다
-		oDto.setReviewExist("NO");
-		
-		// 넘어오는 주문번호로 리뷰 삭제
-		dao.deleteReview(dto);
-		// 리뷰의 존재를 업데이트
-		dao.reviewExist(oDto);
-		
-		// 평균 별점을 다시 계산한 후
-		String strAvgStar = String.format("%.2f", dao.getAvgStar(dto));
+	public Map<String, Object> deleteReview(ReviewDto dto, OrderDto oDto, String email) {
 
-		// String을 다시 float으로 바꿔서
-		float newAvgStar = Float.valueOf(strAvgStar);
-		// sDto에 setting
 		StoreDto sDto = new StoreDto();
-		sDto.setAvgStar(newAvgStar);
-		sDto.setReviewCount(-1);
 		sDto.setNum(dto.getStoreNum());
-
+		sDto = sDao.getStoreData(sDto);
+		
 		Map<String, Object> map=new HashMap<>();
-		// 매장의 평점도 업데이트 함
-		if(sDao.updateStore_review(sDto) == 1) {
-			map.put("isDeleted", true);
-			map.put("newAvgStar", newAvgStar);
+
+		if(sDto.getOwner().equals(email)) {
+			// 매장 리뷰 관리 페이지에서는 주문 번호에 대한 data가 없다.
+			if(dao.deleteReview(dto) == 1) {
+				map.put("isDeleted", true);
+			} else {
+				map.put("isDeleted", false);
+			}
 		} else {
-			map.put("isDeleted", false);
+			// 두 Dto로 주문 번호인 orderNum이 담겨서 온다
+			oDto.setReviewExist("NO");
+			
+			// 넘어오는 주문번호로 리뷰 삭제
+			dao.deleteReview(dto);
+			// 리뷰의 존재를 업데이트
+			dao.reviewExist(oDto);
+			
+			// 평균 별점을 다시 계산한 후
+			String strAvgStar = String.format("%.2f", dao.getAvgStar(dto));
+
+			// String을 다시 float으로 바꿔서
+			float newAvgStar = Float.valueOf(strAvgStar);
+			// sDto에 setting
+			sDto.setAvgStar(newAvgStar);
+			sDto.setReviewCount(-1);
+
+			// 매장의 평점도 업데이트 함
+			if(sDao.updateStore_review(sDto) == 1) {
+				map.put("isDeleted", true);
+				map.put("newAvgStar", newAvgStar);
+			} else {
+				map.put("isDeleted", false);
+			}
 		}
 		
 		return map;
-	}
-	
-	// 해당 DB번호의 리뷰 정보를 삭제하는 method(사장님은 사장님것만 삭제)
-	@Override
-	public void deleteReview_owner(ReviewDto dto) {
-		
-		dao.deleteReview_owner(dto);
 	}
 	
 	// 리뷰 수정 modal에 해당 DB번호의 리뷰 정보를 가져오는 method

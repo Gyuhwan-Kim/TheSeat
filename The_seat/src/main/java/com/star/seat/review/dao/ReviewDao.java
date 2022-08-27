@@ -16,10 +16,7 @@ public interface ReviewDao {
 	public List<ReviewDto> getReviewList(ReviewDto dto);
 	
 	// 해당 DB번호의 리뷰 정보를 삭제하는 method(유저는 사장님까지 삭제)
-	public void deleteReview(ReviewDto dto);
-	
-	// 해당 DB번호의 리뷰 정보를 삭제하는 method(사장님은 사장님것만 삭제)
-	public void deleteReview_owner(ReviewDto dto);
+	public int deleteReview(ReviewDto dto);
 	
 	// 해당 DB번호의 리뷰 정보를 가져오는 method
 	public ReviewDto getReviewData(ReviewDto dto);

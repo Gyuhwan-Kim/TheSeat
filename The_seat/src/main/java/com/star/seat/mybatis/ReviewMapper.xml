@@ -28,14 +28,16 @@
 	<delete id="deleteReview" parameterType="reviewDto">
 		delete
 		from storeReview
-		where orderNum=#{orderNum}
-	</delete>
-	
-	<!-- 해당 DB번호의 리뷰 정보를 삭제하는 method(사장님은 사장님것만 삭제) -->
-	<delete id="deleteReview_owner" parameterType="reviewDto">
-		delete
-		from storeReview
-		where targetNum=#{num}
+		<choose>
+			<!-- 유저 -->
+			<when test="orderNum != 0">
+				where orderNum=#{orderNum}
+			</when>
+			<!-- 매장 관리자 -->
+			<when test="orderNum == 0">
+				where targetNum=#{num}
+			</when>
+		</choose>
 	</delete>
 	
 	<!-- 해당 DB번호의 리뷰 정보를 가져오는 method -->

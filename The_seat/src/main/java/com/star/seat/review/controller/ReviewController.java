@@ -61,23 +61,11 @@ public class ReviewController {
 	// 해당 리뷰를 삭제하는 method
 	@RequestMapping(value = "/store/deleteReview.do", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> deleteReview(ReviewDto dto, OrderDto oDto){
+	public Map<String, Object> deleteReview(ReviewDto dto, OrderDto oDto, HttpSession session){
+		String email = (String)session.getAttribute("email");
 		
-		return service.deleteReview(dto, oDto);
+		return service.deleteReview(dto, oDto, email);
 	}
-	
-	// 해당 사장님리뷰를 삭제하는 method
-		@RequestMapping(value = "/store/deleteOwnerReview.do", method = RequestMethod.POST)
-		@ResponseBody
-		public Map<String, Object> deleteOwnerReview(ReviewDto dto){
-			
-			service.deleteReview_owner(dto);
-			
-			Map<String, Object> map=new HashMap<>();
-			map.put("beDeleted", true);
-			
-			return map;
-		}
 	
 	// 해당 리뷰 정보를 가져오는 method
 	@RequestMapping(value = "/store/getReviewData.do", method = RequestMethod.POST)
