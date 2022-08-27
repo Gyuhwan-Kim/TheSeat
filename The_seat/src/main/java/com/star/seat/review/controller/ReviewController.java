@@ -18,6 +18,7 @@ import com.star.seat.order.dto.OrderDto;
 import com.star.seat.order.service.OrderService;
 import com.star.seat.review.dto.ReviewDto;
 import com.star.seat.review.service.ReviewService;
+import com.star.seat.store.dto.StoreDto;
 
 @Controller
 public class ReviewController {
@@ -25,6 +26,18 @@ public class ReviewController {
 	private ReviewService service;
 	@Autowired
 	private OrderService oService;
+	
+	// 매장 리뷰 관리 페이지로 이동
+	@RequestMapping("/store/storeReview.do")
+	public ModelAndView storeReview(ReviewDto dto){
+		dto.setStoreNum(dto.getNum());
+		
+		ModelAndView mView = new ModelAndView();
+		mView.addObject("reviewList", service.getReviewList(dto).get("reviewList"));
+		mView.setViewName("store/storeReview");
+		
+		return mView;
+	}
 	
 	// 작성한 리뷰 정보를 추가하는 method
 	@RequestMapping(value = "/store/addReview.do", method = RequestMethod.POST)

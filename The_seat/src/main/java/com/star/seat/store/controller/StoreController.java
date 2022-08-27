@@ -176,19 +176,6 @@ public class StoreController {
 		return mView;
 	}
 	
-	// 매장 리뷰 관리 페이지로 이동
-	@RequestMapping("/store/storeReview.do")
-	public String storeReview(StoreDto dto, HttpServletRequest request){
-		String num = request.getParameter("num");
-		request.setAttribute("num", num);
-		ReviewDto rDto=new ReviewDto();
-		rDto.setStoreNum(dto.getNum());
-		
-		request.setAttribute("reviewList", rService.getReviewList(rDto));
-		
-		return "store/storeReview";
-	}
-	
 	// 매장 주문관리 페이지로 이동
 	@RequestMapping("/store/storeOrder")
 	public ModelAndView storeOrder(HttpServletRequest request, OrderDto dto){
