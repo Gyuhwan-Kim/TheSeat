@@ -28,5 +28,5 @@ public interface ReviewService {
 	public Map<String, Object> updateReview(ReviewDto dto, String email, String realPath);
 	
 	// 해당 리뷰 번호로 되어있는 targetNum 정보가 있는지 여부를 알아내는 method
-	public Map<String, Object> getMyReview(ReviewDto dto, HttpServletRequest request);
+	public Map<String, Object> getMyReview(ReviewDto dto);
 }

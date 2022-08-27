@@ -103,10 +103,8 @@ public class ReviewController {
 	// 있으면 true, 없으면 false를 return하게 된다.
 	@RequestMapping(value = "/store/getMyReview.do", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> getMyReview(ReviewDto dto, HttpServletRequest request){
+	public Map<String, Object> getMyReview(ReviewDto dto){
 		
-		Map<String, Object> map=service.getMyReview(dto, request);
-		
-		return map;
+		return service.getMyReview(dto);
 	}
 }

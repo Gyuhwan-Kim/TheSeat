@@ -61,7 +61,7 @@
 													<!-- 버튼 클릭시 글 작성 가능한 사장님 답글 말풍선 생성-->
 													<button data-num="${tmp.groupNum }" href="javascript:" class="userReview">
 														<c:choose>
-															<c:when test="${tmp.reviewCheck == 'no' }">
+															<c:when test="${tmp.reviewCheck != 'yes' }">
 																<span class="user-review__reply">답글 작성</span>
 															</c:when>
 															<c:when test="${tmp.reviewCheck == 'yes' }">
@@ -86,7 +86,7 @@
 												<div class="edit-btn">
 													<i class="fas fa-edit" style="display: none;"></i>
 													<c:choose>
-														<c:when test="${tmp.reviewCheck == 'no'}">
+														<c:when test="${tmp.reviewCheck != 'yes'}">
 															<button class="addBtn">댓글 작성</button>
 															<button data-num="${tmp.num }" data-num2="${tmp.orderNum }" class="updateBtn"style="display:none">수정</button>
 															<button data-num="${tmp.num }" data-num2="${tmp.orderNum }" class="deleteBtn" style="display:none">삭제</button>
@@ -212,7 +212,7 @@
 				.then(function(response){
 					return response.json();
 				}).then(function(data){
-					if(!data.beChecked){
+					if(!data.isChecked){
 						ownerComments[i].innerText="사장님의 답글을 작성해주세요~";
 					} else {
 						ownerRegdates[i].innerText=data.ownerReviewData.regdate;
@@ -265,7 +265,7 @@
 				.then(function(response){
 					return response.json();
 				}).then(function(data){
-					if(data.beAdded){
+					if(data.isAdded){
 						alert("리뷰에 대한 댓글을 추가하였습니다.");
 						ownerComments[i].innerText=ownerAddComments[i].value;
 						addBtns[i].style.display="none";
@@ -274,6 +274,8 @@
 						ownerReviewBox[i].style.display="block";
 						ownerReviewFormBoxes[i].style.display="none";
 						review[i].innerText="답글 보기";
+					} else {
+						alert("댓글을 추가할 수 없습니다. 문제가 반복된다면 문의 바랍니다.");
 					}
 				});
 			}

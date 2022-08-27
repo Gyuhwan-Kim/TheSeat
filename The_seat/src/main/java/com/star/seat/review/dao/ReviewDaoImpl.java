@@ -22,8 +22,8 @@ public class ReviewDaoImpl implements ReviewDao{
 	
 	// 작성한 리뷰 정보를 추가하는 method
 	@Override
-	public void addReview(ReviewDto dto) {
-		session.insert("addReview", dto);	
+	public int addReview(ReviewDto dto) {
+		return session.insert("addReview", dto);	
 	}
 	
 	// 해당 매장 리뷰 정보를 가져오는 method

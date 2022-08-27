@@ -10,7 +10,7 @@ public interface ReviewDao {
 	public int getSequence();
 	
 	// 작성한 리뷰 정보를 추가하는 method
-	public void addReview(ReviewDto dto);
+	public int addReview(ReviewDto dto);
 	
 	// 해당 매장 리뷰 정보를 가져오는 method
 	public List<ReviewDto> getReviewList(ReviewDto dto);

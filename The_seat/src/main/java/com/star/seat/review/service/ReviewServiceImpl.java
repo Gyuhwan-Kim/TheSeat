@@ -64,46 +64,57 @@ public class ReviewServiceImpl implements ReviewService{
 		// 미리 리뷰 table의 num column에 다음에 들어갈 숫자를 받아
 		int num = dao.getSequence();
 		
+		Map<String, Object> map=new HashMap<>();
+		
 		// 해당 댓글 작성자의 이메일과 사장님의 이메일이 같으면
 		// targetNum에 0을 넣지 않기 위해 해당 review num을 넣어줌
 		if(email.equals(sDto.getOwner())){
-			dto.setNum(num);
 			// 해당 num data는 매장 관리 페이지에서만 넘어온다
 			dto.setTargetNum(dto.getNum());
 			dto.setGroupNum(dto.getNum());
+			
+			// ReviewDto의 num을 sequence의 값으로 갱신
+			dto.setNum(num);
+			
+			// 리뷰 table에 data를 추가하고
+			if(dao.addReview(dto) == 1) {
+				map.put("isAdded", true);
+			} else {
+				map.put("isAdded", false);
+			}
 		} else {
 			// 이메일이 달라서 유저인 것이 확인되면
 			// 미리 읽어온 sequence의 다음 숫자를 넣어줌.
 			dto.setNum(num);
 			dto.setGroupNum(num);
-		}
-		
-		// Order table을 수정하기 위해 만듦
-		OrderDto oDto = new OrderDto();
-		oDto.setOrderNum(dto.getOrderNum());
-		oDto.setReviewExist("YES");
-		
-		// 리뷰 table에 data를 추가하고
-		dao.addReview(dto);
-		// 주문 table에 리뷰의 존재를 업데이트
-		dao.reviewExist(oDto);
-		
-		int newReviewCount = sDto.getReviewCount() + 1;
-		// 소수점 두 자리까지 표기되도록 한 후
-		String strAvgStar = String.format("%.2f", 
-				(sDto.getAvgStar() * sDto.getReviewCount() + dto.getStar()) / newReviewCount);
-		// String을 다시 float으로 바꿔서
-		float newAvgStar = Float.valueOf(strAvgStar);
-		// sDto에 setting
-		sDto.setAvgStar(newAvgStar);
-		sDto.setReviewCount(1);
-		
-		Map<String, Object> map=new HashMap<>();
-		if(sDao.updateStore_review(sDto) == 1) {
-			map.put("isAdded", true);
-			map.put("newAvgStar", newAvgStar);
-		} else {
-			map.put("isAdded", false);
+			
+			// Order table을 수정하기 위해 만듦
+			OrderDto oDto = new OrderDto();
+			oDto.setOrderNum(dto.getOrderNum());
+			oDto.setReviewExist("YES");
+			
+			// 리뷰 table에 data를 추가하고
+			dao.addReview(dto);
+			
+			// 주문 table에 리뷰의 존재를 업데이트
+			dao.reviewExist(oDto);
+			
+			int newReviewCount = sDto.getReviewCount() + 1;
+			// 소수점 두 자리까지 표기되도록 한 후
+			String strAvgStar = String.format("%.2f", 
+					(sDto.getAvgStar() * sDto.getReviewCount() + dto.getStar()) / newReviewCount);
+			// String을 다시 float으로 바꿔서
+			float newAvgStar = Float.valueOf(strAvgStar);
+			// sDto에 setting
+			sDto.setAvgStar(newAvgStar);
+			sDto.setReviewCount(1);
+			
+			if(sDao.updateStore_review(sDto) == 1) {
+				map.put("isAdded", true);
+				map.put("newAvgStar", newAvgStar);
+			} else {
+				map.put("isAdded", false);
+			}
 		}
 		
 		return map;
@@ -118,15 +129,13 @@ public class ReviewServiceImpl implements ReviewService{
 		List<ReviewDto> list = dao.getReviewList(dto);
 		
 		if(list != null) {
-			map.put("isTaken", true);
-			map.put("reviewList", list);
 			for(int i = 0; i < list.size(); i++) {
-				if(list.get(i).getTargetNum() == 0) {
-					list.get(i).setReviewCheck("no");
-				} else {
-					list.get(i).setReviewCheck("yes");
+				if(list.get(i).getTargetNum() != 0) {
+					list.get(i-1).setReviewCheck("yes");
 				}
 			}
+			map.put("isTaken", true);
+			map.put("reviewList", list);
 		} else {
 			map.put("isTaken", false);
 		}
@@ -246,20 +255,18 @@ public class ReviewServiceImpl implements ReviewService{
 	
 	// 해당 리뷰 번호로 되어있는 targetNum 정보가 있는지 여부를 알아내는 method
 	@Override
-	public Map<String, Object> getMyReview(ReviewDto dto, HttpServletRequest request) {
+	public Map<String, Object> getMyReview(ReviewDto dto) {
+		Map<String, Object> map = new HashMap<>();
 		
-		//dto.setTargetNum(dto.getNum());
-		
-		boolean result=false;
-		ReviewDto rDto=new ReviewDto();
-		if(dao.getMyReview(dto)!=null) {
-			result=true;
-			rDto=dao.getMyReview(dto);
+		// DB에서 가져온 답글 data를 받아서
+		dto = dao.getMyReview(dto);
+		// data 유무에 따라 다르게 return
+		if(dto != null) {
+			map.put("isChecked", true);
+			map.put("ownerReviewData", dto);
+		} else {
+			map.put("isChecked", false);
 		}
-		
-		Map<String, Object> map=new HashMap<>();
-		map.put("beChecked", result);
-		map.put("ownerReviewData", rDto);
 		
 		return map;
 	}
