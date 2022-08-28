@@ -16,7 +16,7 @@
 	type="text/css" />
 </head>
 <body>
-<jsp:include page="../nav/navbar2.jsp" />
+<jsp:include page="../../nav/navbar2.jsp" />
 <div class="myStore_container pe-0 ps-0">
      <!------------------------------ 매장 로고 관리 영역 -------------------------->
      <div class="inner_container">
@@ -45,7 +45,7 @@
              </div>
          <!------------------------- 매장 정보 관리 영역 ----------------------------->
              <div class="mt-1 mb-1">
-                 <form id="updateForm" action="${pageContext.request.contextPath}/storeUpdate.do" 
+                 <form id="updateForm" action="${pageContext.request.contextPath}/store/manage/updateStore.do" 
                  method="post">
                      <a href="javascript:" id="updateBtn" class="mb-2" style="display:block; text-align: end;">
                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
@@ -99,7 +99,7 @@
 	             		</c:otherwise>
 	             	</c:choose>
                  </a>
-                 <form action="${pageContext.request.contextPath}/uploadImage.do" id="imageForm1" method="post" enctype="multipart/form-data"
+                 <form action="${pageContext.request.contextPath}/store/manage/uploadImage.do" id="imageForm1" method="post" enctype="multipart/form-data"
                  		style="height:85px;">
                      <label for="image_1" style="visibility: hidden;">대표 이미지1</label>
                      <input type="hidden" name="num" value="${dto.num }"/>
@@ -189,10 +189,10 @@
          <!------------------------------------ 사이드바 (매장정보, 메뉴관리 탭) ----------------->
          <aside class="aside">
              <button onclick="location.href='#'">매장 정보</button>
-             <button onclick="location.href='${pageContext.request.contextPath}/store/manageMenu.do?num=${dto.num}'">메뉴 관리</button>
-             <button onclick="location.href='${pageContext.request.contextPath}/store/storeReview.do?num=${dto.num}'">리뷰 관리</button>
-             <button onclick="location.href='${pageContext.request.contextPath}/store/storeOrder.do?num=${dto.num}'">주문 확인</button>
-             <button onclick="location.href='${pageContext.request.contextPath}/store/storeSeat.do?num=${dto.num}'">자리 관리</button>
+             <button onclick="location.href='${pageContext.request.contextPath}/store/manage/storeMenu.do?num=${dto.num}'">메뉴 관리</button>
+             <button onclick="location.href='${pageContext.request.contextPath}/store/manage/storeReview.do?num=${dto.num}'">리뷰 관리</button>
+             <button onclick="location.href='${pageContext.request.contextPath}/store/manage/storeOrder.do?num=${dto.num}'">주문 확인</button>
+             <button onclick="location.href='${pageContext.request.contextPath}/store/manage/storeSeat.do?num=${dto.num}'">자리 관리</button>
          </aside>
      </div>
 </div>
@@ -250,7 +250,7 @@
 			let obj={num, storeTag};
 			
 			// 해당 링크를 요청하면서 object를 전달하고
-			ajaxPromise("${pageContext.request.contextPath}/addTag.do", "post", obj)
+			ajaxPromise("${pageContext.request.contextPath}/store/manage/addTag.do", "post", obj)
 			.then(function(response){
 				return response.json();
 			}).then(function(data){
@@ -306,7 +306,7 @@
 				let toDelete=confirm("이 태그를 삭제하시겠습니까?");
 				if(toDelete){
 					// 해당 경로를 요청하면서 object 전달
-					ajaxPromise("${pageContext.request.contextPath}/deleteTag.do", "post", obj)
+					ajaxPromise("${pageContext.request.contextPath}/store/manage/deleteTag.do", "post", obj)
 					.then(function(response){
 						return response.json();
 					}).then(function(data){
@@ -471,7 +471,7 @@
 	function onoff(num, storeOpen, self){
 		let obj={num, storeOpen}
 		
-		ajaxPromise("${pageContext.request.contextPath}/storeOnOff.do", "post", obj)
+		ajaxPromise("${pageContext.request.contextPath}/store/manage/storeOnOff.do", "post", obj)
 		.then(function(response){
 			return response.json();
 		}).then(function(data){
@@ -497,7 +497,7 @@
 		if(wantDelete){
 			// 이 매장의 DB 번호
 			let num=this.getAttribute("data-num");
-			ajaxPromise("${pageContext.request.contextPath}/store/deleteStore.do", "post", "num="+num)
+			ajaxPromise("${pageContext.request.contextPath}/store/manage/deleteStore.do", "post", "num="+num)
 			.then(function(response){
 				return response.json();
 			}).then(function(data){

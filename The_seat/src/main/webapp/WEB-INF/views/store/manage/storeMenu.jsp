@@ -16,16 +16,16 @@
 </head>
 <body>
 <!----------------------------- 네비바 ------------------------------------>
-<jsp:include page="../nav/navbar2.jsp" />
+<jsp:include page="../../nav/navbar2.jsp" />
     <div class="menu_container">
         <div class="inner_container">
                 <section class="menu__category mt-4">
                     <ul id="categories">
                         <li>
-                            <a href="${pageContext.request.contextPath}/store/manageMenu.do?num=${storeNum}">전체</a></li>
+                            <a href="${pageContext.request.contextPath}/store/manage/storeMenu.do?num=${storeNum}">전체</a></li>
                         <c:forEach var="tmp" items="${categoryList }" varStatus="status">
 			            	<li data-num="${storeNum }" data-num2="${status.index }" class="category">
-			            	<a href="${pageContext.request.contextPath}/store/manageMenu.do?num=${storeNum}&category=${tmp}">${tmp }</a></li>
+			            	<a href="${pageContext.request.contextPath}/store/manage/storeMenu.do?num=${storeNum}&category=${tmp}">${tmp }</a></li>
 			            </c:forEach>
                     </ul>
                 <button id="categoryBtn" style="color:rgb(253, 197, 14); font-weight: 500;" data-bs-toggle="modal" data-bs-target="#modal-categoryBtn">카테고리 추가</button>
@@ -80,11 +80,11 @@
                     </c:forEach>
                 </article>
                 <aside class="aside">
-			        <button onclick="location.href='${pageContext.request.contextPath}/store/myStore.do?num=${storeNum}'">매장 정보</button>
+			        <button onclick="location.href='${pageContext.request.contextPath}/store/manage/myStore.do?num=${storeNum}'">매장 정보</button>
 			        <button onclick="location.href='#'">메뉴 관리</button>
-			        <button onclick="location.href='${pageContext.request.contextPath}/store/storeReview.do?num=${storeNum}'">리뷰 관리</button>
-			        <button onclick="location.href='${pageContext.request.contextPath}/store/storeOrder.do?num=${storeNum}'">주문 확인</button>
-			        <button onclick="location.href='${pageContext.request.contextPath}/store/storeSeat.do?num=${storeNum}'">자리 관리</button>
+			        <button onclick="location.href='${pageContext.request.contextPath}/store/manage/storeReview.do?num=${storeNum}'">리뷰 관리</button>
+			        <button onclick="location.href='${pageContext.request.contextPath}/store/manage/storeOrder.do?num=${storeNum}'">주문 확인</button>
+			        <button onclick="location.href='${pageContext.request.contextPath}/store/manage/storeSeat.do?num=${storeNum}'">자리 관리</button>
 			    </aside>
 
         <!--------------------------------------- 메뉴 등록 모달창 ------------------------------>
@@ -195,7 +195,7 @@
 			}).then(function(data){
 				if(data.isAdded){
 					alert("메뉴가 추가되었습니다.");
-					location.href="${pageContext.request.contextPath}/store/manageMenu.do?num=${storeNum}";
+					location.href="${pageContext.request.contextPath}/store/manage/storeMenu.do?num=${storeNum}";
 				} else {
 					alert("메뉴를 추가할 수 없습니다. 문제가 반복된다면 문의 바랍니다.");
 				}
@@ -220,7 +220,7 @@
 				}).then(function(data){
 					if(data.isDeleted){
 						alert("메뉴가 삭제되었습니다.");
-						location.href="${pageContext.request.contextPath}/store/manageMenu.do?num=${storeNum}";
+						location.href="${pageContext.request.contextPath}/store/manage/storeMenu.do?num=${storeNum}";
 					} else {
 						alert("메뉴를 삭제할 수 없습니다. 문제가 반복된다면 문의 바랍니다.");
 					}
@@ -330,7 +330,7 @@
 					// 새로운 링크 버튼을 만들고 속성과 값을 부여함.
 					let newLink=document.createElement("a");
 					newLink.innerText=category;
-					let path="${pageContext.request.contextPath}/store/manageMenu.do?num=${storeNum}&category="+category;
+					let path="${pageContext.request.contextPath}/store/manage/storeMenu.do?num=${storeNum}&category="+category;
 					newLink.setAttribute("href", path);
 					
 					// 새로운 태그 버튼을 만들고 속성과 값을 부여함

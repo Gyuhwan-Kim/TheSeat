@@ -21,7 +21,7 @@
 </head>
 <body>
 <!------------------------------- navbar -------------------------------->
-<jsp:include page="../nav/navbar2.jsp" />
+<jsp:include page="../../nav/navbar2.jsp" />
 <div class="myStore_container">
 	<div class="myStore_container_inner">
      <!------------------------ 주문내역 텍스트 및 박스 -------------------------------->
@@ -117,10 +117,10 @@
     </div>
         <!------------------------------------ 옆 사이드바 (매장정보, 메뉴관리 탭) ----------------->
     <aside class="aside">
-        <button onclick="location.href='${pageContext.request.contextPath}/store/myStore.do?num=${sDto.num}'">매장 정보</button>
-        <button onclick="location.href='${pageContext.request.contextPath}/store/manageMenu.do?num=${sDto.num}'">메뉴 관리</button>
-        <button onclick="location.href='${pageContext.request.contextPath}/store/storeReview.do?num=${sDto.num}'">리뷰 관리</button>
-        <button onclick="location.href='${pageContext.request.contextPath}/store/storeOrder.do?num=${sDto.num}'">주문 확인</button>
+        <button onclick="location.href='${pageContext.request.contextPath}/store/manage/myStore.do?num=${sDto.num}'">매장 정보</button>
+        <button onclick="location.href='${pageContext.request.contextPath}/store/manage/storeMenu.do?num=${sDto.num}'">메뉴 관리</button>
+        <button onclick="location.href='${pageContext.request.contextPath}/store/manage/storeReview.do?num=${sDto.num}'">리뷰 관리</button>
+        <button onclick="location.href='${pageContext.request.contextPath}/store/manage/storeOrder.do?num=${sDto.num}'">주문 확인</button>
         <button onclick="location.href='#'">자리 관리</button>
     </aside>
 </div>
@@ -195,7 +195,7 @@
 		.then(function(data) {
 			if(data.isSuccess){
 				alert("자리 정보가 수정되었습니다.");
-				location.href="${pageContext.request.contextPath}/store/storeSeat.do?num="+num;
+				location.href="${pageContext.request.contextPath}/store/manage/storeSeat.do?num="+num;
 			} else {
 				alert("자리 정보를 수정할 수 없습니다. 문제가 반복된다면 문의 바랍니다.");
 			}
@@ -252,7 +252,7 @@
 			document.querySelector("#updateForm").notEmptySeat.value=notEmptySeat;
 			document.querySelector("#updateForm").notUse.value=notUse;
 			document.querySelector("#updateStateBtn").click();
-			location.href="${pageContext.request.contextPath}/store/storeSeat.do?num="+num;
+			location.href="${pageContext.request.contextPath}/store/manage/storeSeat.do?num="+num;
 		});
 	};
 </script>

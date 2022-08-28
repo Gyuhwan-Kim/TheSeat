@@ -21,7 +21,7 @@
 	type="text/css" />
 </head>
 <body>
-<jsp:include page="../nav/navbar2.jsp" />
+<jsp:include page="../../nav/navbar2.jsp" />
 
 <div class="myStore_container">
 	<div class="myStore_container_inner">
@@ -159,11 +159,11 @@
 	</div>
 	<!------------------------------------ 옆 사이드바 (매장정보, 메뉴관리 탭) ----------------->
 	<aside class="aside">
-        <button onclick="location.href='${pageContext.request.contextPath}/store/myStore.do?num=${reviewList[0].storeNum}'">매장 정보</button>
-        <button onclick="location.href='${pageContext.request.contextPath}/store/manageMenu.do?num=${reviewList[0].storeNum}'">메뉴 관리</button>
+        <button onclick="location.href='${pageContext.request.contextPath}/store/manage/myStore.do?num=${reviewList[0].storeNum}'">매장 정보</button>
+        <button onclick="location.href='${pageContext.request.contextPath}/store/manage/storeMenu.do?num=${reviewList[0].storeNum}'">메뉴 관리</button>
         <button onclick="location.href='#'">리뷰 관리</button>
-        <button onclick="location.href='${pageContext.request.contextPath}/store/storeOrder.do?num=${reviewList[0].storeNum}'">주문 확인</button>
-        <button onclick="location.href='${pageContext.request.contextPath}/store/storeSeat.do?num=${reviewList[0].storeNum}'">자리 관리</button>
+        <button onclick="location.href='${pageContext.request.contextPath}/store/manage/storeOrder.do?num=${reviewList[0].storeNum}'">주문 확인</button>
+        <button onclick="location.href='${pageContext.request.contextPath}/store/manage/storeSeat.do?num=${reviewList[0].storeNum}'">자리 관리</button>
     </aside>
 </div>
 <script src="https://kit.fontawesome.com/2ebe86210e.js" crossorigin="anonymous"></script>

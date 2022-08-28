@@ -15,7 +15,7 @@
 </head>
 <body>
 <!------------------------------- navbar 추가 -------------------------------->
-<jsp:include page="../nav/navbar2.jsp" />
+<jsp:include page="../../nav/navbar2.jsp" />
 <div class="myStore_container-gray">
 <div class="wrapper">
     <!-------------------------- 주문내역 타이틀 및 날짜 검색 ---------------------------->
@@ -114,11 +114,11 @@
 </div>
         <!------------------------------------ 옆 사이드바 (매장정보, 메뉴관리 탭) ----------------->
         <aside class="aside">
-        <button onclick="location.href='${pageContext.request.contextPath}/store/myStore.do?num=${orderList[0].num}'">매장 정보</button>
-        <button onclick="location.href='${pageContext.request.contextPath}/store/manageMenu.do?num=${orderList[0].num}'">메뉴 관리</button>
-        <button onclick="location.href='${pageContext.request.contextPath}/store/storeReview.do?num=${orderList[0].num}'">리뷰 관리</button>
+        <button onclick="location.href='${pageContext.request.contextPath}/store/manage/myStore.do?num=${orderList[0].num}'">매장 정보</button>
+        <button onclick="location.href='${pageContext.request.contextPath}/store/manage/storeMenu.do?num=${orderList[0].num}'">메뉴 관리</button>
+        <button onclick="location.href='${pageContext.request.contextPath}/store/manage/storeReview.do?num=${orderList[0].num}'">리뷰 관리</button>
         <button onclick="location.href='#'">주문 확인</button>
-        <button onclick="location.href='${pageContext.request.contextPath}/store/storeSeat.do?num=${orderList[0].num}'">자리 관리</button>
+        <button onclick="location.href='${pageContext.request.contextPath}/store/manage/storeSeat.do?num=${orderList[0].num}'">자리 관리</button>
     </aside>
 </div>
 <script src="https://kit.fontawesome.com/2ebe86210e.js" crossorigin="anonymous"></script>
