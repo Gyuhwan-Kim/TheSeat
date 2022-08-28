@@ -39,17 +39,25 @@ public class UsersController {
 	
 	//로그인 폼 요청 처리
 	@RequestMapping("/users/loginform")
-	public String loginform() {
+	public ModelAndView loginform(HttpServletRequest request) {
+		String redirect = request.getHeader("referer");
 
-		return "users/loginform";
+		ModelAndView mView = new ModelAndView();
+		mView.addObject("redirect", redirect);
+		mView.setViewName("users/loginform");
+		
+		return mView;
 	}
 	
 	//로그인 요청 처리
 	@RequestMapping(value = "/users/login", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> ajaxLogin( UsersDto dto, HttpSession session) {
+	public Map<String, Object> ajaxLogin(@RequestParam String redirect, UsersDto dto, HttpSession session) {
 		Map<String, Object> map = service.loginProcess(dto);
-
+		if(redirect.contains("store") || redirect.contains("info") || redirect.contains("main")) {
+			map.put("redirect", redirect);
+		}
+		
 		if((boolean)map.get("isValid")) {
 			session.setAttribute("email", dto.getEmail());
 		}

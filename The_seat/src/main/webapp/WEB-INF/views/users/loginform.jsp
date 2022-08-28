@@ -41,7 +41,7 @@
 			<!-- 오른쪽 로그인바 -->
 			<section class="col col__section">
 				<form id="loginForm"
-					action="${pageContext.request.contextPath}/users/login.do"
+					action="${pageContext.request.contextPath}/users/login.do?redirect=${redirect}"
 					method="post">
 					<div>
 						<label class="label" for="email">Email</label><br> <input
@@ -167,7 +167,11 @@
                    	if(data.isValid){
                       	swal('로그인 성공!',data.result.name+"님 로그인되었습니다.",'success')
                       	.then(function(){
-                       		location.href="${pageContext.request.contextPath}/home.do";                	   
+                      		if(data.redirect != null){
+                      			location.href = data.redirect;
+                      		} else {
+                      			location.href="${pageContext.request.contextPath}/main.do?area=&keyword=";
+                      		}
                       	})
                    	} else {
                    		swal('로그인 실패!',"아이디와 비밀번호를 확인해 주세요",'warning');
