@@ -79,7 +79,7 @@ public class StoreController {
 	}
 	
 	// 매장 관리 링크를 눌러서 요청되는 경로에 대한 method
-	@RequestMapping(value="/store/myStore.do", method=RequestMethod.GET)
+	@RequestMapping(value="/store/manage/myStore.do", method=RequestMethod.GET)
 	public ModelAndView myStore(StoreDto dto, HttpSession session) {
 		String email = (String)session.getAttribute("email");
 		
@@ -176,8 +176,51 @@ public class StoreController {
 		return mView;
 	}
 	
+	// 매장 정보를 삭제하는 method
+	@RequestMapping(value = "/store/deleteStore.do", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> deleteStore(StoreDto dto, HttpSession session) {
+		String email = (String)session.getAttribute("email");
+		
+		return service.deleteStore(dto, email);
+	}
+	
+	// 메뉴 관리 페이지 이동
+	@RequestMapping(value = "/store/manage/storeMenu.do", method = RequestMethod.GET)
+	public ModelAndView getList(StoreDto sDto, HttpSession session) {
+		// session scope에 있는 email 정보를 받아온다.
+		String email = (String)session.getAttribute("email");
+
+		ModelAndView mView=new ModelAndView();
+		// email 값과 DB의 매장 번호 data로 해당 매장의 category 정보를 불러온다.
+		mView.addObject("categoryList", service.getStoreData(sDto).getCategory());
+
+		// 해당 매장의 메뉴 정보를 가져와서 ModelAndView 객체에 담아줌
+		// StoreDto 객체에는 해당 매장 정보가 저장된 DB 번호, 카테고리 정보가 들어있다.
+		mView.addObject("menuList", mService.getMenuList(sDto));
+		
+		// storeNum data는 요청시 넘겨받은 그대로를 돌려준다.
+		mView.addObject("storeNum", sDto.getNum());
+
+		mView.setViewName("store/manageMenu");
+		
+		return mView;
+	}
+	
+	// 매장 리뷰 관리 페이지로 이동
+	@RequestMapping("/store/manage/storeReview.do")
+	public ModelAndView storeReview(ReviewDto dto){
+		dto.setStoreNum(dto.getNum());
+		
+		ModelAndView mView = new ModelAndView();
+		mView.addObject("reviewList", rService.getReviewList(dto).get("reviewList"));
+		mView.setViewName("store/storeReview");
+		
+		return mView;
+	}
+	
 	// 매장 주문관리 페이지로 이동
-	@RequestMapping("/store/storeOrder")
+	@RequestMapping("/store/manage/storeOrder")
 	public ModelAndView storeOrder(HttpServletRequest request, OrderDto dto){
 		String strPageNum = request.getParameter("pageNum");
 
@@ -193,13 +236,14 @@ public class StoreController {
 		return mView;
 	}
 	
-	// 매장 정보를 삭제하는 method
-	@RequestMapping(value = "/store/deleteStore.do", method = RequestMethod.POST)
-	@ResponseBody
-	public Map<String, Object> deleteStore(StoreDto dto, HttpSession session) {
-		String email = (String)session.getAttribute("email");
+	//매장 자리관리 페이지로 이동 요청 처리
+	@RequestMapping("/store/manage/storeSeat")
+	public ModelAndView getSeat(SeatDto dto) {
+		ModelAndView mView = new ModelAndView();
 		
-		return service.deleteStore(dto, email);
+		// 넘겨받은 SeatDto에는 DB에 저장된 매장의 number data가 있음
+		mView.addObject("sDto", seatService.getSeat(dto));
+		mView.setViewName("store/storeSeat");
+		return mView;
 	}
-	
 }

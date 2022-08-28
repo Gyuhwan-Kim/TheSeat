@@ -26,28 +26,6 @@ public class MenuController {
 	@Autowired
 	private StoreService sService;
 	
-	// 메뉴 관리 페이지 이동
-	@RequestMapping(value = "/store/manageMenu.do", method = RequestMethod.GET)
-	public ModelAndView getList(StoreDto sDto, HttpSession session) {
-		// session scope에 있는 email 정보를 받아온다.
-		String email = (String)session.getAttribute("email");
-
-		ModelAndView mView=new ModelAndView();
-		// email 값과 DB의 매장 번호 data로 해당 매장의 category 정보를 불러온다.
-		mView.addObject("categoryList", sService.getStoreData(sDto).getCategory());
-
-		// 해당 매장의 메뉴 정보를 가져와서 ModelAndView 객체에 담아줌
-		// StoreDto 객체에는 해당 매장 정보가 저장된 DB 번호, 카테고리 정보가 들어있다.
-		mView.addObject("menuList", service.getMenuList(sDto));
-		
-		// storeNum data는 요청시 넘겨받은 그대로를 돌려준다.
-		mView.addObject("storeNum", sDto.getNum());
-
-		mView.setViewName("store/manageMenu");
-		
-		return mView;
-	}
-	
 	// 매장 메뉴 카테고리 추가하는 method
 	@RequestMapping(value = "/store/addCategory.do", method = RequestMethod.POST)
 	@ResponseBody

@@ -23,17 +23,6 @@ public class SeatController {
 	@Autowired
 	private SeatService service;
 	
-	//매장 자리관리 페이지로 이동 요청 처리
-	@RequestMapping("/store/storeSeat")
-	public ModelAndView getSeat(SeatDto dto) {
-		ModelAndView mView = new ModelAndView();
-		
-		// 넘겨받은 SeatDto에는 DB에 저장된 매장의 number data가 있음
-		mView.addObject("sDto", service.getSeat(dto));
-		mView.setViewName("store/storeSeat");
-		return mView;
-	}
-	
 	//ajax 자리 이미지 업로드 요청처리
 	@RequestMapping(value = "/store/ajax_seat_upload",
 			method=RequestMethod.POST)

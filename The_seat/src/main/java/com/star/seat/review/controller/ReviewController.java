@@ -27,18 +27,6 @@ public class ReviewController {
 	@Autowired
 	private OrderService oService;
 	
-	// 매장 리뷰 관리 페이지로 이동
-	@RequestMapping("/store/storeReview.do")
-	public ModelAndView storeReview(ReviewDto dto){
-		dto.setStoreNum(dto.getNum());
-		
-		ModelAndView mView = new ModelAndView();
-		mView.addObject("reviewList", service.getReviewList(dto).get("reviewList"));
-		mView.setViewName("store/storeReview");
-		
-		return mView;
-	}
-	
 	// 작성한 리뷰 정보를 추가하는 method
 	@RequestMapping(value = "/store/addReview.do", method = RequestMethod.POST)
 	@ResponseBody
