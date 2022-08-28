@@ -484,7 +484,7 @@
 
 								<c:forEach var="tmp" items="${myStoreList }" varStatus="status">
 									<li><a class="list_" style="color: rgb(71, 71, 71);"
-										href="${pageContext.request.contextPath}/store/myStore.do?num=${tmp.num }">${tmp.storeName }</a>
+										href="${pageContext.request.contextPath}/store/manage/myStore.do?num=${tmp.num }">${tmp.storeName }</a>
 								</c:forEach>
 							</ul>
 						</div>
@@ -539,7 +539,7 @@
    }
    
    // 매장 추가 관리 영역
-   let storePath = "${pageContext.request.contextPath}/store/myStore.do?num=";
+   let storePath = "${pageContext.request.contextPath}/store/manage/myStore.do?num=";
    
    document.querySelector("#addBtn0").addEventListener("click", function(e) {
       // 일단 링크 이동을 막고
