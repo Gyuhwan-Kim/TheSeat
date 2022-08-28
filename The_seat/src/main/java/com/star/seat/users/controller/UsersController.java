@@ -184,8 +184,9 @@ public class UsersController {
 	public String logout(HttpSession session, HttpServletRequest request) {
 		//세션에서 id 라는 키값으로 저장된 값 삭제 
 		session.removeAttribute("email");
+		String path = request.getHeader("referer");
 
-		if(request.getHeader("referer").contains("users")) {
+		if(path.contains("users") || path.contains("manage")) {
 			return "redirect:/main.do?area=&keyword=";
 		} else {
 			// request 객체의 getHeader("referer") method를 쓰면 기존 요청 url을 알 수 있다.
