@@ -95,7 +95,7 @@ public class StoreController {
 		ModelAndView mView = new ModelAndView();
 		mView.addObject("dto", dto);
 		mView.addObject("tagList", tagList);
-		mView.setViewName("store/myStore");
+		mView.setViewName("store/manage/myStore");
 		
 		// 페이지와 data return
 		return mView;
@@ -202,7 +202,7 @@ public class StoreController {
 		// storeNum data는 요청시 넘겨받은 그대로를 돌려준다.
 		mView.addObject("storeNum", sDto.getNum());
 
-		mView.setViewName("store/manageMenu");
+		mView.setViewName("store/manage/storeMenu");
 		
 		return mView;
 	}
@@ -214,7 +214,7 @@ public class StoreController {
 		
 		ModelAndView mView = new ModelAndView();
 		mView.addObject("reviewList", rService.getReviewList(dto).get("reviewList"));
-		mView.setViewName("store/storeReview");
+		mView.setViewName("store/manage/storeReview");
 		
 		return mView;
 	}
@@ -231,7 +231,7 @@ public class StoreController {
 		mView.addObject("endPageNum", map.get("endPageNum"));
 		mView.addObject("pageNum", map.get("pageNum"));
 		
-		mView.setViewName("store/storeOrder");
+		mView.setViewName("store/manage/storeOrder");
 		
 		return mView;
 	}
@@ -243,7 +243,7 @@ public class StoreController {
 		
 		// 넘겨받은 SeatDto에는 DB에 저장된 매장의 number data가 있음
 		mView.addObject("sDto", seatService.getSeat(dto));
-		mView.setViewName("store/storeSeat");
+		mView.setViewName("store/manage/storeSeat");
 		return mView;
 	}
 }
