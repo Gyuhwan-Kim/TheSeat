@@ -267,20 +267,7 @@ body {
 						</c:otherwise>
 					</c:choose></li>
 
-				<c:choose>
-					<c:when test="${email !=null && myStoreList.size() == 0}">
-						<div class="dropdown" style="margin-top: 30px; display: none;">
-							<a class="dropdown-toggle" href="#" role="button"
-								id="dropdownMenuLink" data-bs-toggle="dropdown"
-								aria-expanded="false"
-								style="box-shadow: 1px 1px 11px rgba(172, 172, 172, 0.699); width: 200px; margin-left: 50px; line-height: 2.5; text-align: center;">
-								매장 목록 </a>
-							<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1"
-								style="text-align: center; width: 100%; height: 200px; overflow: auto;">
-							</ul>
-						</div>
-					</c:when>
-					<c:when test="${email != null && myStoreList.size() != 0}">
+					<c:if test="${email != null}">
 						<div class="dropdown" style="margin-top: 30px;">
 							<a class="dropdown-toggle" href="#" role="button"
 								id="dropdownMenuLink" data-bs-toggle="dropdown"
@@ -289,15 +276,9 @@ body {
 								매장 목록 </a>
 							<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1"
 								style="text-align: center; width: 200px; height: 200px; overflow: auto;">
-
-								<c:forEach var="tmp" items="${myStoreList }">
-									<li><a data-num=${tmp.num } class="list_" style="color: rgb(71, 71, 71);"
-										href="${pageContext.request.contextPath}/store/myStore.do?num=${tmp.num }">${tmp.storeName }</a>
-								</c:forEach>
 							</ul>
 						</div>
-					</c:when>
-				</c:choose>
+					</c:if>
 				
 				<div style="margin-top: 220px;">
 				
@@ -374,6 +355,35 @@ body {
         	 document.querySelector("#userProfile").setAttribute("src","${pageContext.request.contextPath}"+data.dto.profile);
          }
       });
+      
+      let storePath = "${pageContext.request.contextPath}/store/manage/myStore.do?num=";
+      
+      // 매장 관리 페이지로의 이동을 위한 항목 만들기
+      let url = "${pageContext.request.contextPath}/store/getMyStores.do";
+      let promise = fetch(url, {
+			method: "POST",
+			headers: {"Content-Type":"application/x-www-form-urlencoded; charset=utf-8"}
+      });
+      
+      promise.then(function(response){
+    	  return response.json();
+      }).then(function(data){
+    	  if(data.length == 0){
+    		  document.querySelector(".dropdown").remove();
+    	  } else {
+        	  let ul = document.querySelector(".dropdown-menu");
+    		  data.forEach((tmp) => {
+    				  let li = document.createElement("li");
+    				  let anchor = document.createElement("a");
+    				  anchor.setAttribute("class", "list_");
+    				  anchor.setAttribute("style", "color: rgb(71, 71, 71);");
+    				  anchor.setAttribute("href", storePath + tmp.num);
+    				  anchor.innerText = tmp.storeName;
+    				  li.appendChild(anchor);
+    				  ul.appendChild(li);
+    		  });  
+    	  }
+      });
    }
    
    document.querySelector("#home").addEventListener("click", function() {
@@ -383,7 +393,6 @@ body {
    
    // 매장 추가 관리 영역
    let dataNum = 0;
-   let storePath = "${pageContext.request.contextPath}/store/myStore.do?num=";
    
    document.querySelector("#addBtn0").addEventListener("click", function(e) {
       // 일단 링크 이동을 막고

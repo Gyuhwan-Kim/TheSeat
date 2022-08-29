@@ -69,6 +69,14 @@ public class StoreController {
 		return mView;
 	}
 	
+	@RequestMapping("/store/getMyStores.do")
+	@ResponseBody
+	public List<StoreDto> getMyStores(HttpSession session){
+		String email = (String)session.getAttribute("email");
+		
+		return service.getMyStores(email);
+	}
+	
 	// 매장 추가 링크를 눌러서 요청되는 경로에 대한 method
 	@RequestMapping("/newStore.do")
 	@ResponseBody

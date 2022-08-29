@@ -459,37 +459,18 @@
 						</c:otherwise>
 					</c:choose></li>
 
-				<c:choose>
-					<c:when test="${email !=null && myStoreList.size() == 0}">
-						<div class="dropdown" style="margin-top: 30px; display: none;">
-							<a class="dropdown-toggle" href="#" role="button"
-								id="dropdownMenuLink" data-bs-toggle="dropdown"
-								aria-expanded="false"
-								style="box-shadow: 1px 1px 11px rgba(172, 172, 172, 0.699); width: 200px; margin-left: 50px; line-height: 2.5; text-align: center;">
-								매장 목록 </a>
-							<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1"
-								style="text-align: center; width: 100%; height: 200px; overflow: auto;">
-							</ul>
-						</div>
-					</c:when>
-					<c:when test="${email != null && myStoreList.size() != 0}">
-						<div class="dropdown" style="margin-top: 30px;">
-							<a class="dropdown-toggle" href="#" role="button"
-								id="dropdownMenuLink" data-bs-toggle="dropdown"
-								aria-expanded="false"
-								style="box-shadow: 1px 1px 11px rgba(172, 172, 172, 0.699); width: 200px; margin-left: 50px; line-height: 2.5; text-align: center;">
-								매장 목록 </a>
-							<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1"
-								style="text-align: center; width: 200px; height: 200px; overflow: auto;">
-
-								<c:forEach var="tmp" items="${myStoreList }" varStatus="status">
-									<li><a class="list_" style="color: rgb(71, 71, 71);"
-										href="${pageContext.request.contextPath}/store/manage/myStore.do?num=${tmp.num }">${tmp.storeName }</a>
-								</c:forEach>
-							</ul>
-						</div>
-					</c:when>
-				</c:choose>
+				<c:if test="${email != null}">
+					<div class="dropdown" style="margin-top: 30px;">
+						<a class="dropdown-toggle" href="#" role="button"
+							id="dropdownMenuLink" data-bs-toggle="dropdown"
+							aria-expanded="false"
+							style="box-shadow: 1px 1px 11px rgba(172, 172, 172, 0.699); width: 200px; margin-left: 50px; line-height: 2.5; text-align: center;">
+							매장 목록 </a>
+						<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1"
+							style="text-align: center; width: 200px; height: 200px; overflow: auto;">
+						</ul>
+					</div>
+				</c:if>
 
 				<div class="footer-icons" style="margin-top: 220px;">
 					<section style="text-align: center; margin-right: 30px;">
@@ -534,60 +515,73 @@
          }else{
         	 document.querySelector("#userProfile").setAttribute("src","${pageContext.request.contextPath}"+data.dto.profile);
          }
-         
+      });
+      
+      let storePath = "${pageContext.request.contextPath}/store/manage/myStore.do?num=";
+      
+      // 매장 관리 페이지로의 이동을 위한 항목 만들기
+      let url = "${pageContext.request.contextPath}/store/getMyStores.do";
+      let promise = fetch(url, {
+			method: "POST",
+			headers: {"Content-Type":"application/x-www-form-urlencoded; charset=utf-8"}
+      });
+      
+      promise.then(function(response){
+    	  return response.json();
+      }).then(function(data){
+    	  if(data.length == 0){
+    		  document.querySelector(".dropdown").remove();
+    	  } else {
+        	  let ul = document.querySelector(".dropdown-menu");
+    		  data.forEach((tmp) => {
+    				  let li = document.createElement("li");
+    				  let anchor = document.createElement("a");
+    				  anchor.setAttribute("class", "list_");
+    				  anchor.setAttribute("style", "color: rgb(71, 71, 71);");
+    				  anchor.setAttribute("href", storePath + tmp.num);
+    				  anchor.innerText = tmp.storeName;
+    				  li.appendChild(anchor);
+    				  ul.appendChild(li);
+    		  });  
+    	  }
+      });
+      
+      // 매장 추가 관리 영역
+      document.querySelector("#addBtn0").addEventListener("click", function(e) {
+         // 일단 링크 이동을 막고
+         e.preventDefault();
+         // 매장 추가 여부를 확인하고
+         let callAdd = confirm("매장을 추가하시겠습니까?");
+         // 확인을 눌렀다면
+         if (callAdd) {
+            
+            // ajax 응답으로 새 매장 정보를 DB에 추가
+            ajaxPromise("${pageContext.request.contextPath}/newStore.do")
+            .then(function(response){
+               return response.json();
+            }).then(function(data){
+               if(data.isSuccess){
+               	let num=data.newStoreList.length;
+               	let newAnchor = document.createElement("a");
+                   newAnchor.innerText = "새 매장";
+                   newAnchor.setAttribute("class", "list_");
+                   newAnchor.setAttribute("style", "color: rgb(71, 71, 71);");
+                   newAnchor.setAttribute("href", storePath+data.newStoreList[num-1].num);
+                   
+                   let newLi=document.createElement("li");
+                   newLi.appendChild(newAnchor);
+                   
+                   document.querySelector(".dropdown-menu").appendChild(newLi);
+                   document.querySelector(".dropdown").style.display="block";
+               } else {
+               	alert("새 매장 정보 추가에 실패하였습니다. 문제가 반복된다면 문의 바랍니다.");
+               }
+            });
+         }
       });
    }
-   
-   // 매장 추가 관리 영역
-   let storePath = "${pageContext.request.contextPath}/store/manage/myStore.do?num=";
-   
-   document.querySelector("#addBtn0").addEventListener("click", function(e) {
-      // 일단 링크 이동을 막고
-      e.preventDefault();
-      // 매장 추가 여부를 확인하고
-      let callAdd = confirm("매장을 추가하시겠습니까?");
-      // 확인을 눌렀다면
-      if (callAdd) {
-         
-         // ajax 응답으로 새 매장 정보를 DB에 추가
-         ajaxPromise("${pageContext.request.contextPath}/newStore.do")
-         .then(function(response){
-            return response.json();
-         }).then(function(data){
-            if(data.isSuccess){
-            	let num=data.newStoreList.length;
-            	let newAnchor = document.createElement("a");
-                newAnchor.innerText = "새 매장";
-                newAnchor.setAttribute("class", "list_");
-                newAnchor.setAttribute("style", "color: rgb(71, 71, 71);");
-                newAnchor.setAttribute("href", storePath+data.newStoreList[num-1].num);
-                
-                let newLi=document.createElement("li");
-                newLi.appendChild(newAnchor);
-                
-                document.querySelector(".dropdown-menu").appendChild(newLi);
-                document.querySelector(".dropdown").style.display="block";
-            } else {
-            	alert("새 매장 정보 추가에 실패하였습니다. 문제가 반복된다면 문의 바랍니다.");
-            }
-         });
-      }
-   });
-   
-   // 전체의 data-num을 조정하는 function
-   function resetDataNum() {
-      let array = document.querySelectorAll("a[class='store']");
-      
-      for (let i = 0; i < array.length; i++) {
-         let num=i+1;
-         array[i].setAttribute("data-num", num);
-         array[i].setAttribute("href", storePath + num);
-      }
-   }
 
-
-   // 네비바의 의자 로고 누르면 메인페이지로 이동
-   
+   // 네비바의 의자 로고 누르면 메인페이지로 이동  
    document.querySelector("#chair").addEventListener("click", function() {
       location.href = "${pageContext.request.contextPath}/main.do?area=&keyword=";
    });
