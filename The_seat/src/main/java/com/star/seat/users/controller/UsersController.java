@@ -1,5 +1,8 @@
 package com.star.seat.users.controller;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,8 +42,9 @@ public class UsersController {
 	
 	//로그인 폼 요청 처리
 	@RequestMapping("/users/loginform")
-	public ModelAndView loginform(HttpServletRequest request) {
+	public ModelAndView loginform(HttpServletRequest request) throws UnsupportedEncodingException {
 		String redirect = request.getHeader("referer");
+		redirect = URLEncoder.encode(redirect, "UTF-8");
 
 		ModelAndView mView = new ModelAndView();
 		mView.addObject("redirect", redirect);
