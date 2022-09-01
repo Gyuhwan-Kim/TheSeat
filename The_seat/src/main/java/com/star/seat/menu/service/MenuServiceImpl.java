@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.star.seat.menu.dao.MenuDao;
@@ -34,6 +35,7 @@ public class MenuServiceImpl implements MenuService{
 	}
 	
 	// 매장 카테고리를 추가하는 method
+	@Transactional
 	@Override
 	public Map<String, Object> addCategory(String email, StoreDto dto) {
 		// dto에는 해당 매장 번호가 있다. 추가적으로 email 정보를 넣어준다.
@@ -73,6 +75,7 @@ public class MenuServiceImpl implements MenuService{
 	}
 	
 	// 매장 메뉴의 카테고리를 삭제하는 method
+	@Transactional
 	@Override
 	public Map<String, Object> deleteCategory(String email, StoreDto dto) {
 		// dto에는 해당 매장 번호가 있다. 추가적으로 email 정보를 넣어준다.
@@ -112,6 +115,7 @@ public class MenuServiceImpl implements MenuService{
 	}
 	
 	// 해당 매장의 메뉴 정보를 추가하는 method
+	@Transactional
 	@Override
 	public Map<String, Object> addMenu(MenuDto dto, String email, String realPath) {
 		// 매장 정보를 담을 sDto를 만들어 
@@ -160,6 +164,8 @@ public class MenuServiceImpl implements MenuService{
 	}
 	
 	// 해당 매장의 메뉴 정보를 삭제하는 method
+	@Transactional
+	@Override
 	public Map<String, Object> deleteMenu(String email, MenuDto dto) {
 		// 매장 정보를 담을 sDto를 만들어 
 		StoreDto sDto = new StoreDto();
@@ -178,6 +184,7 @@ public class MenuServiceImpl implements MenuService{
 	}
 	
 	// 해당 매장의 메뉴를 best로 설정 및 취소하는 method
+	@Transactional
 	@Override
 	public Map<String, Object> bestOnOff(String email, MenuDto dto) {
 		// StoreDto를 만들어 전달받은 매장의 번호와 접속 email data를 넣어
