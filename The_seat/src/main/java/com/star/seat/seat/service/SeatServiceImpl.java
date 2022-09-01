@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -19,13 +20,8 @@ public class SeatServiceImpl implements SeatService {
 	
 	@Autowired
 	private SeatDao dao;
-	
-	@Override
-	public void insertSeat(SeatDto dto) {
-		
-		dao.insertSeat(dto);
-	}
 
+	@Transactional
 	@Override
 	public Map<String, Object> updateSeat(SeatDto dto) {
 		Map<String, Object> map=new HashMap<>();
@@ -39,6 +35,7 @@ public class SeatServiceImpl implements SeatService {
 		return map;
 	}
 	
+	@Transactional
 	@Override
 	public Map<String, Object> updateEmptySeat(SeatDto dto) {
 		// 주문 시 자리 정보 update하고, 성공 여부에 따라 Map 객체에 다르게 return
