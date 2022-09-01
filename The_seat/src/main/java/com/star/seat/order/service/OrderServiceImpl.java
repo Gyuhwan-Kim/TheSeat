@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -182,6 +183,7 @@ public class OrderServiceImpl implements OrderService {
 	}
 	
 	//주문하기
+	@Transactional
 	@Override
 	public Map<String, Object> orderInsert(@RequestBody Map<Integer, Object> dataList) {
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -214,6 +216,7 @@ public class OrderServiceImpl implements OrderService {
 		return map;
 	}
 
+	@Transactional
 	@Override
 	public Map<String, Object> updateState(OrderDto dto) {
 		Map<String, Object> map=new HashMap<String, Object>();
@@ -226,6 +229,7 @@ public class OrderServiceImpl implements OrderService {
 		return map;
 	}
 
+	@Transactional
 	@Override
 	public void deleteEmailOrder(OrderDto dto) {
 		dao.deleteEmailOrder(dto);
