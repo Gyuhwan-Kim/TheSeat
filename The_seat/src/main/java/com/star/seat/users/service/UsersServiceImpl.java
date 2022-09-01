@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -44,6 +45,7 @@ public class UsersServiceImpl implements UsersService {
 	@Autowired
 	private OrderDao oDao;
 	
+	@Transactional
 	@Override
 	public Map<String, Object> addUser(UsersDto dto) {
 		//사용자가 입력한 비밀 번호를 읽어와서 
@@ -109,6 +111,7 @@ public class UsersServiceImpl implements UsersService {
 		return map;
 	}
 
+	@Transactional
 	@Override
 	public Map<String, Object> updateUserPwd(String email, UsersDto dto) {
 		//DB 에 저장된 회원정보 얻어오기
@@ -169,6 +172,7 @@ public class UsersServiceImpl implements UsersService {
 		return map;
 	}
 
+	@Transactional
 	@Override
 	public Map<String, Object> updateUser(UsersDto dto, String email) {
 		//UsersDto 에 아이디도 담아 주고
@@ -185,6 +189,7 @@ public class UsersServiceImpl implements UsersService {
 		return map;
 	}
 
+	@Transactional
 	@Override
 	public Map<String, Object> deleteUser(String email) {
 		StoreDto sDto = new StoreDto();
