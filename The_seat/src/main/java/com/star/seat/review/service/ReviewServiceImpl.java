@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.star.seat.order.dao.OrderDao;
@@ -26,6 +27,7 @@ public class ReviewServiceImpl implements ReviewService{
 	private StoreDao sDao;
 	
 	// 작성한 리뷰 정보를 추가하는 method
+	@Transactional
 	@Override
 	public Map<String, Object> addReview(ReviewDto dto, String realPath, String email) {
 		//저장할 파일의 상세 경로
@@ -144,6 +146,7 @@ public class ReviewServiceImpl implements ReviewService{
 	}
 	
 	// 해당 DB번호의 리뷰 정보를 삭제하는 method
+	@Transactional
 	@Override
 	public Map<String, Object> deleteReview(ReviewDto dto, OrderDto oDto, String email) {
 
@@ -207,6 +210,7 @@ public class ReviewServiceImpl implements ReviewService{
 	}
 	
 	// 해당 DB번호의 리뷰 정보를 수정하는 method
+	@Transactional
 	@Override
 	public Map<String, Object> updateReview(ReviewDto dto, String email, String realPath) {
 		// 이메일 정보 넣어주기
