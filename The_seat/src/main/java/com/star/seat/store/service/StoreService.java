@@ -19,9 +19,6 @@ public interface StoreService {
 	// 매장 정보 하나를 불러오는 method
 	public StoreDto getStoreData(StoreDto dto);
 	
-	// (사장님의) 매장 정보 하나를 불러오는 method(해당 매장 DB 번호 이용)
-	public void getMyStore_num(StoreDto dto, HttpServletRequest request);
-	
 	// 매장 검색목록 불러오는 method
 	public PagingDto<StoreDto> getList(String strPageNum, StoreDto dto);
 	
