@@ -201,4 +201,11 @@ public class UsersController {
 			return "redirect:"+request.getHeader("referer");
 		}
 	}
+	
+	// 주소창 직접 접근을 막기 위한 경로 요청
+	@RequestMapping("/error/requestBan")
+	public String requestBan() {
+		
+		return "error/requestBan";
+	}
 }
