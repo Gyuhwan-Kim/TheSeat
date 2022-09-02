@@ -44,7 +44,11 @@ public class UsersController {
 	@RequestMapping("/users/loginform")
 	public ModelAndView loginform(HttpServletRequest request) throws UnsupportedEncodingException {
 		String redirect = request.getHeader("referer");
-		redirect = URLEncoder.encode(redirect, "UTF-8");
+		if(redirect != null) {
+			redirect = URLEncoder.encode(redirect, "UTF-8");
+		} else {
+			redirect = request.getQueryString().replace("redirect=", "");
+		}
 
 		ModelAndView mView = new ModelAndView();
 		mView.addObject("redirect", redirect);
