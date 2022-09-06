@@ -25,17 +25,17 @@
 ## 개발 환경
 - 개발환경(IDE) : Eclipse
 
-- 서버 : Apach Tomcat
+- 서버 : Apach Tomcat v8.5
 
-- DB : oracleDB(mybatis)
+- DB : oracleDB(mybatis v1.2.0), DBdiagram
 
 - 협업 : Git Hub, Notion
 
-- 디자인 툴 : figma, DBdiagram
+- 디자인 툴 : figma
 
 - Frontend : html5, css, javascript, sweetalert, bootstrap
 
-- Backend : SpringFramework, jstl, axis
+- Backend : Java 8, SpringFramework v4.0.0, jstl v1.2
 
 ## 디자인 시안
 ![image](https://user-images.githubusercontent.com/83267231/188367437-35155626-b30b-40cf-8750-a5a4a4f11626.png)
