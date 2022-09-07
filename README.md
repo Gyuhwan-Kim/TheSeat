@@ -27,9 +27,11 @@
 
 - 서버 : Apach Tomcat v8.5
 
-- DB : oracleDB(mybatis v1.2.0), DBdiagram
+- DB : Oracle Database 10g v10.2.0.1 (Mybatis v1.2.0), DBdiagram
 
-- 협업 : Git Hub, Notion
+- 협업 : Notion
+
+- 버전 관리 : Github
 
 - 디자인 툴 : figma
 
